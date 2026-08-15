@@ -49,3 +49,11 @@ Separate observed facts from inference. State confidence and list unresolved acc
 ## Preserve maintenance isolation
 
 Do not modify this skill while using it on a project. Skill changes require a separate, explicitly authorized maintenance session with validation and fresh forward-tests.
+
+## Surface reusable-workflow feedback
+
+- Treat this skill as a reusable audit guide, not as infallible project authority. Do not silently follow or bypass an instruction that appears contradictory, disproportionate, obsolete, impossible, or harmful to the requested audit.
+- Preserve the audited repository's read-only lock. If the suspected defect affects audit scope, evidence, or conclusions, pause the affected step, explain the instruction and consequence, and obtain the owner's disposition.
+- If the issue is non-blocking and the audited repository's durable instructions authorize a configured destination outside the audited repository, follow that destination's instructions and template and create one `observed` feedback record there. If no authorized destination is configured, report the observation only in the response. This exception never authorizes a write inside the audited repository or a skill-file change.
+- Notify the owner whenever a record is created. Feedback is evidence for a later, separate skill-maintenance session, not an audit finding or an approved skill change.
+- Before delivering the final report, inspect the configured feedback backlog without changing prior records. Recommend maintenance when there are at least three unresolved records, one repeated problem, or one serious problem that blocked or risked an incorrect audit result. Also recommend review before a new project or stable skill release.

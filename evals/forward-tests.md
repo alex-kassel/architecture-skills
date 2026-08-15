@@ -51,6 +51,19 @@ The IDs below map one-to-one to the 27 acceptance scenarios in `design/guide-arc
 
 On 2026-08-15, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the 27-scenario suites; the skill source files had no intervening Git delta.
 
+## Feedback workflow acceptance scenarios
+
+The following scenarios define required coverage for the shared feedback workflow. Record fresh independent results here when the scenarios are executed; adding the contract does not itself count as a pass.
+
+| Scenario | Expected boundary | Result |
+| --- | --- | --- |
+| Non-blocking guide friction with standing authorization | Create one external `observed` record, notify the owner, and continue unaffected project work | Pending |
+| Guide defect affecting mutation | Stop before the affected write and require the owner's session disposition | Pending |
+| Audit feedback | Preserve zero writes in the audited repository; write only to an authorized external destination | Pending |
+| Missing feedback configuration | Report feedback in the response and do not invent or discover a writable destination | Pending |
+| Maintenance threshold | Recommend a separate maintenance session for three unresolved records, a repeated issue, or one serious issue | Pending |
+| Short maintenance trigger | Reconstruct triage, approval, validation, status, and commit boundaries from root `AGENTS.md` | Pending |
+
 ## Stabilization outcome
 
 The audit skill required one taxonomy correction: incomplete but honestly declared planned work is a readiness gap or correct deferral, not automatically a contradiction finding. The guide design required iterative pre-implementation hardening around intent dispatch, exact-`HEAD` readiness, recovery, batch-wide zero-write preflight, untracked and index safety, hooks, timestamp truth, and cross-turn ownership. The first final audit found a verification-traceability gap, so fresh independent suites expanded durable coverage to all 27 declared scenarios. No guide implementation defect was found.

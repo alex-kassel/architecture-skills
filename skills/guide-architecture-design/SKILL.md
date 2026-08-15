@@ -44,3 +44,11 @@ Worklog, duration tracking, decision register, and automatic commits remain proj
 ## Preserve maintenance isolation
 
 Refuse all skill-file mutation in this workflow. Skill maintenance requires a separate explicit owner request, `skill-creator`, `quick_validate.py`, and fresh independent forward-tests.
+
+## Surface reusable-workflow feedback
+
+- Treat this skill as a reusable guide, not as infallible project authority. Do not silently follow or bypass an instruction that appears contradictory, disproportionate, obsolete, impossible, or harmful to the owner's stated goal.
+- If the suspected defect affects project behavior or state, pause before the affected action, identify the instruction and consequence, propose the smallest session disposition, and obtain the owner's decision.
+- If the issue is non-blocking and the project's durable instructions authorize feedback writes, follow the configured destination's instructions and template, create one `observed` record, and continue unaffected work. If no authorized destination is configured, report the observation only in the response. Never edit skill files from this workflow.
+- Notify the owner whenever a record is created. Keep project decisions in project authority and skill observations in the external feedback repository.
+- At session close, inspect the configured feedback backlog without changing prior records. Recommend a separate skill-maintenance session when there are at least three unresolved records, one repeated problem, or one serious problem that blocked or risked an incorrect mutation. Also recommend review before a new project or stable skill release.
