@@ -15,7 +15,7 @@ V1 supports:
 - optional focused Git commits;
 - enforcement of an implementation-readiness gate.
 
-V1 does not scaffold a new documentation project, implement production software, prepare an implementation handoff bundle, or modify its own skill files during project operation.
+V1 does not scaffold a new documentation project, implement production software, prepare an implementation handoff bundle, or modify its own or any installed skill files.
 
 ## Trigger boundary
 
@@ -59,7 +59,7 @@ When a decision is confirmed:
 
 ### `STARTUP`
 
-Capture the actual start timestamp in memory when worklog or time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write the session/worklog start only after recovery is clear and only when the project enables it.
+Capture the actual request timestamp in memory when worklog or time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write no session or time start until recovery and session binding are clear.
 
 Transition to `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `SESSION_BINDING`.
 
@@ -75,9 +75,10 @@ Transition to `SESSION_BINDING` only after the owner or durable evidence resolve
 
 Bind the current request to session state after startup or recovery and before intent dispatch:
 
-- If the owner confirms that this conversation resumes the active predecessor, reuse its session and current block; do not create another start record.
-- If a new working session is authorized and worklog tracking is enabled, write exactly one session and initial-block start using the timestamp captured at startup and the configured precision. Do not write it twice after recovery.
-- If worklog tracking is disabled, keep the binding in the active conversation and create no artifact.
+- If the owner confirms that this conversation resumes the active predecessor, reuse its session, current block, and any active time record; do not create another start record.
+- If a new working session is authorized after recovery, capture an effective session-start timestamp at the resolved boundary. It must not precede an exclusive predecessor's owner-approved end. Preserve the earlier request timestamp only as evidence or in a configured recovery-time record; do not mislabel it as the new session start.
+- If a new working session is authorized and worklog tracking is enabled, write exactly one session and initial-block start using the effective session-start timestamp and configured precision. Do not write it twice after recovery.
+- If worklog tracking is disabled, keep the session binding in the active conversation and create no worklog or session artifact. When time tracking is enabled, still open exactly one record in its separately configured time artifact using the effective session-start timestamp.
 - If the request is closing-only, bind only to an existing owner-confirmed active session. When none exists, remain non-mutating and ask which boundary the owner intends to close; never open a session solely to close it.
 - For direct synchronization or checkpoint requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
 - For final `READINESS_GATE` verification, do not open, resume, or write any session, worklog, time, decision, or repository state. Bind only to the clean audited `HEAD` and its external audit evidence, then dispatch directly to the gate.
@@ -179,6 +180,7 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 
 - Treat a dirty tree as user work until classified.
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
+- Hash the content of pre-existing untracked regular files within every path a planned edit, validator, hook, or command may touch. For repository-wide or unknown side-effect scope, hash all readable untracked regular files. If relevant untracked content is inaccessible, too large to snapshot safely, or outside a determinable side-effect boundary, do not run the mutation or command until the owner establishes a safe boundary.
 - Classify every target file before editing:
   - no pre-existing user change: edit normally and use the configured commit rule;
   - proven non-overlapping user change: edit only after explicit owner authorization, preserve the user diff, and leave the combined file uncommitted;
@@ -188,11 +190,11 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
 - Stop when required mutation would exceed the repository or permission scope.
-- Never edit `guide-architecture-design` or another installed skill during normal project operation. Require explicit owner-authorized maintenance mode, then validate and forward-test the skill separately.
+- Never edit `guide-architecture-design` or another installed skill in V1. Refuse the mutation and route it to a separate explicitly owner-authorized skill-development workflow that uses `skill-creator`, validation, and fresh forward-tests. Maintenance is not a mode or transition of this guide.
 
 ## Failure and side-effect handling
 
-Run only project-configured validation commands whose expected outputs and side effects are understood. After each mutation group, validator, and commit attempt, compare the full repository and index state with the baseline.
+Run only project-configured validation commands whose expected outputs and side effects are understood. After each mutation group, validator, and commit attempt, compare the full repository and index state with the baseline, including hashes of pre-existing untracked files in the command's side-effect scope.
 
 If a document update fails mid-batch, validation fails, a command creates unexpected files, the index changes unexpectedly, or a commit hook fails:
 
@@ -226,15 +228,17 @@ Do not create mutation scripts or assets in V1.
 7. Resume an owner-confirmed active block without creating another start, open exactly one new tracked session after recovery when authorized, and refuse a closing-only request with no bound session.
 8. Block implementation for negative, conditional, stale, dirty-worktree, wrong-scope, or wrong-HEAD audit evidence; require a fresh exact-ready verdict after conditions are discharged.
 9. Prepare and commit contingent owner approval before the final audit, then verify the exact clean audited `HEAD` without session or repository mutation.
-10. Exercise all four worklog/time configurations, including a separate time artifact when worklog is disabled.
+10. Exercise all four worklog/time configurations, including one non-duplicated separate time record when worklog is disabled and time tracking is enabled.
 11. Complete one-shot direct sync, decision capture, checkpoint, closing, and gate requests without asking an unrequested next question.
 12. Leave a proven non-overlapping same-file batch uncommitted after explicit authorization, and make zero file changes when overlap is unclassified or unauthorized.
 13. Leave a batch uncommitted when unrelated changes were already staged before the operation.
-14. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-15. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-16. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
-17. Refuse self-modification outside explicit maintenance mode.
-18. Decline V1 project scaffolding while preserving a clear future extension boundary.
+14. Detect a validator changing a pre-existing untracked file at the same path, or block the validator when that content cannot be safely snapshotted.
+15. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+16. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
+17. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+18. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+19. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
+20. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
