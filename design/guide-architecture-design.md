@@ -2,7 +2,7 @@
 
 ## Purpose and V1 scope
 
-Create a mutating Codex workflow for existing documentation-as-code projects that design software architecture and implementation specifications through owner-led decisions.
+Create a mutating Codex workflow for existing Git-backed documentation-as-code projects that design software architecture and implementation specifications through owner-led decisions.
 
 V1 supports:
 
@@ -19,7 +19,7 @@ V1 does not scaffold a new documentation project, implement production software,
 
 ## Trigger boundary
 
-Use the guide for an existing software architecture or specification project when the user asks to start or resume a working session, continue a design interview, record a confirmed decision, propagate or repair documentation for a decision already confirmed in durable authority, recover an interrupted session, checkpoint progress, close a session, or apply the implementation gate using current independent audit evidence.
+Use the guide for an existing Git-backed software architecture or specification project when the user asks to start or resume a working session, continue a design interview, record a confirmed decision, propagate or repair documentation for a decision already confirmed in durable authority, recover an interrupted session, checkpoint progress, close a session, or apply the implementation gate using current independent audit evidence.
 
 Do not use it for ordinary documentation maintenance, code implementation, ordinary code review, or an independent read-only audit. Route independent handoff, consistency, drift, and readiness assessment to `audit-architecture-handoff`. When readiness intent is ambiguous, independent audit takes precedence over this mutating gate. A request combining audit and fixes must keep the audit as a separate read-only phase; mutation requires a later explicit owner transition.
 
@@ -37,6 +37,8 @@ Before any mutation, recover or obtain:
 - paths and project-specific rules for every enabled feature.
 
 Existing project protocols and artifacts configure these features. Do not create an optional artifact merely because the skill supports it. If a mutation depends on an ambiguous setting, ask the owner before changing state. Do not introduce a machine-readable state manifest in V1.
+
+Reject non-Git projects in V1 without mutation and explain that their provenance, dirty-state, and readiness boundaries are outside the supported operating model.
 
 ## Authority and confirmation
 
@@ -84,7 +86,7 @@ Transition to `SESSION_BINDING` only after the owner or durable evidence resolve
 
 ### `SESSION_BINDING`
 
-Bind the current request to session state after startup or recovery and before intent dispatch:
+Bind the current request to session state after startup or recovery and before intent dispatch. Treat session binding as its own operation batch: preflight every session/worklog/time target before writing the start, then complete and report that batch independently of any later decision:
 
 - If the owner confirms that this conversation resumes the active predecessor, reuse its session, current block, and any active time record; do not create another start record.
 - If a new working session is authorized after recovery, observe an effective session-start timestamp at the resolved boundary. It must not precede an exclusive predecessor's owner-approved end. Preserve earlier host or observation evidence only under its truthful label or in a configured recovery-time record; do not mislabel it as the new session start.
@@ -94,6 +96,16 @@ Bind the current request to session state after startup or recovery and before i
 - For direct synchronization or checkpoint requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
 
 Transition to `INTENT_DISPATCH` only after this binding is resolved.
+
+## Cross-turn transaction model
+
+Treat every user request that may mutate state as a separate operation batch with its own complete preflight. Do not require a startup batch to predict documents that a later, not-yet-confirmed decision may affect.
+
+When a completed guide batch remains uncommitted, keep an in-conversation ownership record containing the baseline `HEAD`, baseline index, exact affected paths, and exact resulting staged and unstaged diffs or content digests. A later batch in the same owner-confirmed active session may update those paths only when the current repository delta matches that record exactly and no external or unclassified change appeared. Update the record after each successful batch.
+
+Do not treat a matching guide-owned delta as unrelated user work. Treat any mismatch, lost conversation ownership, fresh session, or uncertain attribution as `RECOVERY`; preserve the delta and require owner resolution before editing. This in-conversation record is working state, not the deferred machine-readable project manifest.
+
+When automatic commits are disabled, a later closing batch may update the same worklog or time artifact only through this exact-delta ownership rule. If a downstream decision target is blocked, leave the already valid session-start batch intact, report that no decision capture occurred, and allow an independently preflighted closing batch.
 
 ### `INTENT_DISPATCH`
 
@@ -193,7 +205,7 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - Treat a dirty tree as user work until classified.
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
 - Build one batch-wide plan before the first write. Enumerate every canonical, rationale, derived, decision, roadmap, navigation, worklog, time, intended-new-file, and validator- or command-touched path. Resolve ownership and expected side effects for the whole batch.
-- Allow an existing target only when it is tracked and has no pre-existing staged or unstaged user change. Allow an intended new path only when it is absent, not ignored, and does not collide with untracked content. Any blocked target blocks the entire batch; make zero changes.
+- Allow an existing target when it is tracked and either clean or contains only an exact guide-owned delta from the current owner-confirmed active session. Allow an intended new path only when it is absent, not ignored, and does not collide with untracked content. Any unclassified or blocked target blocks the entire operation batch; make zero changes in that batch.
 - Do not directly edit a pre-existing untracked or ignored target in V1, even when its content was hashed. Require the owner to move it into a clean recoverable boundary or otherwise resolve it outside this workflow first.
 - Permit a validator, hook, or other command only when its possible write scope is known and disjoint from all pre-existing tracked changes, untracked files, and ignored files. Treat unknown or repository-wide write scope as blocking. Detection by hash is not preservation and does not make execution safe.
 - Never disturb the pre-existing index.
@@ -201,7 +213,7 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - Before any automatic commit, verify that no applicable local or configured commit hook exists. If any `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or configured equivalent may run, leave the batch uncommitted in V1. Recheck the staged diff immediately before committing and require it to match only the intended classified batch.
 - Stage explicit paths only immediately before an otherwise eligible automatic commit, after mutation, validation, hook, baseline-index, and isolation checks all pass. When automatic commits are disabled or any prerequisite is already blocked, do not stage and leave the baseline index unchanged.
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
-- Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
+- Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request in V1. Route those operations to a separate explicitly authorized Git workflow.
 - Stop when required mutation would exceed the repository or permission scope.
 - Never edit `guide-architecture-design` or another installed skill in V1. Refuse the mutation and route it to a separate explicitly owner-authorized skill-development workflow that uses `skill-creator`, validation, and fresh forward-tests. Maintenance is not a mode or transition of this guide.
 
@@ -223,10 +235,12 @@ Report success only when intended documents are synchronized, configured validat
 
 Keep `SKILL.md` concise and link directly to one-level references:
 
-- `operating-contract.md` — inputs, configuration, and authority recovery;
-- `workflow-modes.md` — startup through closing transitions;
-- `decision-capture-and-sync.md` — scenario interview, confirmation, canonical and derived updates;
-- `gates-recovery-and-git.md` — safety, recovery, commits, closure, and readiness.
+- `operating-contract.md` — own input discovery, project configuration, and concern-based authority mapping;
+- `workflow-modes.md` — own intent dispatch and state transitions from startup through terminal completion;
+- `decision-capture-and-sync.md` — own scenario interviews, confirmation classification, affected-document selection, and synchronization ordering;
+- `gates-recovery-and-git.md` — own mutation eligibility, cross-turn delta ownership, recovery invariants, Git/commit safety, failure containment, closure gates, and readiness gates.
+
+Link to the owning reference instead of restating its normative rules in another reference. A mode may point to a safety gate, but it must not redefine that gate.
 
 Do not create mutation scripts or assets in V1.
 
@@ -255,7 +269,10 @@ Do not create mutation scripts or assets in V1.
 21. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
 22. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
 23. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
-24. Decline V1 project scaffolding while preserving a clear future extension boundary.
+24. With autocommit disabled, open a preflighted worklog/time session batch, preserve its exact guide-owned delta across a later decision batch, and close it without misclassifying the delta as user work.
+25. Leave a valid session-start batch intact when a later decision target is blocked, then close the session in a separately eligible batch.
+26. Route non-Git projects and all history rewriting, branch switching, merging, pushing, tagging, and pull-request operations out of V1.
+27. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
