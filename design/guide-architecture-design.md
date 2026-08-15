@@ -19,9 +19,9 @@ V1 does not scaffold a new documentation project, implement production software,
 
 ## Trigger boundary
 
-Use the guide for an existing software architecture or specification project when the user asks to start or resume a working session, continue a design interview, record a confirmed decision, synchronize documentation, recover an interrupted session, checkpoint progress, close a session, or enforce the implementation gate.
+Use the guide for an existing software architecture or specification project when the user asks to start or resume a working session, continue a design interview, record a confirmed decision, propagate or repair documentation for a decision already confirmed in durable authority, recover an interrupted session, checkpoint progress, close a session, or apply the implementation gate using current independent audit evidence.
 
-Do not use it for ordinary code implementation, ordinary code review, or an independent read-only audit. Route independent handoff, consistency, drift, and readiness assessment to `audit-architecture-handoff`. A request combining audit and fixes must keep the audit as a separate read-only phase; mutation requires a later explicit owner transition.
+Do not use it for ordinary documentation maintenance, code implementation, ordinary code review, or an independent read-only audit. Route independent handoff, consistency, drift, and readiness assessment to `audit-architecture-handoff`. When readiness intent is ambiguous, independent audit takes precedence over this mutating gate. A request combining audit and fixes must keep the audit as a separate read-only phase; mutation requires a later explicit owner transition.
 
 ## Project operating contract
 
@@ -61,7 +61,7 @@ When a decision is confirmed:
 
 Capture the actual start timestamp in memory when time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write the session/worklog start only after recovery is clear and only when the project enables it.
 
-Transition to `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `INTENT_DISPATCH`.
+Transition to `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `SESSION_BINDING`.
 
 ### `RECOVERY`
 
@@ -69,7 +69,19 @@ Preserve all existing changes. Inspect staged and unstaged diffs and history rea
 
 Resume the same session or block only when the owner confirms that the current conversation owns it and that it remains active. Close it only from an owner-supplied or owner-approved boundary with source and precision recorded when time tracking is enabled. Open a new session only after its predecessor is closed or explicitly confirmed non-conflicting and the repository state is validated.
 
-Transition to `INTENT_DISPATCH` only after the owner or durable evidence resolves the boundary and any authorized recovery mutation is complete.
+Transition to `SESSION_BINDING` only after the owner or durable evidence resolves the boundary and any authorized recovery mutation is complete.
+
+### `SESSION_BINDING`
+
+Bind the current request to session state after startup or recovery and before intent dispatch:
+
+- If the owner confirms that this conversation resumes the active predecessor, reuse its session and current block; do not create another start record.
+- If a new working session is authorized and worklog tracking is enabled, write exactly one session and initial-block start using the timestamp captured at startup and the configured precision. Do not write it twice after recovery.
+- If worklog tracking is disabled, keep the binding in the active conversation and create no artifact.
+- If the request is closing-only, bind only to an existing owner-confirmed active session. When none exists, remain non-mutating and ask which boundary the owner intends to close; never open a session solely to close it.
+- For direct synchronization, checkpoint, or readiness-gate requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
+
+Transition to `INTENT_DISPATCH` only after this binding is resolved.
 
 ### `INTENT_DISPATCH`
 
@@ -82,7 +94,7 @@ After startup or recovery, dispatch the user's requested operation without forci
 | Record a decision just confirmed in the active conversation | `DECISION_CAPTURE` |
 | Check or advance a project checkpoint | `CHECKPOINT` |
 | Close the current session | `SESSION_CLOSING` |
-| Evaluate whether implementation may begin | `READINESS_GATE` |
+| Apply the implementation gate using current independent audit evidence | `READINESS_GATE` |
 
 If the requested intent or its mutation authority is ambiguous, ask the owner and remain non-mutating.
 
@@ -123,10 +135,10 @@ Do not independently certify the project from the same mutating workflow. Requir
 - completion of project-defined architecture and specification exit criteria;
 - explicit representation and impact of deferrals;
 - traceability to acceptance or tests as required by the project;
-- an independent `audit-architecture-handoff` verdict of `IMPLEMENTATION READY`, bound to the current repository, declared implementation scope, and current `HEAD` or explicitly recorded worktree snapshot;
+- a fresh independent `audit-architecture-handoff` verdict of exactly `IMPLEMENTATION READY`, bound to the current repository, declared implementation scope, clean worktree, and exact audited `HEAD`;
 - explicit owner approval to cross into implementation.
 
-Accept `IMPLEMENTATION READY WITH CONDITIONS` only after every condition is discharged and the independent audit is rerun or explicitly confirms the discharged state. Reject `IMPLEMENTATION NOT READY`. Invalidate a prior positive verdict after any relevant architecture, specification, scope, or gate change.
+Treat `IMPLEMENTATION READY WITH CONDITIONS` and `IMPLEMENTATION NOT READY` as insufficient. After conditions are discharged, require a fresh independent audit that returns exactly `IMPLEMENTATION READY`. Invalidate a prior positive verdict after any relevant architecture, specification, scope, gate, worktree, or `HEAD` change.
 
 If any condition is unmet, stale, negative, or scoped to a different boundary, keep implementation blocked and report the smallest next documentation action. Crossing the gate does not authorize this skill to implement software.
 
@@ -145,8 +157,12 @@ The authority model, owner-confirmation gate, recovery safety, and implementatio
 
 - Treat a dirty tree as user work until classified.
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
-- Never disturb the pre-existing index. Stage explicit paths only when they contain no pre-existing staged or unstaged user hunks and no overlapping same-file work.
-- If a target file contains user changes or ownership cannot be isolated safely, do not auto-commit the batch. Preserve both sets of changes, report the overlap, and require owner direction or a separate clean boundary.
+- Classify every target file before editing:
+  - no pre-existing user change: edit normally and use the configured commit rule;
+  - proven non-overlapping user change: edit only after explicit owner authorization, preserve the user diff, and leave the combined file uncommitted;
+  - overlapping or unclassifiable user change: do not edit until the owner establishes a clean boundary or explicitly authorizes a reviewed merge.
+- Never disturb the pre-existing index. Stage explicit paths only when they contained no pre-existing staged or unstaged user hunks and no overlapping same-file work.
+- If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
 - Stop when required mutation would exceed the repository or permission scope.
 - Never edit `guide-architecture-design` or another installed skill during normal project operation. Require explicit owner-authorized maintenance mode, then validate and forward-test the skill separately.
@@ -184,13 +200,14 @@ Do not create mutation scripts or assets in V1.
 4. Preserve a dirty tree and active predecessor until the owner resolves ownership and timing.
 5. Close a session correctly under different worklog, time, and commit configurations.
 6. Dispatch direct checkpoint, closing, durable-decision synchronization, and readiness requests without forcing a new interview.
-7. Block implementation for negative, conditional-with-unmet-conditions, stale, wrong-scope, or wrong-HEAD audit evidence.
-8. Leave a batch uncommitted when a target file has pre-staged, unstaged, or overlapping user changes.
-9. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-10. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-11. Route an independent read-only audit away from this mutating workflow.
-12. Refuse self-modification outside explicit maintenance mode.
-13. Decline V1 project scaffolding while preserving a clear future extension boundary.
+7. Resume an owner-confirmed active block without creating another start, open exactly one new tracked session after recovery when authorized, and refuse a closing-only request with no bound session.
+8. Block implementation for negative, conditional, stale, dirty-worktree, wrong-scope, or wrong-HEAD audit evidence; require a fresh exact-ready verdict after conditions are discharged.
+9. Leave a proven non-overlapping same-file batch uncommitted after explicit authorization, and make zero file changes when overlap is unclassified or unauthorized.
+10. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+11. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+12. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+13. Refuse self-modification outside explicit maintenance mode.
+14. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
