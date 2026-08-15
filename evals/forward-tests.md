@@ -15,7 +15,7 @@ All fixtures were disposable Git repositories or isolated non-Git folders outsid
 
 ## `guide-architecture-design`
 
-The IDs below map one-to-one to the 27 acceptance scenarios in `design/guide-architecture-design.md`.
+The IDs below map one-to-one to the 30 acceptance scenarios in `design/guide-architecture-design.md`.
 
 | ID | Result | Recoverable evidence |
 | --- | --- | --- |
@@ -46,10 +46,13 @@ The IDs below map one-to-one to the 27 acceptance scenarios in `design/guide-arc
 | 25 | Passed | After a valid session start, an external decision-target SHA-256 `dec6553d54b8404797d9648937ae150c7f6831c038f937312c78dbe0242c5c2d` blocked the decision batch unchanged; the start remained and the worklog closed in a separately eligible batch. |
 | 26 | Passed | Rewrite, branch switch, merge, push, tag, and PR requests all caused zero commands and zero repository changes at `d2b4d92c92f7449b72d72dcb536fd4d0e1b1d633`; non-Git work was also routed out. |
 | 27 | Passed | Non-Git bootstrap preserved the sole 167-byte brief with SHA-256 `62F73401CF5B1B3275715B1409E8B5B52C9938B7E9FA191A6557A7675031DD75` and created no project/session state. |
+| 28 | Passed | In disposable fixture `codex-guide-failfast-20260815`, the blocking validator exited `1`; `HEAD` stayed `e6dd654e48ed6faeab48fc555f5e8eb723f9a828`, the index stayed identical to `HEAD`, and no staging or commit was attempted despite an otherwise eligible later commit path. |
+| 29 | Passed | The same fixture classified accidental authored trailing whitespace as blocking while preserving an immutable intentional two-space hard break byte-for-byte at blob `f739bc81de5313d627993331374a1d5b350bf8f8`; the authored finding kept commit unreachable. |
+| 30 | Passed | Fresh recovery fixtures retried an approved missing-directory copy with matching SHA-256 `481B9F1B69E1E986BC62FE8B22A8B3F3B372D2AFE71A2B7D952F307FF835815A` and an identical Git operation after a proved pre-index denial without renewed confirmation; an uncertain truncated write stayed unstaged and required owner direction. |
 
 ## Structural validation
 
-On 2026-08-15, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the 27-scenario suites; the skill source files had no intervening Git delta.
+On 2026-08-15, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the original 27-scenario suites and again for `guide-architecture-design` after scenarios 28–30 were implemented.
 
 ## Feedback workflow acceptance scenarios
 

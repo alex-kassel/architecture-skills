@@ -211,7 +211,8 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - Never disturb the pre-existing index.
 - If the baseline index contains any staged change, do not run an automatic commit in V1, even when the skill's target paths are otherwise clean. Leave the authorized batch uncommitted and report the staged boundary.
 - Before any automatic commit, verify that no applicable local or configured commit hook exists. If any `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or configured equivalent may run, leave the batch uncommitted in V1. Recheck the staged diff immediately before committing and require it to match only the intended classified batch.
-- Stage explicit paths only immediately before an otherwise eligible automatic commit, after mutation, validation, hook, baseline-index, and isolation checks all pass. When automatic commits are disabled or any prerequisite is already blocked, do not stage and leave the baseline index unchanged.
+- Treat every blocking validation as a fail-fast gate whose successful exit must be confirmed before any later gate, staging, or commit. Use separate tool calls or explicit fail-fast control; never use `;` sequencing that can continue after failure. Keep whitespace validation enabled and classify every finding as accidental authored whitespace, an intentional Markdown hard break, immutable verbatim source, or pre-existing historical content. Preserve immutable source, document intentional exceptions, enforce strict checks on authored normative content, and block staging and commit while any finding is unclassified.
+- Stage explicit paths only immediately before an otherwise eligible automatic commit, after mutation, every validation gate, hook, baseline-index, and isolation check pass. When automatic commits are disabled or any prerequisite is already blocked, do not stage and leave the baseline index unchanged.
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request in V1. Route those operations to a separate explicitly authorized Git workflow.
 - Stop when required mutation would exceed the repository or permission scope.
@@ -228,6 +229,10 @@ If a document update fails mid-batch, validation fails, a command creates unexpe
 3. preserve command output, intended changes, partial changes, index state, and unexpected side effects;
 4. report the exact completed and incomplete steps;
 5. transition to `RECOVERY` and require a classified, authorized continuation.
+
+Permit a deterministic mechanical retry without renewed owner confirmation only when the original authorization, scope, target, intended result, known cause, attribution, baseline, and external state are provably unchanged; the correction is non-destructive, makes no product or architecture decision, and remains within the original operation. Give a short commentary update, apply the correction, repeat relevant preflight and validation, and preserve the same commit gates. This covers an already approved missing destination directory followed by the exact copy, an unambiguous command or quoting correction with unchanged intent, and the same Git operation through standard sandbox escalation after a pre-index permission denial.
+
+Require owner direction for an unknown cause, scope expansion, foreign or unattributed change, uncertain partial write, index mismatch, destructive cleanup, substantive validation failure, architectural choice, or any recovery not demonstrably covered by the original authorization. If staging already occurred, preserve the index without autonomous cleanup.
 
 Report success only when intended documents are synchronized, configured validation passes, the final diff contains only classified changes, and any enabled commit completes without absorbing unrelated work.
 
@@ -273,6 +278,9 @@ Do not create mutation scripts or assets in V1.
 25. Leave a valid session-start batch intact when a later decision target is blocked, then close the session in a separately eligible batch.
 26. Route non-Git projects and all history rewriting, branch switching, merging, pushing, tagging, and pull-request operations out of V1.
 27. Decline V1 project scaffolding while preserving a clear future extension boundary.
+28. Make a failed blocking validation render staging and commit unreachable, including when a later command would otherwise succeed.
+29. Preserve and classify immutable or intentional Markdown whitespace without weakening strict checks for authored normative content; block commit while any finding is unclassified.
+30. Retry an approved missing-directory copy and a pre-index sandbox-denied Git operation mechanically, but stop for an ambiguous partial write or changed architectural intent.
 
 ## Deferred extensions and likely split
 

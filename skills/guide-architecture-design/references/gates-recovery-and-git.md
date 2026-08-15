@@ -38,7 +38,9 @@ Treat mismatch, lost conversation ownership, fresh session, or uncertain attribu
 - Never disturb a pre-existing index. A non-empty baseline index disables automatic commit.
 - When automatic commit is disabled or blocked, do not stage.
 - Disable automatic commit when any applicable local or configured `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or equivalent hook may run.
-- Stage explicit eligible paths only immediately before an otherwise eligible commit, after mutation and validation pass.
+- Run every blocking validation as a fail-fast gate. Confirm its successful exit before starting any later gate, staging, or commit; use separate tool calls or explicit fail-fast control, never a `;`-separated sequence that can continue after failure.
+- Keep whitespace validation enabled. Classify each finding as accidental authored whitespace, an intentional Markdown hard break, immutable verbatim source, or pre-existing historical content. Preserve immutable source, document intentional exceptions, apply strict checks to authored normative content, and do not stage or commit while any finding is unclassified.
+- Stage explicit eligible paths only immediately before an otherwise eligible commit, after mutation and every validation gate pass.
 - Recheck that the staged diff contains only the intended classified batch.
 - Create only a focused local commit. Do not reset, stash, rewrite history, switch branches, merge, push, tag, or open a pull request.
 
@@ -51,6 +53,10 @@ If an edit fails mid-batch, validation fails, an unexpected file or index change
 3. preserve command output, intended and partial changes, index state, and side effects;
 4. report exact completed and incomplete steps;
 5. transition to `RECOVERY` for a classified, authorized continuation.
+
+Permit a deterministic mechanical retry without renewed owner confirmation only when the original authorization, scope, target, intended result, known cause, attribution, baseline, and external state are provably unchanged; the correction is non-destructive, makes no product or architecture decision, and remains within the original operation. Give a short commentary update, apply the correction, repeat relevant preflight and validation, and preserve the same commit gates. Examples include creating an already approved missing destination directory before repeating the exact copy, correcting an unambiguous command or quoting error without changing intent, or retrying the same Git operation through the standard sandbox escalation path after a denial that occurred before index mutation.
+
+Stop and obtain owner direction for an unknown cause, expanded scope, foreign or unattributed change, uncertain partial write, index mismatch, destructive cleanup, substantive validation failure, architectural choice, or any retry not demonstrably covered by the original authorization. If staging already occurred, preserve the index and do not autonomously clean it.
 
 ## Enforce closing
 
