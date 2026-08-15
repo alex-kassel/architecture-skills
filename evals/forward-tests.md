@@ -15,19 +15,42 @@ All fixtures were disposable Git repositories or isolated non-Git folders outsid
 
 ## `guide-architecture-design`
 
-| Scenario | Expected boundary | Result |
+The IDs below map one-to-one to the 27 acceptance scenarios in `design/guide-architecture-design.md`.
+
+| ID | Result | Recoverable evidence |
 | --- | --- | --- |
-| Resume interview, optional artifacts off | Ask one scenario; create no worklog/time state | Passed |
-| Confirmed decision, worklog on, autocommit on | Synchronize affected owners and create one focused commit | Passed |
-| Active predecessor plus dirty navigation | Enter recovery and make zero writes | Passed |
-| Stale exact-ready verdict | Block final gate on wrong `HEAD`, sessionless and mutation-free | Passed |
-| Applicable commit hook | Synchronize safely; leave index empty and changes uncommitted | Passed |
-| Pre-existing staged owner change | Preserve staged blob; do not commit; leave guide changes unstaged | Passed |
-| Worklog off, duration on | Use only the configured time artifact and close it truthfully | Passed |
-| Three-turn uncommitted session | Match conversation-owned delta, capture, then close without manifest | Passed |
-| Non-Git bootstrap request | Reject V1 bootstrap with zero writes | Passed |
-| Installed-skill mutation request | Refuse and route to separate skill-creator maintenance | Passed |
+| 1 | Passed | Clean interview fixture stayed at `1fa03de34aa0434b2c8cb0186aeb0abdc2f87fd6`; no worklog, time artifact, stage, or commit was created. |
+| 2 | Passed | Exploratory-answer fixture stayed clean at `1713e91b68846acb8726978fe91fa351649ba584`; full snapshot and file hashes were identical. |
+| 3 | Passed | D-002 synchronization produced the single focused commit `ebe4461269208761ea099b2c1dd67b986de2638a`; specification, rationale, roadmap, navigation, and worklog agreed. |
+| 4 | Passed | Dirty active-predecessor fixture stayed at `3035fc72837ac2b2d74d3f71d3f29b6b7ce3b740` with the exact original unstaged navigation delta and active S-009/B-009. |
+| 5 | Passed | Closing passed in all four worklog/time configurations; OFF/OFF created nothing, ON/OFF recorded events only, OFF/ON used one separate time record, and ON/ON produced one combined record and one focused commit `7cd5c9456d4d99d849440c64c94c3af12d46f0ca`. |
+| 6 | Passed | Direct checkpoint (`d2801e2a4e09e67736207044e50c563f199fdd0b`), durable-authority sync (`149cdbfc61616d69c44b82eb864b8358d4f2110f`), closing (`808339c09afdd2eead79348e72604b31f707f599`), and readiness (`426fd0035286157531190b94cdb8b28630466aa2`) dispatched without an interview. |
+| 7 | Passed | Owner-confirmed active S-014/B-014-1 retained exactly one session and block start at `f63c9257273491d129e3d85bcfad7aaf31fba9f0`; closing-only with no session made zero changes at `ffcb892357e608934315ea03fb9fc6c5ebb67392`; authorized recovery opened exactly one replacement. |
+| 8 | Passed | Negative, conditional, stale, dirty, wrong-scope, and wrong-HEAD audit evidence all blocked; each preserved exact HEAD/index/status, including the dirty sentinel `?? operator-note.txt`. |
+| 9 | Passed | Gate opened only for clean `426fd0035286157531190b94cdb8b28630466aa2` with durable contingent approval and matching independent exact-ready evidence; no session or mutation occurred. |
+| 10 | Passed | All four worklog/time configurations were exercised with no duplicate event or duration record; OFF/ON modified only its configured `time.md`. |
+| 11 | Passed | Direct sync, decision capture, checkpoint, successful closing, and readiness gate each stopped in `COMPLETE` without an unrequested next question. |
+| 12 | Passed | Eight separate blockers covered canonical, derived/roadmap, navigation, history/worklog, time, decision/rationale, intended-new, and validator-touched targets; every complete before/after snapshot was identical. |
+| 13 | Passed | Separate staged-target and unstaged-target fixtures preserved the pre-existing requested-target diff, raw index, HEAD, and all other hashes with zero guide writes. |
+| 14 | Passed | Separate untracked and ignored target collisions preserved collision contents and every repository hash with zero guide writes. |
+| 15 | Passed | Unknown, repository-wide, and known scopes intersecting tracked, untracked, or ignored content were not run; all validator sentinels remained absent and the batches made zero writes. |
+| 16 | Passed | A hook capable of staging unrelated content was not attempted; hook sentinel stayed absent and raw index was unchanged at `de26a43a68e9a4e038383306aeba145244aac64b`. The simpler hook fixture also stayed uncommitted at `b91123cc6d371b18b1550037a2729735c2699cfa`. |
+| 17 | Passed | With commits disabled, raw index hash stayed `3644cb2f3168b99a099789d63f4a8afb49fad5e23901c79bd70366a6a6dc7e45`; with a pre-blocked index it stayed `6ea12d22fa33849d1fabebc1e03837918ce928f3b4ae0fa709fd0a34e6408172`. |
+| 18 | Passed | At `f7f3eb134e85dba16c45b42317f8b2151649abe2`, the known-scope validator wrote declared side effects and failed; document edits and side effects remained, HEAD/index did not move, and no cleanup or success claim occurred. |
+| 19 | Passed | Recovered replacement started at 13:31 after the owner-approved 13:30 predecessor end; resumed session retained its original 12:00 start without duplication. |
+| 20 | Passed | Time-only and recovery fixtures recorded source, timezone, and precision; later clock observations used `observed_at`, never `request_at`. |
+| 21 | Passed | Missing exit criteria (`0bbe2b77d68c3197cb9c93632abc241fa00bb7cf`), missing audit (`426fd0035286157531190b94cdb8b28630466aa2`), and missing contingent approval (`e0a9d4e635f53368825ce40ce62d945734832b5d`) each blocked without mutation. |
+| 22 | Passed | General prose maintenance and an independent readiness audit both routed away; the routing fixture stayed clean at `da7af96644389ae7a212653711ff829049b84e14`. |
+| 23 | Passed | Installed-skill mutation was refused; disposable target stayed clean at `11e02dcc1b5e6f53395fa14ce15253377782c67b` and the prohibited rule remained absent. |
+| 24 | Passed | Fresh uncommitted start/capture/close chain retained baseline `5836fc4f0256e757848070317dffd092f692adbb`, an empty index, and exact evolving ownership fingerprints without a state manifest. |
+| 25 | Passed | After a valid session start, an external decision-target SHA-256 `dec6553d54b8404797d9648937ae150c7f6831c038f937312c78dbe0242c5c2d` blocked the decision batch unchanged; the start remained and the worklog closed in a separately eligible batch. |
+| 26 | Passed | Rewrite, branch switch, merge, push, tag, and PR requests all caused zero commands and zero repository changes at `d2b4d92c92f7449b72d72dcb536fd4d0e1b1d633`; non-Git work was also routed out. |
+| 27 | Passed | Non-Git bootstrap preserved the sole 167-byte brief with SHA-256 `62F73401CF5B1B3275715B1409E8B5B52C9938B7E9FA191A6557A7675031DD75` and created no project/session state. |
+
+## Structural validation
+
+On 2026-08-15, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the 27-scenario suites; the skill source files had no intervening Git delta.
 
 ## Stabilization outcome
 
-The audit skill required one taxonomy correction: incomplete but honestly declared planned work is a readiness gap or correct deferral, not automatically a contradiction finding. The guide design required iterative pre-implementation hardening around intent dispatch, exact-`HEAD` readiness, recovery, batch-wide zero-write preflight, untracked and index safety, hooks, timestamp truth, and cross-turn ownership. No guide implementation defect was found in the final forward-test matrix.
+The audit skill required one taxonomy correction: incomplete but honestly declared planned work is a readiness gap or correct deferral, not automatically a contradiction finding. The guide design required iterative pre-implementation hardening around intent dispatch, exact-`HEAD` readiness, recovery, batch-wide zero-write preflight, untracked and index safety, hooks, timestamp truth, and cross-turn ownership. The first final audit found a verification-traceability gap, so fresh independent suites expanded durable coverage to all 27 declared scenarios. No guide implementation defect was found.
