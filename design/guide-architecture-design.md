@@ -59,7 +59,7 @@ When a decision is confirmed:
 
 ### `STARTUP`
 
-Capture the actual start timestamp in memory when time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write the session/worklog start only after recovery is clear and only when the project enables it.
+Capture the actual start timestamp in memory when worklog or time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write the session/worklog start only after recovery is clear and only when the project enables it.
 
 Transition to `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `SESSION_BINDING`.
 
@@ -79,7 +79,8 @@ Bind the current request to session state after startup or recovery and before i
 - If a new working session is authorized and worklog tracking is enabled, write exactly one session and initial-block start using the timestamp captured at startup and the configured precision. Do not write it twice after recovery.
 - If worklog tracking is disabled, keep the binding in the active conversation and create no artifact.
 - If the request is closing-only, bind only to an existing owner-confirmed active session. When none exists, remain non-mutating and ask which boundary the owner intends to close; never open a session solely to close it.
-- For direct synchronization, checkpoint, or readiness-gate requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
+- For direct synchronization or checkpoint requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
+- For final `READINESS_GATE` verification, do not open, resume, or write any session, worklog, time, decision, or repository state. Bind only to the clean audited `HEAD` and its external audit evidence, then dispatch directly to the gate.
 
 Transition to `INTENT_DISPATCH` only after this binding is resolved.
 
@@ -116,17 +117,21 @@ Synchronize the canonical and affected derived documents, record rationale or su
 
 If automatic commits are enabled, commit only the scoped, validated decision batch when it can be isolated from pre-existing staged, unstaged, and same-file user changes. If disabled or isolation is unsafe, leave the authorized changes visible and report them without committing. Never include or unstage unrelated user changes.
 
-Transition to `READY`, `CHECKPOINT`, or `SESSION_CLOSING` according to the user request and project protocol.
+Transition to `READY` only when the user explicitly asked to continue with another design question. Transition to `CHECKPOINT` or `SESSION_CLOSING` only when requested. Otherwise report the exact post-state and transition to `COMPLETE`.
 
 ### `CHECKPOINT`
 
 Compare current evidence with phase exit criteria. Update phase status only when its criteria are met and any required owner approval is explicit. Synchronize navigation and next action. Run project-configured validation and create a focused commit only when enabled.
+
+After a one-shot checkpoint request, report the exact phase, repository, session, and next-action state and transition to `COMPLETE`. Continue to `READY` only when the user explicitly asked to resume the interview.
 
 ### `SESSION_CLOSING`
 
 Freeze the decision boundary and do not start a new question. Ensure the last confirmed decision is durable, run continuity checks, synchronize navigation, close enabled worklog/time records with actual evidence, validate the repository, and create project-configured closing commits.
 
 Do not claim a clean close when enabled closure criteria remain unmet. If automatic commits are disabled, report the intentional uncommitted boundary and follow the project's configured definition of closure.
+
+On successful closing, report the closed boundary and transition to `COMPLETE`. Do not start another question.
 
 ### `READINESS_GATE`
 
@@ -135,23 +140,40 @@ Do not independently certify the project from the same mutating workflow. Requir
 - completion of project-defined architecture and specification exit criteria;
 - explicit representation and impact of deferrals;
 - traceability to acceptance or tests as required by the project;
+- owner approval already recorded durably at the candidate `HEAD`, explicitly contingent on a fresh exact-ready independent audit;
 - a fresh independent `audit-architecture-handoff` verdict of exactly `IMPLEMENTATION READY`, bound to the current repository, declared implementation scope, clean worktree, and exact audited `HEAD`;
-- explicit owner approval to cross into implementation.
 
 Treat `IMPLEMENTATION READY WITH CONDITIONS` and `IMPLEMENTATION NOT READY` as insufficient. After conditions are discharged, require a fresh independent audit that returns exactly `IMPLEMENTATION READY`. Invalidate a prior positive verdict after any relevant architecture, specification, scope, gate, worktree, or `HEAD` change.
 
-If any condition is unmet, stale, negative, or scoped to a different boundary, keep implementation blocked and report the smallest next documentation action. Crossing the gate does not authorize this skill to implement software.
+Make final gate verification sessionless and mutation-free so it cannot invalidate its own evidence. If every condition matches, report `IMPLEMENTATION GATE OPEN` for the exact audited `HEAD` and transition to `COMPLETE` without editing the repository. If any condition is unmet, stale, negative, or scoped to a different boundary, keep implementation blocked, report the smallest next documentation action, and transition to `COMPLETE`. Crossing the gate does not authorize this skill to implement software.
+
+Any required readiness preparation, including recording the contingent owner approval, occurs in an earlier mutating checkpoint that is validated and committed before the independent audit. The final audit runs only after that checkpoint leaves a clean candidate `HEAD`.
+
+### `COMPLETE`
+
+Treat `COMPLETE` as the terminal state for the requested one-shot operation. Report whether a project session remains active, whether changes are committed, the exact next action, and any blocked condition. Do not ask another design question or perform another mutation unless the user supplies a new request.
 
 ## Configurable subsystems
 
 | Subsystem | Disabled behavior | Enabled behavior |
 | --- | --- | --- |
-| Worklog | Do not create or update one | Follow declared path, schema, and session/block rules |
-| Time tracking | Do not invent timestamps or duration | Capture actual timestamps; subtract only explicit declared breaks |
+| Worklog | Do not create or update one | Record session/block event timestamps using its declared path and schema; duration tracking is separate |
+| Time tracking | Do not calculate or store duration | Use its configured artifact; capture actual timestamps and subtract only explicit declared breaks |
 | Decision register | Keep decision state in existing authoritative artifacts | Maintain configured IDs, status, owner, links, and one next decision |
 | Automatic commits | Never commit | Commit only scoped validated batches using project rules |
 
 The authority model, owner-confirmation gate, recovery safety, and implementation gate are mandatory and cannot be disabled.
+
+Support the four worklog/time combinations explicitly:
+
+| Worklog | Time tracking | Startup and closing behavior |
+| --- | --- | --- |
+| Off | Off | Create no session or time artifact and require no timestamp record |
+| On | Off | Capture and write actual session/block start and end event timestamps; do not calculate durations or pauses |
+| Off | On | Write actual start, end, breaks, and duration to the separately configured time artifact; create no worklog |
+| On | On | Write worklog event timestamps and configured time/duration fields without duplicating records outside the declared schema |
+
+Reject `time tracking = on` when no time artifact or time-capable worklog schema is configured. Event timestamps needed to order a worklog are not themselves optional duration tracking.
 
 ## Git and mutation safety
 
@@ -162,6 +184,7 @@ The authority model, owner-confirmation gate, recovery safety, and implementatio
   - proven non-overlapping user change: edit only after explicit owner authorization, preserve the user diff, and leave the combined file uncommitted;
   - overlapping or unclassifiable user change: do not edit until the owner establishes a clean boundary or explicitly authorizes a reviewed merge.
 - Never disturb the pre-existing index. Stage explicit paths only when they contained no pre-existing staged or unstaged user hunks and no overlapping same-file work.
+- If the baseline index contains any staged change, do not run an automatic commit in V1, even when the skill's target paths are otherwise clean. Leave the authorized batch uncommitted and report the staged boundary.
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
 - Stop when required mutation would exceed the repository or permission scope.
@@ -202,12 +225,16 @@ Do not create mutation scripts or assets in V1.
 6. Dispatch direct checkpoint, closing, durable-decision synchronization, and readiness requests without forcing a new interview.
 7. Resume an owner-confirmed active block without creating another start, open exactly one new tracked session after recovery when authorized, and refuse a closing-only request with no bound session.
 8. Block implementation for negative, conditional, stale, dirty-worktree, wrong-scope, or wrong-HEAD audit evidence; require a fresh exact-ready verdict after conditions are discharged.
-9. Leave a proven non-overlapping same-file batch uncommitted after explicit authorization, and make zero file changes when overlap is unclassified or unauthorized.
-10. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-11. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-12. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
-13. Refuse self-modification outside explicit maintenance mode.
-14. Decline V1 project scaffolding while preserving a clear future extension boundary.
+9. Prepare and commit contingent owner approval before the final audit, then verify the exact clean audited `HEAD` without session or repository mutation.
+10. Exercise all four worklog/time configurations, including a separate time artifact when worklog is disabled.
+11. Complete one-shot direct sync, decision capture, checkpoint, closing, and gate requests without asking an unrequested next question.
+12. Leave a proven non-overlapping same-file batch uncommitted after explicit authorization, and make zero file changes when overlap is unclassified or unauthorized.
+13. Leave a batch uncommitted when unrelated changes were already staged before the operation.
+14. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+15. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+16. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+17. Refuse self-modification outside explicit maintenance mode.
+18. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
