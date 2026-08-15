@@ -90,7 +90,6 @@ Bind the current request to session state after startup or recovery and before i
 - If worklog tracking is disabled, keep the session binding in the active conversation and create no worklog or session artifact. When time tracking is enabled, still open exactly one record in its separately configured time artifact using the effective session-start timestamp.
 - If the request is closing-only, bind only to an existing owner-confirmed active session. When none exists, remain non-mutating and ask which boundary the owner intends to close; never open a session solely to close it.
 - For direct synchronization or checkpoint requests, follow the project's declared rule for whether they require a working session. Ask when that rule is ambiguous.
-- For final `READINESS_GATE` verification, do not open, resume, or write any session, worklog, time, decision, or repository state. Bind only to the clean audited `HEAD` and its external audit evidence, then dispatch directly to the gate.
 
 Transition to `INTENT_DISPATCH` only after this binding is resolved.
 
@@ -191,6 +190,7 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
 - Hash the content of pre-existing untracked regular files within every path a planned edit, validator, hook, or command may touch. For repository-wide or unknown side-effect scope, hash all readable untracked regular files. If relevant untracked content is inaccessible, too large to snapshot safely, or outside a determinable side-effect boundary, do not run the mutation or command until the owner establishes a safe boundary.
 - Edit a target file only when it has no pre-existing staged or unstaged user change. Any pre-existing same-file change blocks editing in V1 until the owner establishes a clean boundary; do not attempt textual or semantic non-overlap classification.
+- Do not directly edit a pre-existing untracked or ignored target in V1, even when its content was hashed. Require the owner to move it into a clean recoverable boundary or otherwise resolve it outside this workflow first.
 - Never disturb the pre-existing index. Stage explicit paths only when they contained no pre-existing staged or unstaged user hunks and no overlapping same-file work.
 - If the baseline index contains any staged change, do not run an automatic commit in V1, even when the skill's target paths are otherwise clean. Leave the authorized batch uncommitted and report the staged boundary.
 - Before any automatic commit, verify that no applicable local or configured commit hook exists. If any `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or configured equivalent may run, leave the batch uncommitted in V1. Recheck the staged diff immediately before committing and require it to match only the intended classified batch.
@@ -241,13 +241,14 @@ Do not create mutation scripts or assets in V1.
 13. Leave a batch uncommitted when unrelated changes were already staged before the operation.
 14. Detect a validator changing a pre-existing untracked file at the same path, or block the validator when that content cannot be safely snapshotted.
 15. Leave a batch uncommitted when any applicable commit hook exists, including a hook that could successfully stage an unrelated tracked file.
-16. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-17. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
-18. Record timestamp source, timezone, and precision, and never label a later clock observation as the host request time.
-19. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-20. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
-21. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
-22. Decline V1 project scaffolding while preserving a clear future extension boundary.
+16. Make zero file changes when the requested target already exists only as an untracked or ignored file.
+17. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+18. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
+19. Record timestamp source, timezone, and precision, and never label a later clock observation as the host request time.
+20. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+21. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+22. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
+23. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
