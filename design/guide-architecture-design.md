@@ -49,11 +49,13 @@ Do not write an unconfirmed proposal as truth. Preserve it as conversation conte
 When a decision is confirmed:
 
 1. identify its canonical owner;
-2. update the canonical rule and rationale required by the project;
-3. update only affected derived artifacts;
-4. replace stale summaries instead of accumulating another restatement;
-5. select the next unresolved high-risk scenario from the owning roadmap or queue;
-6. validate cross-document consistency before any commit.
+2. enumerate the complete mutation batch: canonical, rationale, derived, decision, navigation, roadmap, worklog, time, and validator-touched paths;
+3. verify every target and command side-effect scope is eligible before the first write; if any target is blocked, change nothing;
+4. update the canonical rule and rationale required by the project;
+5. update only affected derived artifacts;
+6. replace stale summaries instead of accumulating another restatement;
+7. select the next unresolved high-risk scenario from the owning roadmap or queue;
+8. validate cross-document consistency before any commit.
 
 ## Workflow modes and transitions
 
@@ -124,6 +126,8 @@ Apply the same synchronization, validation, overlap, failure, and commit rules a
 
 Synchronize the canonical and affected derived documents, record rationale or supersession when required, update enabled decision/worklog artifacts, and choose one exact next action. Validate links, Markdown, internal assertions, phase state, and the diff.
 
+Before the first write, resolve the complete batch and run the eligibility preflight defined under Git and mutation safety. Recheck the baseline immediately before mutation. Do not partially begin a batch whose later target or validator scope is already blocked.
+
 If automatic commits are enabled, commit only the scoped, validated decision batch when it can be isolated from pre-existing staged, unstaged, and same-file user changes. If disabled or isolation is unsafe, leave the authorized changes visible and report them without committing. Never include or unstage unrelated user changes.
 
 Transition to `READY` only when the user explicitly asked to continue with another design question. Transition to `CHECKPOINT` or `SESSION_CLOSING` only when requested. Otherwise report the exact post-state and transition to `COMPLETE`.
@@ -188,12 +192,14 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 
 - Treat a dirty tree as user work until classified.
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
-- Hash the content of pre-existing untracked regular files within every path a planned edit, validator, hook, or command may touch. For repository-wide or unknown side-effect scope, hash all readable untracked regular files. If relevant untracked content is inaccessible, too large to snapshot safely, or outside a determinable side-effect boundary, do not run the mutation or command until the owner establishes a safe boundary.
-- Edit a target file only when it has no pre-existing staged or unstaged user change. Any pre-existing same-file change blocks editing in V1 until the owner establishes a clean boundary; do not attempt textual or semantic non-overlap classification.
+- Build one batch-wide plan before the first write. Enumerate every canonical, rationale, derived, decision, roadmap, navigation, worklog, time, intended-new-file, and validator- or command-touched path. Resolve ownership and expected side effects for the whole batch.
+- Allow an existing target only when it is tracked and has no pre-existing staged or unstaged user change. Allow an intended new path only when it is absent, not ignored, and does not collide with untracked content. Any blocked target blocks the entire batch; make zero changes.
 - Do not directly edit a pre-existing untracked or ignored target in V1, even when its content was hashed. Require the owner to move it into a clean recoverable boundary or otherwise resolve it outside this workflow first.
-- Never disturb the pre-existing index. Stage explicit paths only when they contained no pre-existing staged or unstaged user hunks and no overlapping same-file work.
+- Permit a validator, hook, or other command only when its possible write scope is known and disjoint from all pre-existing tracked changes, untracked files, and ignored files. Treat unknown or repository-wide write scope as blocking. Detection by hash is not preservation and does not make execution safe.
+- Never disturb the pre-existing index.
 - If the baseline index contains any staged change, do not run an automatic commit in V1, even when the skill's target paths are otherwise clean. Leave the authorized batch uncommitted and report the staged boundary.
 - Before any automatic commit, verify that no applicable local or configured commit hook exists. If any `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or configured equivalent may run, leave the batch uncommitted in V1. Recheck the staged diff immediately before committing and require it to match only the intended classified batch.
+- Stage explicit paths only immediately before an otherwise eligible automatic commit, after mutation, validation, hook, baseline-index, and isolation checks all pass. When automatic commits are disabled or any prerequisite is already blocked, do not stage and leave the baseline index unchanged.
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
 - Stop when required mutation would exceed the repository or permission scope.
@@ -201,7 +207,7 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 
 ## Failure and side-effect handling
 
-Run only project-configured validation commands whose expected outputs and side effects are understood. After each mutation group, validator, and commit attempt, compare the full repository and index state with the baseline, including hashes of pre-existing untracked files in the command's side-effect scope.
+Run only project-configured validation commands whose possible write scope is known, preflighted, and disjoint from all pre-existing user content. After each mutation group, validator, and commit attempt, compare the full repository and index state with the baseline and batch plan.
 
 If a document update fails mid-batch, validation fails, a command creates unexpected files, the index changes unexpectedly, or a commit hook fails:
 
@@ -237,18 +243,19 @@ Do not create mutation scripts or assets in V1.
 9. Prepare and commit contingent owner approval before the final audit, then verify the exact clean audited `HEAD` without session or repository mutation.
 10. Exercise all four worklog/time configurations, including one non-duplicated separate time record when worklog is disabled and time tracking is enabled.
 11. Complete one-shot direct sync, decision capture, checkpoint, closing, and gate requests without asking an unrequested next question.
-12. Make zero file changes whenever a target file contains any pre-existing staged or unstaged user diff.
-13. Leave a batch uncommitted when unrelated changes were already staged before the operation.
-14. Detect a validator changing a pre-existing untracked file at the same path, or block the validator when that content cannot be safely snapshotted.
-15. Leave a batch uncommitted when any applicable commit hook exists, including a hook that could successfully stage an unrelated tracked file.
-16. Make zero file changes when the requested target already exists only as an untracked or ignored file.
-17. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-18. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
-19. Record timestamp source, timezone, and precision, and never label a later clock observation as the host request time.
-20. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-21. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
-22. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
-23. Decline V1 project scaffolding while preserving a clear future extension boundary.
+12. Make zero batch changes when any canonical, derived, navigation, history, time, decision, intended-new-file, or validator-touched target is blocked at preflight.
+13. Make zero file changes whenever a target file contains any pre-existing staged or unstaged user diff.
+14. Make zero file changes when the requested target already exists only as an untracked or ignored file.
+15. Do not run a validator whose possible write scope is unknown or intersects a pre-existing tracked change, untracked file, or ignored file.
+16. Leave a batch uncommitted when any applicable commit hook exists, including a hook that could successfully stage an unrelated tracked file.
+17. Keep the baseline index unchanged when automatic commits are disabled or already blocked before staging.
+18. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+19. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
+20. Record timestamp source, timezone, and precision, and never label a later clock observation as the host request time.
+21. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+22. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+23. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
+24. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
