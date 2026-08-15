@@ -59,9 +59,18 @@ When a decision is confirmed:
 
 ### `STARTUP`
 
-Capture the actual request timestamp in memory when worklog or time tracking is enabled. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write no session or time start until recovery and session binding are clear.
+When worklog or time tracking is enabled, use the host message timestamp when available; otherwise observe the system clock at the first tool opportunity and label it `observed_at`, never `request_at`. Record source, timezone, and precision whenever chronology or duration depends on a value. Read the entry point and required documents in their prescribed order, inspect Git, reconstruct the current state, and check for contradictions. Write no session or time start until intent preflight, recovery, and session binding are clear.
 
-Transition to `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `SESSION_BINDING`.
+Transition to `INTENT_PREFLIGHT` without mutating project or session state.
+
+### `INTENT_PREFLIGHT`
+
+Resolve the requested intent before recovery or session binding:
+
+- Route an independent handoff, consistency, drift, or readiness assessment to `audit-architecture-handoff` and stop this guide.
+- Route final implementation-gate verification directly to `READINESS_GATE` after baseline inspection. Treat dirty worktree, stale evidence, wrong scope, wrong `HEAD`, or negative verdict as gate inputs that produce a blocked terminal result; do not recover or mutate them during gate evaluation.
+- If intent or mutation authority is ambiguous, ask the owner and remain non-mutating.
+- For a mutating guide intent, enter `RECOVERY` on any active predecessor whose liveness, exclusivity, resumption authority, or closure boundary is unresolved, even when its nominal owner is known. Also enter recovery for a dirty worktree, incomplete decision batch, divergent next actions, or ambiguous authority. Otherwise transition to `SESSION_BINDING`.
 
 ### `RECOVERY`
 
@@ -76,7 +85,7 @@ Transition to `SESSION_BINDING` only after the owner or durable evidence resolve
 Bind the current request to session state after startup or recovery and before intent dispatch:
 
 - If the owner confirms that this conversation resumes the active predecessor, reuse its session, current block, and any active time record; do not create another start record.
-- If a new working session is authorized after recovery, capture an effective session-start timestamp at the resolved boundary. It must not precede an exclusive predecessor's owner-approved end. Preserve the earlier request timestamp only as evidence or in a configured recovery-time record; do not mislabel it as the new session start.
+- If a new working session is authorized after recovery, observe an effective session-start timestamp at the resolved boundary. It must not precede an exclusive predecessor's owner-approved end. Preserve earlier host or observation evidence only under its truthful label or in a configured recovery-time record; do not mislabel it as the new session start.
 - If a new working session is authorized and worklog tracking is enabled, write exactly one session and initial-block start using the effective session-start timestamp and configured precision. Do not write it twice after recovery.
 - If worklog tracking is disabled, keep the session binding in the active conversation and create no worklog or session artifact. When time tracking is enabled, still open exactly one record in its separately configured time artifact using the effective session-start timestamp.
 - If the request is closing-only, bind only to an existing owner-confirmed active session. When none exists, remain non-mutating and ask which boundary the owner intends to close; never open a session solely to close it.
@@ -96,7 +105,7 @@ After startup or recovery, dispatch the user's requested operation without forci
 | Record a decision just confirmed in the active conversation | `DECISION_CAPTURE` |
 | Check or advance a project checkpoint | `CHECKPOINT` |
 | Close the current session | `SESSION_CLOSING` |
-| Apply the implementation gate using current independent audit evidence | `READINESS_GATE` |
+| Apply the implementation gate using current independent audit evidence | Already routed directly by `INTENT_PREFLIGHT`; do not bind a session |
 
 If the requested intent or its mutation authority is ambiguous, ask the owner and remain non-mutating.
 
@@ -159,7 +168,7 @@ Treat `COMPLETE` as the terminal state for the requested one-shot operation. Rep
 | Subsystem | Disabled behavior | Enabled behavior |
 | --- | --- | --- |
 | Worklog | Do not create or update one | Record session/block event timestamps using its declared path and schema; duration tracking is separate |
-| Time tracking | Do not calculate or store duration | Use its configured artifact; capture actual timestamps and subtract only explicit declared breaks |
+| Time tracking | Do not calculate or store duration | Use its configured artifact; record timestamps with source, timezone, and precision, and subtract only explicit declared breaks |
 | Decision register | Keep decision state in existing authoritative artifacts | Maintain configured IDs, status, owner, links, and one next decision |
 | Automatic commits | Never commit | Commit only scoped validated batches using project rules |
 
@@ -170,8 +179,8 @@ Support the four worklog/time combinations explicitly:
 | Worklog | Time tracking | Startup and closing behavior |
 | --- | --- | --- |
 | Off | Off | Create no session or time artifact and require no timestamp record |
-| On | Off | Capture and write actual session/block start and end event timestamps; do not calculate durations or pauses |
-| Off | On | Write actual start, end, breaks, and duration to the separately configured time artifact; create no worklog |
+| On | Off | Record observed session/block start and end event timestamps with source, timezone, and precision; do not calculate durations or pauses |
+| Off | On | Write sourced start, end, breaks, and duration to the separately configured time artifact; create no worklog |
 | On | On | Write worklog event timestamps and configured time/duration fields without duplicating records outside the declared schema |
 
 Reject `time tracking = on` when no time artifact or time-capable worklog schema is configured. Event timestamps needed to order a worklog are not themselves optional duration tracking.
@@ -181,12 +190,10 @@ Reject `time tracking = on` when no time artifact or time-capable worklog schema
 - Treat a dirty tree as user work until classified.
 - Snapshot branch, `HEAD`, status, staged diff, unstaged diff, and untracked paths before editing; diff every affected artifact afterward.
 - Hash the content of pre-existing untracked regular files within every path a planned edit, validator, hook, or command may touch. For repository-wide or unknown side-effect scope, hash all readable untracked regular files. If relevant untracked content is inaccessible, too large to snapshot safely, or outside a determinable side-effect boundary, do not run the mutation or command until the owner establishes a safe boundary.
-- Classify every target file before editing:
-  - no pre-existing user change: edit normally and use the configured commit rule;
-  - proven non-overlapping user change: edit only after explicit owner authorization, preserve the user diff, and leave the combined file uncommitted;
-  - overlapping or unclassifiable user change: do not edit until the owner establishes a clean boundary or explicitly authorizes a reviewed merge.
+- Edit a target file only when it has no pre-existing staged or unstaged user change. Any pre-existing same-file change blocks editing in V1 until the owner establishes a clean boundary; do not attempt textual or semantic non-overlap classification.
 - Never disturb the pre-existing index. Stage explicit paths only when they contained no pre-existing staged or unstaged user hunks and no overlapping same-file work.
 - If the baseline index contains any staged change, do not run an automatic commit in V1, even when the skill's target paths are otherwise clean. Leave the authorized batch uncommitted and report the staged boundary.
+- Before any automatic commit, verify that no applicable local or configured commit hook exists. If any `pre-commit`, `prepare-commit-msg`, `commit-msg`, `post-commit`, or configured equivalent may run, leave the batch uncommitted in V1. Recheck the staged diff immediately before committing and require it to match only the intended classified batch.
 - If ownership cannot be isolated safely, preserve the current state, report the overlap, and require owner direction.
 - Do not rewrite history, reset, discard, stash, switch branches, merge, push, tag, or open a pull request unless separately requested and authorized.
 - Stop when required mutation would exceed the repository or permission scope.
@@ -230,15 +237,17 @@ Do not create mutation scripts or assets in V1.
 9. Prepare and commit contingent owner approval before the final audit, then verify the exact clean audited `HEAD` without session or repository mutation.
 10. Exercise all four worklog/time configurations, including one non-duplicated separate time record when worklog is disabled and time tracking is enabled.
 11. Complete one-shot direct sync, decision capture, checkpoint, closing, and gate requests without asking an unrequested next question.
-12. Leave a proven non-overlapping same-file batch uncommitted after explicit authorization, and make zero file changes when overlap is unclassified or unauthorized.
+12. Make zero file changes whenever a target file contains any pre-existing staged or unstaged user diff.
 13. Leave a batch uncommitted when unrelated changes were already staged before the operation.
 14. Detect a validator changing a pre-existing untracked file at the same path, or block the validator when that content cannot be safely snapshotted.
-15. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
-16. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
-17. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
-18. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
-19. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
-20. Decline V1 project scaffolding while preserving a clear future extension boundary.
+15. Leave a batch uncommitted when any applicable commit hook exists, including a hook that could successfully stage an unrelated tracked file.
+16. Preserve and report partial state after a mid-batch edit failure, validator side effect, or commit-hook failure.
+17. Use a post-recovery effective start that does not overlap an exclusive predecessor; never duplicate a resumed session or time record.
+18. Record timestamp source, timezone, and precision, and never label a later clock observation as the host request time.
+19. Block implementation while readiness criteria, acceptable independent audit, or owner approval are missing.
+20. Route general documentation maintenance and independent read-only readiness assessment away from this mutating workflow.
+21. Refuse all installed-skill mutation and route it to a separate owner-authorized skill-development workflow.
+22. Decline V1 project scaffolding while preserving a clear future extension boundary.
 
 ## Deferred extensions and likely split
 
