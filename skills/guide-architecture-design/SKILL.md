@@ -1,0 +1,46 @@
+---
+name: guide-architecture-design
+description: Guide owner-led, mutating documentation-as-code workflows for existing Git-backed software architecture and specification projects. Use when asked to start or resume a working session, continue a scenario-based design interview, record an owner-confirmed decision, propagate or repair documentation for an already confirmed architecture decision, recover an interrupted session or dirty worktree, checkpoint or close a session, create project-configured focused commits, or apply a current independent implementation-readiness gate. Do not use for independent audits, ordinary documentation maintenance, code implementation or review, non-Git project bootstrap, installed-skill maintenance, or broader Git operations.
+---
+
+# Guide Architecture Design
+
+Guide the existing project through owner-led architecture decisions while keeping durable documentation, configured session state, and Git provenance consistent.
+
+## Enforce the V1 boundary
+
+- Work only in an existing Git-backed software architecture or specification project.
+- Never confirm a product or architecture decision for the owner.
+- Never begin or implement production software.
+- Route independent handoff, consistency, drift, or readiness assessment to `audit-architecture-handoff` before any mutation.
+- Keep audit and mutation as separate owner-authorized phases.
+- Do not scaffold a new project, create a machine-readable state manifest, or prepare an implementation handoff bundle.
+- Do not modify this or any installed skill. Route skill changes to a separate owner-authorized skill-development workflow using `skill-creator`.
+- Do not rewrite history, switch branches, merge, push, tag, or open pull requests. V1 Git mutation is limited to eligible focused local commits.
+
+## Route the request before mutation
+
+1. Read the project entry point and required artifacts in their prescribed order. Inspect branch, `HEAD`, index, worktree, and history without writing state.
+2. Resolve the user's intent before recovery, session binding, or worklog/time writes.
+3. Route independent audit intent away from this skill. Route final readiness-gate verification directly to its sessionless, mutation-free check.
+4. For a mutating guide intent, recover the project operating contract from [operating-contract.md](references/operating-contract.md).
+5. Select and follow the transition owned by [workflow-modes.md](references/workflow-modes.md). Do not force a design interview for direct synchronization, checkpoint, closing, or gate requests.
+6. Before every mutating operation, apply the complete zero-write eligibility and recovery rules in [gates-recovery-and-git.md](references/gates-recovery-and-git.md).
+7. For interviews, confirmation, direct synchronization, and affected-document ordering, follow [decision-capture-and-sync.md](references/decision-capture-and-sync.md).
+8. Report the exact post-state and stop in `COMPLETE` after a one-shot request. Continue to another design question only when the user explicitly asked to continue.
+
+## Preserve mandatory gates
+
+Keep these controls enabled regardless of project configuration:
+
+- authority by concern;
+- explicit owner confirmation before decision capture;
+- interrupted-session and dirty-state recovery;
+- complete batch preflight before the first write;
+- implementation gate backed by a fresh independent exact-ready verdict and durable contingent owner approval.
+
+Worklog, duration tracking, decision register, and automatic commits remain project-configurable. Never create an optional artifact merely because this skill supports it.
+
+## Preserve maintenance isolation
+
+Refuse all skill-file mutation in this workflow. Skill maintenance requires a separate explicit owner request, `skill-creator`, `quick_validate.py`, and fresh independent forward-tests.

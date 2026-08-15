@@ -1,0 +1,4 @@
+interface:
+  display_name: "Guide Architecture Design"
+  short_description: "Owner-led architecture documentation workflow"
+  default_prompt: "Use $guide-architecture-design to resume this architecture documentation project and ask the next owner decision."
