@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Architecture Handoff"
+  short_description: "Read-only architecture and handoff audits"
+  default_prompt: "Use $audit-architecture-handoff to run an independent read-only handoff audit of this architecture project."
