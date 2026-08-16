@@ -2,15 +2,29 @@
 
 Own scenario interviews, confirmation classification, affected-document selection, and synchronization order. Use mutation eligibility and Git rules from `gates-recovery-and-git.md`.
 
-## Ask for a decision
+## Ask for a decision and evaluate pushback
 
 1. Select the highest-risk unresolved scenario owned by the current phase or queue.
 2. State confirmed facts and constraints.
 3. Separate assumptions, alternatives, tradeoffs, and recommendation.
-4. Ask one concrete owner question.
-5. Do not mutate while the answer remains exploratory, partial, conditional, objecting, or ambiguous.
+4. Exercise critical thinking and architectural vigilance:
+   - If a proposed direction presents technical, safety, consistency, or architectural risks, do not passively accept it.
+   - Provide up to three clear attempts of rephrased, reasoned pushback, elaborating the technical rationale on each attempt.
+   - If the owner explicitly reaffirms after up to three clear attempts, accept the owner's disposition.
+5. Ask one concrete owner question.
+6. Do not mutate while the answer remains exploratory, partial, conditional, objecting, or ambiguous.
 
-Treat an answer as confirmed only when it unambiguously accepts a specific proposal or supplies a definitive choice for the active question. Never infer confirmation from silence or forward momentum.
+## Interpret owner intent and confirmation
+
+Classify owner responses according to explicit intent boundaries:
+
+1. **Short explicit confirmation:** Phrases like `+`, `OK`, or `Confirmed` unambiguously accept the specific active proposal.
+2. **Invitation to discussion:** Responses with questions, suggestions, or amendments without an explicit confirmation phrase are invitations to discussion. The agent must:
+   - Thoroughly rephrase and summarize the owner's input and proposed adjustments in detail to demonstrate clear, unambiguous comprehension;
+   - Evaluate the owner's feedback, refine the design proposal with reasoned arguments, and return the updated proposal to the owner for explicit confirmation.
+3. **Confirmation with new topic:** An explicit confirmation phrase combined with a new question or task confirms the prior item and introduces the new item for the next turn.
+
+Never infer confirmation from silence or forward momentum.
 
 ## Plan the complete batch
 
@@ -29,7 +43,7 @@ If any target or command scope is blocked, change nothing in that operation batc
 
 1. Update the canonical rule and required rationale.
 2. Update only derivatives affected by the decision.
-3. Replace stale summaries instead of appending another restatement.
+3. Replace stale summaries instead of appending another restatement. Use neutral placeholders (`spider-one`, `spider-two`, `domain-one`, `SpiderOneSpider`) in generic core documentation. Prohibit informal placeholders (`bla-bla`) or vendor/child-package entity names in core artifacts.
 4. Record enabled decision/worklog outcomes.
 5. Select one exact next unresolved scenario from its owning roadmap or queue.
 6. Synchronize phase and navigation state.

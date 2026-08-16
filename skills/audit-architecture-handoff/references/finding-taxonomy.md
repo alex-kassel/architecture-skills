@@ -11,7 +11,7 @@ Assign both a type and a priority. A large count of weak findings is not a subst
 - **Readiness gap:** an unmet gate condition that prevents implementation within the declared scope. Keep it in the readiness section unless the project incorrectly claims readiness, hides the gap, or attempts to bypass its own gate.
 - **Open decision:** intentionally unresolved and correctly visible; not a defect by itself.
 - **Correct deferral:** detail is assigned to a later phase with sufficient impact and boundary stated.
-- **Onboarding friction:** state is recoverable, but unnecessary reading, duplication, or ambiguity increases cost or error risk.
+- **Onboarding friction:** state is recoverable, but unnecessary reading, duplication, informal placeholders (`bla-bla`), or vendor/child-package entity leaks in generic core documentation increase cost or error risk (remediate using neutral placeholders such as `spider-one` or `domain-one`).
 - **Idea:** optional improvement with measurable benefit but no current defect.
 
 ## Priorities
