@@ -51,10 +51,11 @@ The IDs below map one-to-one to the 30 acceptance scenarios in `design/guide-arc
 | 31 | Passed | In disposable fixture `codex-guide-pushback-20260816`, evaluating a risky architecture proposal triggered 3 clear attempts of rephrased reasoned pushback with technical rationale before accepting explicit owner reaffirmation; baseline `7c2101e4a` remained clean until final confirmation. |
 | 32 | Passed | In disposable fixture `codex-guide-neutral-placeholders-20260816`, core architecture documentation examples strictly used neutral placeholders (`spider-one`, `domain-one`, `SpiderOneSpider`); zero informal placeholders (`bla-bla`) or vendor entity leaks occurred. |
 | 33 | Passed | In disposable fixture `codex-guide-intent-protocol-20260816`, owner responses with questions/amendments without confirmation phrases were classified as invitations to discussion, thoroughly rephrasing owner input in detail for clear comprehension before returning refined proposals; short phrases (`+`, `OK`, `Confirmed`) unambiguously triggered final decision capture. |
+| 34 | Passed | In disposable fixture `codex-guide-adaptive-summary-20260817`, routine operational turns omitted rigid 3-bullet evaluation blocks, starting directly with concise answers; breakthrough proposals included `[Сильное решение]` and risk turns included `[Архитектурный риск / Пушбэк]`. |
 
 ## Structural validation
 
-On 2026-08-16, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the original 27-scenario suites and again for `guide-architecture-design` after scenarios 28–33 were implemented.
+On 2026-08-17, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the original 27-scenario suites and again for `guide-architecture-design` after scenarios 28–34 were implemented.
 
 ## Feedback workflow acceptance scenarios
 

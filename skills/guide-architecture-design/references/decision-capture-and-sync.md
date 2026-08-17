@@ -14,6 +14,14 @@ Own scenario interviews, confirmation classification, affected-document selectio
 5. Ask one concrete owner question.
 6. Do not mutate while the answer remains exploratory, partial, conditional, objecting, or ambiguous.
 
+## Adapt opening evaluation summary
+
+When communicating during design interviews and decision workflows, adapt opening response summaries based on turn context:
+
+- **Breakthrough idea:** Include `[Сильное решение]` (or `[Strong Decision]`) only when the owner proposes an exceptionally strong or breakthrough architectural idea, explaining why to build upon it.
+- **Architectural risk / Pushback:** Include `[Архитектурный риск / Пушбэк]` (or `[Architectural Risk / Pushback]`) whenever architectural, consistency, performance, or technical risks exist, detailing technical counter-arguments.
+- **Routine turns:** On ordinary, operational, or investigatory turns without breakthroughs or critical risks, omit formal template blocks (`[Сильное решение]`, `[Нейтрально]`, `[Архитектурный риск]`) and start directly with a concise answer or summary.
+
 ## Interpret owner intent and confirmation
 
 Classify owner responses according to explicit intent boundaries:
