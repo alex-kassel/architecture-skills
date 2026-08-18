@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design
 - Skill commit: `886738f80456c21e64177c865181b539c36be8bf`
-- Source repository: `c:\Users\Alex\codex-architecture-skills`
+- Source repository: `shared`
 - Source program: `shared`
 - Project session: `none`
 - Observed at: `2026-08-18`

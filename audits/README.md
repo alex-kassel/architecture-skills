@@ -53,12 +53,12 @@ Contains the detailed report of actions taken based on the audit findings, inclu
 | Date & Time | Audit File | Target Skill | Target Commit | Perspective | Findings (Crit/Maj/Min) | Resolution Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Pass 1** | | | | | | |
-| 2026-08-18 09:00 | [`2026-08-18-0900-formal-verification-audit.md`](file:///C:/Users/Alex/codex-architecture-skills/audits/2026-08-18-0900-formal-verification-audit.md) | `guide-architecture-design` | `886738f80456...` | Formal Verification & Safety | 3 Crit / 5 Maj / 3 Min | All 11 Accepted, Implemented, & Verified |
-| 2026-08-18 09:05 | [`2026-08-18-0905-architecture-dx-audit.md`](file:///C:/Users/Alex/codex-architecture-skills/audits/2026-08-18-0905-architecture-dx-audit.md) | `guide-architecture-design` | `886738f80456...` | Architecture Alignment & DX | MADR, Preflight, Pushback, Vendor CLI | All Accepted, Implemented, & Verified |
+| 2026-08-18 09:00 | [`2026-08-18-0900-formal-verification-audit.md`](2026-08-18-0900-formal-verification-audit.md) | `guide-architecture-design` | `886738f80456...` | Formal Verification & Safety | 3 Crit / 5 Maj / 3 Min | All 11 Accepted, Implemented, & Verified |
+| 2026-08-18 09:05 | [`2026-08-18-0905-architecture-dx-audit.md`](2026-08-18-0905-architecture-dx-audit.md) | `guide-architecture-design` | `886738f80456...` | Architecture Alignment & DX | MADR, Preflight, Pushback, Vendor CLI | All Accepted, Implemented, & Verified |
 | **Pass 2 (Re-Audit)** | | | | | | |
-| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-formal-verification-reaudit.md`](file:///C:/Users/Alex/codex-architecture-skills/audits/2026-08-18-0937-pass2-formal-verification-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Formal Logic Pass 2 Re-Audit | 0 New Issues | ✅ PASSED & VERIFIED |
-| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-architecture-dx-reaudit.md`](file:///C:/Users/Alex/codex-architecture-skills/audits/2026-08-18-0937-pass2-architecture-dx-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Architecture & DX Pass 2 Re-Audit | 0 New Issues | ✅ PASSED & VERIFIED |
-| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-adversarial-chaos-reaudit.md`](file:///C:/Users/Alex/codex-architecture-skills/audits/2026-08-18-0937-pass2-adversarial-chaos-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Adversarial Chaos (Side 3) | 5 Edge-case Hardening Items | 🟢 PASSED (Residuals Deferred to Next Audit) |
+| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-formal-verification-reaudit.md`](2026-08-18-0937-pass2-formal-verification-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Formal Logic Pass 2 Re-Audit | 0 New Issues | ✅ PASSED & VERIFIED |
+| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-architecture-dx-reaudit.md`](2026-08-18-0937-pass2-architecture-dx-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Architecture & DX Pass 2 Re-Audit | 0 New Issues | ✅ PASSED & VERIFIED |
+| 2026-08-18 09:37 | [`2026-08-18-0937-pass2-adversarial-chaos-reaudit.md`](2026-08-18-0937-pass2-adversarial-chaos-reaudit.md) | `guide-architecture-design` | `886738f80456...` | Adversarial Chaos (Side 3) | 5 Edge-case Hardening Items | 🟢 PASSED (Residuals Deferred to Next Audit) |
 
 ---
 
