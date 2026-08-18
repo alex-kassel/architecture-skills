@@ -1,6 +1,6 @@
 ---
 name: maintain-architecture-skills
-description: Execute the 6-step skill maintenance protocol for capturing feedback evidence, conducting community triage, executing zero-write preflights, running validation self-healing loops, and updating skill definitions. Use when asked to start skill maintenance, process feedback, or update repository skills.
+description: Execute the 6-step skill maintenance protocol for capturing feedback evidence, conducting community triage, executing zero-write preflights, running validation self-healing loops, and updating skill definitions. Use when asked to start skill maintenance, process feedback, or add, edit, move, or delete repository skills regardless of phrasing or language.
 ---
 
 # Maintain Architecture Skills
@@ -9,11 +9,11 @@ Execute structured, evidence-backed skill maintenance across architecture skill 
 
 ## Skill Maintenance Protocol
 
-When triggered by `Start skill maintenance`, `Process feedback`, or explicit skill maintenance requests, follow the 6-step protocol:
+When triggered by `Start skill maintenance`, `Process feedback`, or any user proposal to add, edit, move, or delete skills (regardless of phrasing or language), follow the 6-step protocol:
 
 1. **Evidence Capture**:
    - Preserve incoming `observed` feedback records (`feedback/20??-*.md`) as evidence.
-   - All owner additions, suggestions, and workflow refinements must first be recorded as `observed` feedback files before editing skill files under `skills/**`.
+   - All owner additions, suggestions, workflow refinements, or proposals to add, edit, move, or delete skills (regardless of phrasing or language) MUST first be recorded as `observed` feedback files under `feedback/20??-*.md` before editing files under `skills/**`.
 
 2. **Community Triage**:
    - Evaluate proposals against software architecture patterns and community best practices.
