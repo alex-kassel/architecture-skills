@@ -32,8 +32,8 @@ Determine where the skill should be placed based on its intended scope:
 
 | Scope | Directory Path | Target Use Case |
 | :--- | :--- | :--- |
-| **Global (Machine-Local)** | `~/.gemini/config/skills/<skill-name>/` | Skills available across ALL projects and workspaces on this computer. |
-| **Workspace (Project)** | `.agents/skills/<skill-name>/` or `skills/<skill-name>/` | Project-specific skills tracked in Git for team sharing. |
+| **Source Repository (Single Source of Truth)** | `skills/<skill-name>/` | All skill source files are created and tracked strictly inside `codex-architecture-skills`. |
+| **Global Discovery (Automatic Junction)** | `~/.gemini/config/skills/<skill-name>/` | Automatically created NTFS Directory Junction (symlink) pointing to the source folder in the repository. Never duplicate files physically. |
 
 ---
 
