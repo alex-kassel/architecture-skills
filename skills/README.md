@@ -11,15 +11,15 @@
 
 | Skill | Category | Description | Spec |
 | --- | --- | --- | --- |
-| **`session-lifecycle`** | Lifecycle & Locking | Manage exclusive subproject working sessions, root corridor detection, single-agent ownership locking, RFC 3339 duration tracking, and handoff session closure. | [`SKILL.md`](session-lifecycle/SKILL.md) |
-| **`scaffold-subproject-docs`** | Scaffolding & Setup | Scaffold standard 5-file architecture documentation suite (`README.md`, `session-handoff-protocol.md`, `project-documentation-roadmap.md`, `architecture-planning-roadmap.md`, `worklog.md`). | [`SKILL.md`](scaffold-subproject-docs/SKILL.md) |
-| **`guide-architecture-design`** | Design & Workflow | Guide owner-led architecture design workflows, scenario-based interviews, decision capture, and atomic documentation synchronization. | [`SKILL.md`](guide-architecture-design/SKILL.md) |
-| **`audit-architecture-handoff`** | Audit & Verification | Perform strictly read-only audits for fresh-session handoff safety, architectural consistency, document drift, and implementation readiness gates. | [`SKILL.md`](audit-architecture-handoff/SKILL.md) |
-| **`git-release-preflight`** | Git & Release | Pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution. | [`SKILL.md`](git-release-preflight/SKILL.md) |
-| **`execute-autonomous-audit`** | Audit & Verification | Execute autonomous 4-phase, 2-pass iterative multi-perspective audits of codebases, software architecture, or documentation sets. | [`SKILL.md`](execute-autonomous-audit/SKILL.md) |
-| **`publish-packagist-package`** | Release & Publishing | Guide standalone package publishing, Composer metadata validation, dual Git workflow setup, and Packagist CI scaffolding. | [`SKILL.md`](publish-packagist-package/SKILL.md) |
-| **`validate-repository-guardrails`** | Quality & Guardrails | Execute deterministic quality, relative path, and English-only language guardrail checks across repository files. | [`SKILL.md`](validate-repository-guardrails/SKILL.md) |
-| **`maintain-architecture-skills`** | Maintenance & Meta | Execute the 6-step skill maintenance protocol for feedback triage, zero-write preflight, and skill updates. | [`SKILL.md`](maintain-architecture-skills/SKILL.md) |
+| **`session-lifecycle`** | Lifecycle & Locking | Manage exclusive subproject working sessions, root corridor detection, single-agent ownership locking, RFC 3339 duration tracking, and handoff session closure. | [`SKILL.md`](/skills/session-lifecycle/SKILL.md) |
+| **`scaffold-subproject-docs`** | Scaffolding & Setup | Scaffold standard 5-file architecture documentation suite (`README.md`, `session-handoff-protocol.md`, `project-documentation-roadmap.md`, `architecture-planning-roadmap.md`, `worklog.md`). | [`SKILL.md`](/skills/scaffold-subproject-docs/SKILL.md) |
+| **`guide-architecture-design`** | Design & Workflow | Guide owner-led architecture design workflows, scenario-based interviews, decision capture, and atomic documentation synchronization. | [`SKILL.md`](/skills/guide-architecture-design/SKILL.md) |
+| **`audit-architecture-handoff`** | Audit & Verification | Perform strictly read-only audits for fresh-session handoff safety, architectural consistency, document drift, and implementation readiness gates. | [`SKILL.md`](/skills/audit-architecture-handoff/SKILL.md) |
+| **`git-release-preflight`** | Git & Release | Pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution. | [`SKILL.md`](/skills/git-release-preflight/SKILL.md) |
+| **`execute-autonomous-audit`** | Audit & Verification | Execute autonomous 4-phase, 2-pass iterative multi-perspective audits of codebases, software architecture, or documentation sets. | [`SKILL.md`](/skills/execute-autonomous-audit/SKILL.md) |
+| **`publish-packagist-package`** | Release & Publishing | Guide standalone package publishing, Composer metadata validation, dual Git workflow setup, and Packagist CI scaffolding. | [`SKILL.md`](/skills/publish-packagist-package/SKILL.md) |
+| **`validate-repository-guardrails`** | Quality & Guardrails | Execute deterministic quality, relative path, and English-only language guardrail checks across repository files. | [`SKILL.md`](/skills/validate-repository-guardrails/SKILL.md) |
+| **`maintain-architecture-skills`** | Maintenance & Meta | Execute the 6-step skill maintenance protocol for feedback triage, zero-write preflight, and skill updates. | [`SKILL.md`](/skills/maintain-architecture-skills/SKILL.md) |
 
 ---
 

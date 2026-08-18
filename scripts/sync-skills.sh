@@ -17,8 +17,8 @@ find "$TEMP_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
 mkdir -p "$TEMP_DIR/skills" "$TEMP_DIR/plugins"
 rsync -av --exclude='.git' skills/ "$TEMP_DIR/skills/"
 rsync -av --exclude='.git' plugins/ "$TEMP_DIR/plugins/"
-if [ -f README.md ]; then
-  cp README.md "$TEMP_DIR/README.md"
+if [ -f skills/README.md ]; then
+  cp skills/README.md "$TEMP_DIR/README.md"
 fi
 
 cd "$TEMP_DIR"

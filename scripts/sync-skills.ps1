@@ -18,8 +18,8 @@ $TargetReadme = Join-Path $TempDir "README.md"
 Copy-Item -Recurse -Force (Join-Path $RepoRoot "skills") $TargetSkills
 Copy-Item -Recurse -Force (Join-Path $RepoRoot "plugins") $TargetPlugins
 
-if (Test-Path (Join-Path $RepoRoot "README.md")) {
-    Copy-Item -Force (Join-Path $RepoRoot "README.md") $TargetReadme
+if (Test-Path (Join-Path $RepoRoot "skills\README.md")) {
+    Copy-Item -Force (Join-Path $RepoRoot "skills\README.md") $TargetReadme
 }
 
 Push-Location $TempDir
