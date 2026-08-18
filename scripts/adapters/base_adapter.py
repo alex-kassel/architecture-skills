@@ -21,6 +21,13 @@ def safe_link_or_copy(source_path: Path, target_path: Path) -> str:
             pass
         target_path.unlink()
 
+    # If target exists as a physical file/directory, remove it to attempt clean symlink creation
+    if target_path.exists():
+        if target_path.is_dir():
+            shutil.rmtree(target_path)
+        else:
+            target_path.unlink()
+
     # Try symlinking first
     try:
         if source_path.is_dir():
