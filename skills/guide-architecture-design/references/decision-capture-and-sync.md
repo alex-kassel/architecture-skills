@@ -54,9 +54,23 @@ If any target or command scope is blocked, change nothing in that operation batc
 3. Replace stale summaries instead of appending another restatement. Use neutral placeholders (`spider-one`, `spider-two`, `domain-one`, `SpiderOneSpider`) in generic core documentation. Prohibit informal placeholders (`bla-bla`) or vendor/child-package entity names in core artifacts.
 4. Record enabled decision/worklog outcomes.
 5. Select one exact next unresolved scenario from its owning roadmap or queue.
-6. Synchronize phase and navigation state.
+6. Synchronize phase, package lifecycle state (`SPEC_IN_PROGRESS` -> `IMPLEMENTATION_READY` -> `IN_DEVELOPMENT` -> `RELEASED` -> `DEPRECATED`), and root `AGENTS.md` Platform Status Matrix.
 7. Run only eligible configured validation.
 8. Inspect the complete final diff for contradictions and unintended changes.
+
+## Maintain package lifecycle states and platform matrix
+
+Track program and package progression across 5 explicit lifecycle states:
+
+1. `SPEC_IN_PROGRESS`: Specification or architecture design is actively being drafted/refined.
+2. `IMPLEMENTATION_READY`: Architecture and specification are approved; ready for initial coding.
+3. `IN_DEVELOPMENT (vX.Y.Z-dev)`: Active code implementation or development of a new version is underway.
+4. `RELEASED (vX.Y.Z)`: Code implementation is completed, tested, tagged, and published/deployed.
+5. `DEPRECATED`: Program or package is superseded or retired.
+
+When starting active development on a new version iteration for a released package (e.g. starting work on `v1.1.0`), transition the package status from `RELEASED (v1.0.0)` back to `IN_DEVELOPMENT (v1.1.0-dev)`.
+
+In multi-program platform repositories, maintain a central `Platform Status Matrix` table in root `AGENTS.md` and synchronize package statuses atomically across local roadmaps, `README.md`, and `AGENTS.md`.
 
 Do not copy project-specific detail into unrelated artifacts. Prefer direct references when a derivative need not restate a rule.
 

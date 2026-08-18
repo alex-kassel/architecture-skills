@@ -1,6 +1,6 @@
 # Post-Implementation Released Status & Root Status Matrix Standard
 
-- Status: observed
+- Status: superseded
 - Skill: guide-architecture-design | audit-architecture-handoff
 - Skill commit: `head`
 - Source repository: `c:\Users\Alex\Herd\packages.dev2`
@@ -36,8 +36,8 @@ Owner directed immediate remediation:
 
 ## Triage and resolution
 
-Pending owner review in a future skill-maintenance session.
+Superseded on 2026-08-18 by `feedback/2026-08-18-package-lifecycle-states-and-matrix-standards.md`, which incorporates and expands the post-implementation release milestone into a full 5-state package lifecycle model (`SPEC_IN_PROGRESS`, `IMPLEMENTATION_READY`, `IN_DEVELOPMENT`, `RELEASED`, `DEPRECATED`).
 
 ## Verification
 
-Pending.
+Not applicable (superseded).

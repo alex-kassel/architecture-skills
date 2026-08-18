@@ -6,7 +6,9 @@ This repository develops and validates reusable architecture skills. Skill sourc
 
 ## Skill maintenance
 
-Treat `Start skill maintenance` and equivalent requests as the short trigger for this workflow:
+Treat `Start skill maintenance`, `Обработай фидбек`, `+`, or equivalent short requests as triggers for this workflow. A single `+` also represents explicit owner confirmation/consent when responding to questions, proposals, or triage requests.
+
+All owner additions, suggestions, and workflow refinements must first be recorded as `observed` feedback files under `feedback/20??-*.md` and presented for explicit owner triage approval before executing skill changes.
 
 1. Inspect Git state and read every dated record matching `feedback/20??-*.md`.
 2. Triage unresolved records before editing skills. Propose `accepted`, `rejected`, or `superseded`; do not decide for the owner.

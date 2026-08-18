@@ -13,8 +13,10 @@ Use one implementation verdict when implementation readiness is in scope:
 - `IMPLEMENTATION READY`: the declared scope is implementable and its project gate is satisfied.
 - `IMPLEMENTATION READY WITH CONDITIONS`: no semantic blocker remains, but explicit bounded prerequisites must be completed before or during kickoff.
 - `IMPLEMENTATION NOT READY`: unresolved semantics, contracts, ordering, acceptance criteria, or owner approval block safe implementation.
+- `RELEASED (vX.Y.Z)`: code implementation is completed, tested, tagged, and published/deployed.
+- `IN_DEVELOPMENT (vX.Y.Z-dev)`: active code implementation or development of a new version is underway.
 
-Do not combine the two verdicts: a project may be handoff-ready while intentionally far from implementation-ready.
+Do not combine handoff and implementation verdicts: a project may be handoff-ready while intentionally far from implementation-ready. Verify that package statuses (`SPEC_IN_PROGRESS`, `IMPLEMENTATION_READY`, `IN_DEVELOPMENT`, `RELEASED`, `DEPRECATED`) in local roadmaps match root `AGENTS.md` Platform Status Matrix and Git release tags.
 
 An `IMPLEMENTATION NOT READY` verdict is often the correct planned state of a documentation project. Do not present unfinished later phases or visible owner decisions as defects when the roadmap assigns them correctly and no one claims the gate is satisfied. List them under readiness gaps and correct deferrals. Create prioritized findings only when readiness evidence is contradictory, missing from its required owner, falsely marked complete, or being bypassed.
 
