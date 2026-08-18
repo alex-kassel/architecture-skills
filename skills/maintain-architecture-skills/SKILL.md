@@ -26,7 +26,7 @@ When triggered by `Start skill maintenance`, `Process feedback`, or any user pro
 
 4. **Validation, Mandatory Autonomous Audit & Self-Healing Loop**:
    - Run skill validation checks and verify forward-test coverage (`evals/forward-tests.md`).
-   - **Mandatory Autonomous Audit Gate**: Whenever a new skill is created or substantially modified, execute a full 4-phase, 2-pass autonomous audit per [`skills/execute-autonomous-audit/SKILL.md`](../execute-autonomous-audit/SKILL.md) and record durable audit logs under `audits/`.
+   - **Mandatory Autonomous Audit Gate**: Whenever a new skill is created or substantially modified, execute a full 4-phase, 2-pass autonomous audit per [`execute-autonomous-audit`](../execute-autonomous-audit/SKILL.md) and record durable audit logs under `audits/`.
    - If validation fails, perform up to 3 bounded self-repair attempts targeting strictly the explicit error without introducing secondary structural edits. If repair fails after 3 attempts, run `git checkout -- skills/` and `git clean -fd skills/` to revert all changes and escalate.
 
 5. **Deterministic Guardrails**:

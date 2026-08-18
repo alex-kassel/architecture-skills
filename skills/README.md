@@ -25,7 +25,7 @@
 
 ## 📦 Prefer 1-Step Plugin Bundles?
 
-If you prefer installing pre-packaged bundles of related skills in a single step, see the **[Plugin Bundles Registry](../plugins/README.md)** (e.g. `architecture-suite`).
+If you prefer installing pre-packaged bundles of related skills in a single step, see the **[Plugin Bundles Registry](/plugins/README.md)** (e.g. `architecture-suite`).
 
 ---
 
@@ -46,5 +46,5 @@ cp -r skills/scaffold-subproject-docs ~/.gemini/config/skills/
 
 ## 🔗 Related Documentation
 
-- 📦 **[Plugin Bundles Registry](../plugins/README.md)**: Explore 1-step plugin bundles.
-- 🏠 **[Root Repository Overview](../README.md)**: Return to main repository overview.
+- 📦 **[Plugin Bundles Registry](/plugins/README.md)**: Explore 1-step plugin bundles.
+- 🏠 **[Root Repository Overview](/README.md)**: Return to main repository overview.

@@ -59,5 +59,5 @@ git clone https://github.com/alex-kassel/skills.git
 
 ## 🔗 Related Documentation
 
-- 🛠️ **[Standalone Skills Registry](../skills/README.md)**: Browse individual skills.
-- 🏠 **[Root Repository Overview](../README.md)**: Return to main repository overview.
+- 🛠️ **[Standalone Skills Registry](/skills/README.md)**: Browse individual skills.
+- 🏠 **[Root Repository Overview](/README.md)**: Return to main repository overview.

@@ -75,7 +75,7 @@ If developing inside a monorepo or dual-repo setup:
 
 ### Phase 4: Release Tagging & Packagist Hook
 
-1. **Preflight Safety Gate**: Execute pre-push evaluation per [`skills/git-release-preflight/SKILL.md`](../git-release-preflight/SKILL.md) prior to executing any `git push` or release tag command.
+1. **Preflight Safety Gate**: Execute pre-push evaluation per [`git-release-preflight`](../git-release-preflight/SKILL.md) prior to executing any `git push` or release tag command.
 2. Tag a semantic version release:
    ```bash
    git tag -a v1.0.0 -m "Release v1.0.0"
