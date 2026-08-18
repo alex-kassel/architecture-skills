@@ -42,8 +42,8 @@ Treat mismatch, lost conversation ownership, fresh session, or uncertain attribu
 - Run every blocking validation as a fail-fast gate. Confirm its successful exit before starting any later gate, staging, or commit; use separate tool calls or explicit fail-fast control, never a `;`-separated sequence that can continue after failure.
 - Keep whitespace validation enabled. Classify each finding as accidental authored whitespace, an intentional Markdown hard break, immutable verbatim source, or pre-existing historical content. Preserve immutable source, document intentional exceptions, apply strict checks to authored normative content, and do not stage or commit while any finding is unclassified.
 - Stage explicit eligible paths only immediately before an otherwise eligible commit, after mutation and every validation gate pass.
-- Recheck that the staged diff contains only the intended classified batch.
-- Create a focused local commit for eligible operation batches. When operating in an owner-configured session-branch workflow (`agent/session-<ID>`), push eligible in-session batches to that isolated session branch to support live GitHub tracking. Direct pushes to primary production branches (`main`/`master`) remain prohibited.
+- Create a focused local commit for eligible operation batches. When operating in an owner-configured session-branch workflow (`agent/session-<ID>`), push eligible in-session batches to that isolated session branch to support live GitHub tracking. Direct pushes to primary production branches (`main`/`master`) remain prohibited without explicit owner request.
+- When explicitly commanded by the owner to execute a push or release sync, perform a mandatory Pre-Push Readiness Evaluation (verify automated tests, unresolved feedback records, cross-platform path validation script exit code 0, and clean worktree). If counter-arguments or readiness risks exist, present them to the owner for triage before pushing; if zero counter-arguments or risks exist, execute the push directly and report completion.
 
 ## Contain failure
 
