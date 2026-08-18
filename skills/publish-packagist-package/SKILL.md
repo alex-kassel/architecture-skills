@@ -1,12 +1,11 @@
 ---
 name: publish-packagist-package
-description: >-
-  Guide standalone package publishing, Composer publication-ready metadata validation, dual Git workflow setup, and .github/workflows/packagist.yml CI scaffolding. Use when asked to prepare, publish, or configure a standalone PHP/Laravel package for Packagist.
+description: Guide standalone package publishing, Composer publication-ready metadata validation, dual Git workflow setup, and .github/workflows/packagist.yml CI scaffolding. Make sure to use this skill whenever the user asks to prepare, publish, release, or configure a PHP or Laravel package for Packagist, setup Composer package metadata, validate composer.json for publishing, configure dual Git subtree/sync workflows, or scaffold .github/workflows/packagist.yml CI integration, even if Packagist is not explicitly named.
 ---
 
 # Publish Packagist Package
 
-This skill guides the publishing of standalone PHP and Laravel packages to Packagist, ensuring composer metadata compliance, establishing dual Git sync workflows, and scaffolding GitHub Actions CI automation.
+Guide the publishing of standalone PHP and Laravel packages to Packagist, ensuring composer metadata compliance, establishing dual Git sync workflows, and scaffolding GitHub Actions CI automation.
 
 ---
 
@@ -38,14 +37,13 @@ Publishing a package to Packagist requires four core phases:
 
 ### Phase 1: Composer Metadata Validation
 
-Run `composer validate --strict` to verify `composer.json`.
-
-Ensure the following required fields satisfy standard criteria:
-- **`name`**: Vendor and package name in lowercase kebab-case (e.g. `vendor-name/package-name`).
-- **`type`**: `library` or `laravel-plugin`.
-- **`license`**: Valid SPDX license identifier (e.g. `MIT`).
-- **`autoload`**: PSR-4 mapping matching the vendor namespace.
-- **`extra.laravel`**: (For Laravel packages) Auto-discovery service providers and aliases.
+1. Run `composer validate --strict` to verify `composer.json`.
+2. Ensure the required fields satisfy standard criteria:
+   - **`name`**: Vendor and package name in lowercase kebab-case (e.g. `vendor-name/package-name`).
+   - **`type`**: `library` or `laravel-plugin`.
+   - **`license`**: Valid SPDX license identifier (e.g. `MIT`).
+   - **`autoload`**: PSR-4 mapping matching the vendor namespace.
+   - **`extra.laravel`**: (For Laravel packages) Auto-discovery service providers and aliases.
 
 Consult [`references/composer-metadata-standard.md`](references/composer-metadata-standard.md) for full field rules.
 
@@ -66,13 +64,12 @@ If developing inside a monorepo or dual-repo setup:
 
 ### Phase 3: CI Pipeline Scaffolding
 
-Scaffold `.github/workflows/packagist.yml` using the template provided in [`references/templates/packagist.yml`](references/templates/packagist.yml).
-
-The workflow performs:
-- Code style checks via `php-cs-fixer` or `pint`.
-- Static analysis via `phpstan` or `psalm`.
-- Test suite execution via `phpunit` or `pest` across supported PHP and Laravel matrix versions.
-- Automated Packagist sync notification on tag push.
+1. Scaffold `.github/workflows/packagist.yml` using the template provided in [`references/templates/packagist.yml`](references/templates/packagist.yml).
+2. Configure the workflow to perform:
+   - Code style checks via `php-cs-fixer` or `pint`.
+   - Static analysis via `phpstan` or `psalm`.
+   - Test suite execution via `phpunit` or `pest` across supported PHP and Laravel matrix versions.
+   - Automated Packagist sync notification on tag push.
 
 ---
 
@@ -85,3 +82,20 @@ The workflow performs:
    ```
 2. Submit repository URL on [Packagist.org](https://packagist.org/packages/submit).
 3. Configure GitHub Webhook under Repository Settings -> Webhooks (or use Packagist API token in repository secrets `PACKAGIST_TOKEN` and `PACKAGIST_USERNAME`).
+
+---
+
+## Output Template
+
+### Publication Readiness Audit Summary
+ALWAYS use this format when auditing package readiness for Packagist:
+
+```markdown
+### Packagist Publication Audit: [package-name]
+- **Composer Strict Validation**: `PASS` | `FAIL`
+- **SPDX License**: [License, e.g. MIT]
+- **PSR-4 Autoloading**: [Namespace mapping]
+- **Laravel Auto-Discovery**: `Configured` | `N/A`
+- **Dual Git Sync State**: [Standalone / Subtree details]
+- **CI Workflow Status**: `.github/workflows/packagist.yml` [Scaffolded / Pending]
+```

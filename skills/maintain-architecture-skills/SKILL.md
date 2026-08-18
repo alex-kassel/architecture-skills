@@ -1,6 +1,6 @@
 ---
 name: maintain-architecture-skills
-description: Execute the 6-step skill maintenance protocol for capturing feedback evidence, conducting community triage, executing zero-write preflights, running validation self-healing loops, and updating skill definitions. Use when asked to start skill maintenance, process feedback, or add, edit, move, or delete repository skills regardless of phrasing or language.
+description: Execute the 6-step skill maintenance protocol for capturing feedback evidence, conducting community triage, executing zero-write preflights, running validation self-healing loops, and updating skill definitions. Make sure to trigger this skill whenever the user asks to start skill maintenance, process feedback, capture evidence, conduct skill triage, run skill validation loops, or whenever any request or proposal is made to add, edit, modify, refactor, rename, move, or delete any skill or SKILL.md file in the repository, regardless of phrasing or language.
 ---
 
 # Maintain Architecture Skills
@@ -12,26 +12,43 @@ Execute structured, evidence-backed skill maintenance across architecture skill 
 When triggered by `Start skill maintenance`, `Process feedback`, or any user proposal to add, edit, move, or delete skills (regardless of phrasing or language), follow the 6-step protocol:
 
 1. **Evidence Capture**:
-   - Preserve incoming `observed` feedback records (`feedback/20??-*.md`) as evidence.
-   - All owner additions, suggestions, workflow refinements, or proposals to add, edit, move, or delete skills (regardless of phrasing or language) MUST first be recorded as `observed` feedback files under `feedback/20??-*.md` before editing files under `skills/**`.
+   - Record all incoming feedback, user proposals, or skill modification requests in an `observed` feedback record (`feedback/20??-*.md`) before editing any file under `skills/**`.
+   - Never edit files under `skills/**` prior to evidence capture and triage approval.
 
 2. **Community Triage**:
    - Evaluate proposals against software architecture patterns and community best practices.
-   - Propose `accepted`, `rejected`, or `superseded` with trade-off analysis.
-   - Wait for explicit owner approval (`+`).
+   - Formulate a triage proposal with status (`accepted`, `rejected`, or `superseded`), technical rationale, and trade-off analysis.
+   - Present the triage proposal and wait for explicit owner approval (`+`).
 
 3. **Zero-Write Preflight & Smallest Change**:
-   - Make the smallest reusable skill change under `skills/**` only after explicit owner approval.
-   - Never edit `skills/**` prior to triage approval.
+   - Apply the smallest reusable skill change under `skills/**` only after receiving explicit owner approval.
+   - Maintain strict boundary isolation; do not modify consuming projects while maintaining skills.
 
 4. **Validation & Self-Healing Loop**:
-   - Run skill validation (`skill-creator` validation / test scripts) and verify forward-test coverage (`evals/forward-tests.md`).
-   - If validation fails, perform up to 3 bounded self-repair attempts before reverting diff and escalating.
+   - Run skill validation checks and verify forward-test coverage (`evals/forward-tests.md`).
+   - If validation fails, perform up to 3 bounded self-repair attempts before reverting diffs and escalating.
 
 5. **Deterministic Guardrails**:
    - Execute path validator (`python scripts/validate_relative_paths.py`) and language validator (`python scripts/validate_english_only.py`) prior to commit.
 
 6. **Resolution & Pre-Push Evaluation**:
-   - Mark accepted feedback records `implemented` and `verified`.
+   - Update accepted feedback records to `implemented` and `verified`.
    - Create one focused local commit when authorized.
-   - Run pre-push evaluation prior to executing `git push`.
+   - Run pre-push evaluation per `skills/git-release-preflight/SKILL.md` prior to executing `git push`.
+
+---
+
+## Output Templates
+
+### Triage Proposal Template
+ALWAYS use this structure when presenting triage proposals:
+
+```markdown
+### Skill Triage Proposal: [Proposal Title]
+- **Target Skill**: `skills/[skill-name]/SKILL.md`
+- **Feedback Evidence**: `feedback/20??-[name].md`
+- **Proposed Status**: `accepted` | `rejected` | `superseded`
+- **Rationale & Architectural Trade-offs**: [Explanation]
+- **Proposed Changes**: [Summary of edits]
+- **Awaiting Approval**: Reply with `+` to approve execution.
+```

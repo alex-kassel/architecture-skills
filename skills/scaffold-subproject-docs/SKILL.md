@@ -1,12 +1,11 @@
 ---
 name: scaffold-subproject-docs
-description: >-
-  Scaffold the standard 5-file architecture documentation suite (README.md, session-handoff-protocol.md, project-documentation-roadmap.md, architecture-planning-roadmap.md, worklog.md) for new or existing platform subprojects. Use when requested to bootstrap or initialize a subproject's documentation suite.
+description: Scaffold the standard 5-file architecture documentation suite (README.md, session-handoff-protocol.md, project-documentation-roadmap.md, architecture-planning-roadmap.md, worklog.md) for new or existing platform subprojects. Make sure to trigger this skill whenever the user asks to bootstrap, initialize, scaffold, generate, or set up documentation for a new or existing subproject, module, or repository, or requests the standard 5-file architecture documentation suite (README.md, session-handoff-protocol.md, project-documentation-roadmap.md, architecture-planning-roadmap.md, worklog.md), even if only subproject docs setup is mentioned.
 ---
 
 # Scaffold Subproject Documentation Suite
 
-This skill guides the scaffolding and initialization of the standard 5-file architecture documentation suite for new or existing platform subprojects.
+Scaffold and initialize the standard 5-file architecture documentation suite for new or existing platform subprojects.
 
 ## 1. Documentation Suite Overview
 
@@ -42,3 +41,23 @@ When bootstrapping or initializing documentation for a subproject, follow this p
 4. **Validation**:
    - Verify all cross-file references use relative paths.
    - Verify no hardcoded local machine paths exist in any created document.
+
+---
+
+## Output Template
+
+### Scaffolding Completion Report
+ALWAYS use this template when reporting subproject documentation scaffolding:
+
+```markdown
+### Documentation Suite Scaffolding Summary: [Subproject Name]
+- **Target Path**: `[path/to/docs]`
+- **Scaffolded Files**:
+  - `README.md`
+  - `session-handoff-protocol.md`
+  - `project-documentation-roadmap.md`
+  - `architecture-planning-roadmap.md`
+  - `worklog.md`
+- **Token Replacement**: `{{SUBPROJECT_NAME}}`, `{{DATE}}`, `{{OWNER}}` populated.
+- **Guardrails Verified**: Zero absolute paths, 100% English.
+```

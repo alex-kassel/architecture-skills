@@ -1,6 +1,6 @@
 ---
 name: git-release-preflight
-description: Perform pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution across software and documentation repositories. Use when asked to evaluate git push readiness, validate release guardrails, run pre-push checks, or execute git push / sync operations safely.
+description: Perform pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution across software and documentation repositories. Trigger this skill whenever the user mentions pushing code, running pre-push checks, syncing releases, evaluating git push readiness, verifying repository guardrails, or executing git push or release sync operations safely. Trigger on explicit trigger phrases such as 'push', 'git push', 'Sync skills', 'run release checks', or 'prepare release'.
 ---
 
 # Git Release Preflight & Push Execution
@@ -34,3 +34,35 @@ When triggered by `push`, `git push`, `Sync skills`, or explicit release command
    - If zero counter-arguments or readiness risks exist:
      - Execute `git push` (or repository release sync).
      - Report the exact completion status, target branch, and commit hash to the owner.
+
+## Pre-Push Evaluation Output Template & Example
+
+### Pre-Push Readiness Report Template
+```markdown
+# Git Release Preflight Readiness Report
+
+## Check Results
+- **Git Worktree Status**: [Clean / Dirty (List uncommitted paths)]
+- **Feedback Backlog**: [0 Unverified Items / X Pending Items]
+- **Relative Path Guardrail**: [PASS / FAIL]
+- **Language Compliance**: [PASS / FAIL]
+- **Automated Test Suite**: [PASS / FAIL]
+
+## Risk & Counter-Argument Summary
+- [None identified / Risk description and evidence]
+
+## Preflight Verdict & Action
+- **Verdict**: [CLEAN_TO_PUSH / PUSH_BLOCKED]
+- **Execution Output**: [Git push summary with branch and commit SHA, or pause report]
+```
+
+### Usage Example
+```markdown
+**Input:** `git push`
+**Action:** Executes preflight evaluation checks.
+**Output:**
+- Worktree: Clean (`main` up to date)
+- Feedback: All items verified
+- Validators: Relative paths (PASS), English-only (PASS)
+- Action: Executing `git push origin main` -> Pushed commit `a1b2c3d` successfully.
+```

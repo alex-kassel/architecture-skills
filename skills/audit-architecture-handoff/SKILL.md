@@ -1,6 +1,6 @@
 ---
 name: audit-architecture-handoff
-description: Perform independent, strictly read-only audits of software architecture and specification repositories for fresh-session handoff, architecture consistency, contradictions, document drift, recovery and onboarding quality, implementation readiness, and whether work can continue without prior conversation. Use when asked to audit documentation-as-code architecture state or handoff safety without changing project state. Do not use for ordinary code review, design interviews, decision capture, documentation updates, worklog changes, Git commits, or implementing fixes.
+description: Perform independent, strictly read-only audits of software architecture and specification repositories for fresh-session handoff, architecture consistency, contradictions, document drift, recovery and onboarding quality, implementation readiness, and whether work can continue without prior conversation. Trigger this skill whenever the user mentions auditing architecture, checking handoff readiness, inspecting repository consistency, assessing onboarding quality, evaluating document drift, verifying implementation gates, or checking if work can continue in a fresh session without prior context. Also trigger on explicit phrases such as 'Run audit', 'Start audit', 'audit handoff', 'audit architecture', 'assess readiness', or 'check handoff safety'. Do not use for ordinary code review, design interviews, decision capture, documentation updates, worklog changes, Git commits, or implementing fixes.
 ---
 
 # Audit Architecture Handoff
@@ -45,6 +45,41 @@ For every finding, include:
 - whether it belongs in the current project, a reusable workflow, or both.
 
 Separate observed facts from inference. State confidence and list unresolved access or evidence limits.
+
+## Audit Report Output Template
+
+ALWAYS use this standard report layout when delivering an audit report:
+
+```markdown
+# Architecture Handoff Audit Report
+
+## Audit Summary & Verdicts
+- **Audit Mode**: AUDIT_ONLY (Read-Only)
+- **Handoff Verdict**: [HANDOFF READY | HANDOFF READY WITH FIXES | HANDOFF NOT READY]
+- **Implementation Verdict**: [IMPLEMENTATION READY | IMPLEMENTATION READY WITH CONDITIONS | IMPLEMENTATION NOT READY]
+- **Confidence Level**: [High | Medium | Low] (Evidence limits noted if any)
+
+## Reconstructed Project State
+- **Current Phase**: [Phase Name / Number]
+- **Last Confirmed Boundary**: [ADR-XXXX / Milestone]
+- **Exact Next Action**: [Next Action Description]
+
+## Prioritized Findings
+- **[P0/P1/P2/IDEA] [Finding Type]** Short Title
+  - **Evidence**: `path/to/file.md` (lines X-Y) vs `path/to/other.md` (lines A-B)
+  - **Observed**: Factual statement of contradiction/drift
+  - **Risk**: Impact on handoff, consistency, or implementation
+  - **Minimal Remediation**: Recommended fix (not applied)
+
+## Readiness Gaps & Deferrals
+- [Gap/Deferral description]
+
+## Remediation Sequence & Handoff Determination
+1. [Step 1]
+2. [Step 2]
+- **Can New Session / Implementation Start?**: [Yes / No - state conditions]
+- **Read-Only Verification**: Confirmed zero file, Git, or worklog modifications performed.
+```
 
 ## Preserve maintenance isolation
 

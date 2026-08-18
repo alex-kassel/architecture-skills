@@ -1,6 +1,6 @@
 ---
 name: guide-architecture-design
-description: Guide owner-led, mutating documentation-as-code workflows for existing Git-backed software architecture and specification projects. Use when asked to start or resume a working session, continue a scenario-based design interview, record an owner-confirmed decision, propagate or repair documentation for an already confirmed architecture decision, recover an interrupted session or dirty worktree, checkpoint or close a session, create project-configured focused commits, or apply a current independent implementation-readiness gate. Do not use for independent audits, ordinary documentation maintenance, code implementation or review, non-Git project bootstrap, installed-skill maintenance, or broader Git operations.
+description: Guide owner-led, mutating documentation-as-code workflows for existing Git-backed software architecture and specification projects. Trigger this skill whenever the user asks to start or resume an architecture working session, continue a scenario-based design interview, record an owner-confirmed decision, propagate/sync architecture changes, recover an interrupted session or dirty worktree, checkpoint or close a design session, create project-configured focused commits, or check an implementation-readiness gate. Trigger on phrases like 'continue session', 'start session', 'record decision', 'sync documentation', 'checkpoint session', 'close session', 'resume design', or '+'. Do not use for independent audits, ordinary documentation maintenance, code implementation or review, non-Git project bootstrap, installed-skill maintenance, or broader Git operations.
 ---
 
 # Guide Architecture Design
@@ -28,6 +28,36 @@ Guide the existing project through owner-led architecture decisions while keepin
 6. Before every mutating operation, apply the complete zero-write eligibility and recovery rules in [gates-recovery-and-git.md](references/gates-recovery-and-git.md).
 7. For interviews, confirmation, direct synchronization, and affected-document ordering, follow [decision-capture-and-sync.md](references/decision-capture-and-sync.md).
 8. Report the exact post-state and stop in `COMPLETE` after a one-shot request. Continue to another design question only when the user explicitly asked to continue.
+
+## Output Templates & Decision Capture Format
+
+### MADR Decision Record Template
+When capturing decisions, write to `docs/decisions/ADR-XXXX-<title>.md` using this exact frontmatter structure:
+
+```markdown
+---
+id: ADR-0001
+title: "Short Decision Title"
+status: "accepted" # draft | proposed | accepted | rejected | superseded
+date: YYYY-MM-DD
+deciders: ["Owner Name"]
+supersedes: "ADR-0000"
+---
+
+# Title
+
+## Context and Problem Statement
+[Description]
+
+## Decision Outcome
+Chosen option: "[Option]", because [Rationale].
+```
+
+### Turn Response Summary Format
+Adapt the opening line depending on context:
+- Breakthrough proposal: `[Strong Decision] Explanation of why...`
+- Risk / Pushback: `[Architectural Risk / Pushback] Counter-arguments and tradeoffs...`
+- Operational / Routine: Omit special prefixes; start directly with concise answer.
 
 ## Preserve mandatory gates
 

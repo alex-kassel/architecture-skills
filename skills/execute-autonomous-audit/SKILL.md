@@ -1,6 +1,6 @@
 ---
 name: execute-autonomous-audit
-description: Execute autonomous 4-phase, 2-pass iterative multi-perspective audits of codebases, software architecture, or documentation sets using concurrent subagents and structured audit logs. Use when asked to run or start an autonomous multi-perspective audit, conduct a 2-pass iterative audit cycle, or generate structured audit reports with mandatory innovation proposals.
+description: Execute autonomous 4-phase, 2-pass iterative multi-perspective audits of codebases, software architecture, or documentation sets using concurrent subagents and structured audit logs. Trigger this skill whenever the user asks to run an autonomous audit, start a multi-agent or multi-perspective audit, conduct a 2-pass iterative audit cycle, audit codebase quality using concurrent auditors, or generate structured audit reports with mandatory innovation proposals. Trigger on phrases like 'Run audit', 'Start audit', 'autonomous audit', 'multi-perspective audit', '2-pass audit', or 'run subagent audit'.
 ---
 
 # Autonomous Multi-Agent Audit Runner
@@ -41,3 +41,31 @@ When triggered by `Run audit`, `Start audit`, or explicit audit commands, execut
    - Upon owner approval (`+`), apply accepted fixes.
    - Execute deterministic test validators.
    - Complete **Block 3: Work Done & Resolution Report** in all audit documents and initiate Pass 2 verification re-audit.
+
+## Audit File & Triage Format Templates
+
+### 1. Audit Document Header Template (`audits/YYYY-MM-DD-HHMM-<perspective>.md`)
+```markdown
+# Audit Log: [Perspective Name]
+- **Date**: YYYY-MM-DD
+- **Target Commit**: `[commit-sha]`
+- **Pass**: [Pass 1 / Pass 2]
+
+## Block 1: Auditor Prompt
+[Detailed auditor prompt instructions including mandatory 3 innovation proposals]
+
+## Block 2: Audit Report
+[Populated by subagent auditor with findings and evidence]
+
+## Block 3: Work Done & Resolution Report
+[Populated after Pass 1 fixes and Pass 2 verification]
+```
+
+### 2. Consolidated Triage Matrix Example
+```markdown
+| ID | Perspective | Finding | Recommendation | Status |
+|----|-------------|---------|----------------|--------|
+| F-01 | Logic & Safety | Missing boundary check on recovery | Accepted (Fix in Pass 1) | Pending |
+| F-02 | DX Alignment | Stale reference link in README | Accepted (Fix in Pass 1) | Pending |
+| F-03 | Adversarial | Dirty worktree collision risk | Superseded by ADR-0002 | Superseded |
+```
