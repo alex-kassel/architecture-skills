@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design
 - Skill commit: `head`
-- Source repository: `c:\Users\Alex\Herd\packages.dev2`
+- Source repository: `<project-root>`
 - Source program: `shared`
 - Project session: `a7fa4f31-372b-4ef3-9958-38ce7bc4f94b`
 - Observed at: `2026-08-17`

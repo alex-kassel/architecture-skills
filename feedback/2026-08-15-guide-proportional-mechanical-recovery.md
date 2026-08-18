@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design
 - Skill commit: `411c567`
-- Source repository: `C:\Users\Alex\Herd\packages.dev2`
+- Source repository: `<project-root>`
 - Source program: `normalization-core`
 - Project session: `unknown`
 - Observed at: `2026-08-15`
@@ -12,7 +12,7 @@
 
 The owner had already authorized a fixed coordination-room structure, two exact file copies, local Git initialization, and a local commit without push. One copy failed only because an expected destination directory did not yet exist. In a second trace, an exact staging or commit operation failed before changing the index because the sandbox denied creation of `.git/index.lock`.
 
-The original report was supplied in `C:\Users\Alex\.codex\attachments\9e0e688d-2cae-4a2c-a9d8-3bca39e0a35e\pasted-text.txt`.
+The original report was supplied in internal attachment log.
 
 ## Skill instruction involved
 

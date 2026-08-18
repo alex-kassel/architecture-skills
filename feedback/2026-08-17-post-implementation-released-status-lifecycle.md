@@ -3,8 +3,8 @@
 - Status: superseded
 - Skill: guide-architecture-design | audit-architecture-handoff
 - Skill commit: `head`
-- Source repository: `c:\Users\Alex\Herd\packages.dev2`
-- Source program: `alex-kassel/stable-fingerprint`
+- Source repository: `<project-root>`
+- Source program: `package-one/stable-fingerprint`
 - Project session: `S-002`
 - Observed at: `2026-08-17`
 

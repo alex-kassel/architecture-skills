@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design | audit-architecture-handoff
 - Skill commit: `head`
-- Source repository: `c:\Users\Alex\Herd\packages.dev2`
+- Source repository: `<project-root>`
 - Source program: `shared`
 - Project session: `none`
 - Observed at: `2026-08-18`

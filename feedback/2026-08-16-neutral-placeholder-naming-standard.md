@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design | audit-architecture-handoff
 - Skill commit: `b0e1f55`
-- Source repository: `c:/Users/Alex/Herd/packages.dev2`
+- Source repository: `<project-root>`
 - Source program: `docs/scraper-core`
 - Project session: `S-007`
 - Observed at: `2026-08-16`

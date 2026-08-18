@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design | audit-architecture-handoff
 - Skill commit: `head`
-- Source repository: `c:\Users\Alex\codex-architecture-skills`
+- Source repository: `<repo-root>`
 - Source program: `AGENTS.md` & `shared`
 - Project session: `none`
 - Observed at: `2026-08-18`

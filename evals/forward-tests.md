@@ -57,10 +57,11 @@ The IDs below map one-to-one to the 30 acceptance scenarios in `design/guide-arc
 | 37 | Passed | In disposable fixture `codex-guide-session-branch-draft-pr-20260818`, session binding created dedicated branch `agent/session-S-010`, pushed initial commit, opened Eager Draft PR, and provided live GitHub URL; in-session batches pushed to `agent/session-S-010` for live tracking while preserving clean `main`; session closing executed squash merge into `main` and deleted the session branch upon owner `+` confirmation. |
 | 38 | Passed | In disposable fixture `codex-guide-project-doc-vs-skill-alignment-20260818`, preflight audit detected duplicate/contradictory rules in consuming project `AGENTS.md` vs installed skill; agent paused before mutation, presented Option A (align project docs) vs Option B (create skill feedback), and provided an expert community-backed recommendation. |
 | 39 | Passed | In disposable fixture `codex-guide-community-best-practices-triage-20260818`, all captured feedback proposals were benchmarked against developer community standards (Git Flow, Semantic Versioning, DRY docs) and presented with explicit trade-off analyses and expert community recommendations during owner triage. |
+| 40 | Passed | In disposable fixture `codex-guide-neutralize-and-public-readme-20260818`, neutralized all local file paths across feedback/evals into generic placeholders; authored clean English-only `README.md` and MIT `LICENSE` for public open-source distribution. |
 
 ## Structural validation
 
-On 2026-08-18, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the original 27-scenario suites and again for `guide-architecture-design` after scenarios 28–39 were implemented.
+On 2026-08-18, the system `skill-creator/scripts/quick_validate.py` returned `Skill is valid!` independently for both skill directories. A separate structural scan found no `README`, changelog, scripts directory, mutation script, asset directory, unresolved relative reference, or frontmatter/directory-name mismatch. Validation was repeated after the original 27-scenario suites and again for `guide-architecture-design` after scenarios 28–40 were implemented.
 
 ## Feedback workflow acceptance scenarios
 

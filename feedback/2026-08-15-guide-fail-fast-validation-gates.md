@@ -3,7 +3,7 @@
 - Status: verified
 - Skill: guide-architecture-design
 - Skill commit: `411c567`
-- Source repository: `C:\Users\Alex\Herd\packages.dev2`
+- Source repository: `<project-root>`
 - Source program: `normalization-core`
 - Project session: `unknown`
 - Observed at: `2026-08-15`
@@ -14,7 +14,7 @@ A command sequence ran blocking validation and later Git operations separated by
 
 The same report noted that Markdown whitespace findings can represent accidental trailing whitespace, intentional hard line breaks, immutable correspondence copied verbatim, or pre-existing historical content.
 
-The original report was supplied in `C:\Users\Alex\.codex\attachments\9e0e688d-2cae-4a2c-a9d8-3bca39e0a35e\pasted-text.txt`.
+The original report was supplied in internal attachment log.
 
 ## Skill instruction involved
 
