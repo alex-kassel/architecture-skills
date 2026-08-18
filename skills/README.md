@@ -11,6 +11,7 @@
 
 | Skill | Category | Description | Spec |
 | --- | --- | --- | --- |
+| **`session-lifecycle`** | Lifecycle & Locking | Manage exclusive subproject working sessions, root corridor detection, single-agent ownership locking, RFC 3339 duration tracking, and handoff session closure. | [`SKILL.md`](session-lifecycle/SKILL.md) |
 | **`guide-architecture-design`** | Design & Workflow | Guide owner-led architecture design workflows, scenario-based interviews, decision capture, and atomic documentation synchronization. | [`SKILL.md`](guide-architecture-design/SKILL.md) |
 | **`audit-architecture-handoff`** | Audit & Verification | Perform strictly read-only audits for fresh-session handoff safety, architectural consistency, document drift, and implementation readiness gates. | [`SKILL.md`](audit-architecture-handoff/SKILL.md) |
 | **`git-release-preflight`** | Git & Release | Pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution. | [`SKILL.md`](git-release-preflight/SKILL.md) |

@@ -1,5 +1,7 @@
 # {{SUBPROJECT_NAME}}
 
+> Architecture Suite: Bound to plugin:architecture-suite
+
 ## Overview
 
 Brief summary of {{SUBPROJECT_NAME}}, its core responsibilities, business value, and architectural scope within the platform.

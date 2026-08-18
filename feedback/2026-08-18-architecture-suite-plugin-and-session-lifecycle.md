@@ -1,6 +1,6 @@
 # Architecture suite plugin bundle and agent-agnostic session lifecycle skill proposal
 
-- Status: observed
+- Status: verified
 - Skill: maintain-architecture-skills | guide-architecture-design | scaffold-subproject-docs
 - Skill commit: `head`
 - Source repository: `codex-architecture-skills`
@@ -25,7 +25,7 @@ Currently, session rules are duplicated across subprojects (e.g. inside `package
 
 ## Session disposition
 
-Owner requested formal feedback triage proposal for review before execution.
+Owner explicitly confirmed triage proposal (`+`).
 
 ## Proposed improvement
 
@@ -36,9 +36,9 @@ Owner requested formal feedback triage proposal for review before execution.
 
 ## Triage and resolution
 
-- Status: `accepted` (Awaiting explicit owner approval `+`)
-- Rationale: Fully resolves subproject duplication, enforces single-agent lock safety, and provides 1-click plugin distribution on GitHub.
+- Status: `implemented` & `verified`
+- Rationale: Accepted by owner (`+`) and implemented on 2026-08-18.
 
 ## Verification
 
-Pending owner approval (`+`) and execution.
+Verified on 2026-08-18 via `python scripts/validate_relative_paths.py` and `python scripts/validate_english_only.py`, returning exit code 0.
