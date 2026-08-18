@@ -30,9 +30,9 @@ A plugin manifest (`plugin.json`) specifies the list of skill dependencies requi
   "version": "1.0.0",
   "description": "Exclusive subproject session lifecycle, 5-file scaffolding, and architecture design guide",
   "skills": [
-    "session-lifecycle",
-    "scaffold-subproject-docs",
-    "guide-architecture-design"
+    "../../skills/session-lifecycle",
+    "../../skills/scaffold-subproject-docs",
+    "../../skills/guide-architecture-design"
   ]
 }
 ```
