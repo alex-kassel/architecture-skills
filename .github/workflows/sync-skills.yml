@@ -1,0 +1,24 @@
+name: Sync Skills Directory to Public Skills Repository
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/**'
+
+jobs:
+  sync:
+    name: Sync Skills Subtree
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push Skills Subtree to Distribution Repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git subtree push --prefix skills https://x-access-token:${{ secrets.SKILLS_SYNC_TOKEN || secrets.GITHUB_TOKEN }}@github.com/alex-kassel/skills.git main
