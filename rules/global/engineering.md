@@ -1,3 +1,8 @@
+---
+description: Universal Engineering Standards & Principles
+always_on: true
+---
+
 # Universal Engineering Standards & Principles
 
 - **Scope**: Applied globally across all architecture planning, specification drafting, and code implementation.

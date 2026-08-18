@@ -1,3 +1,8 @@
+---
+description: Laravel Architecture & Package Standards
+always_on: true
+---
+
 # Laravel Architecture & Package Standards
 
 - **Scope**: Applied to Laravel platform components, packages, and application subprojects.

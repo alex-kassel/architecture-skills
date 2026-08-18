@@ -1,3 +1,8 @@
+---
+description: Quality & Repository Hygiene Standards
+always_on: true
+---
+
 # Quality & Repository Hygiene Standards
 
 - **Scope**: Applied globally across all repository files, specifications, scripts, and documentation.

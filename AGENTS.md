@@ -10,7 +10,6 @@ This repository develops and validates reusable architecture skills. Skill sourc
 | :--- | :--- | :--- |
 | `Start skill maintenance`, `Process feedback`, or any proposal to add, edit, move, or delete rules, skills, or plugins | `TRIAGE_FEEDBACK` | Record `observed` feedback in `feedback/20??-*.md`, present triage proposal for owner approval; execute `skills/maintain-architecture-skills/SKILL.md`. |
 | `Run audit`, `Start audit` | `EXECUTE_AUDIT` | Execute autonomous 4-phase, 2-pass iterative audit protocol per `audits/README.md` and `skills/execute-autonomous-audit/SKILL.md`. |
-| `Install adapter <name>`, `Sync adapters` | `INSTALL_ADAPTER` | Execute non-destructive adapter script under `scripts/adapters/<name>.py` or `scripts/adapters/sync_all.py`. |
 | `+` | `CONFIRM_ACTION` | Confirm pending triage proposal or prompt response. Does NOT authorize git push. |
 | `push`, `git push`, `Sync skills` | `PUSH_RELEASE` | Run pre-push readiness evaluation per `skills/git-release-preflight/SKILL.md`. Push directly if clean; report risks if found. |
 

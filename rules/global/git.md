@@ -1,3 +1,8 @@
+---
+description: Git Version Control & Commit Standards
+always_on: true
+---
+
 # Git Version Control & Commit Standards
 
 - **Scope**: Applied globally across all repository version control operations and release workflows.

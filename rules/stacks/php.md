@@ -1,3 +1,8 @@
+---
+description: PHP & Composer Stack Standards
+always_on: true
+---
+
 # PHP & Composer Stack Standards
 
 - **Scope**: Applied to PHP packages, libraries, and Composer-based subprojects.
