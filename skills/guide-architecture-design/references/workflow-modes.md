@@ -10,6 +10,7 @@ Read prescribed context, inspect Git, reconstruct the boundary, and record only 
 
 - Route independent audit to `audit-architecture-handoff` and stop this guide.
 - Route final gate verification directly to `READINESS_GATE` without recovery or session binding; dirty or stale state becomes a blocked gate result.
+- Perform a preflight documentation alignment check: audit consuming project documentation (`AGENTS.md`, roadmaps, `docs/`) against installed skills. If duplication or contradiction exists, pause before mutation, present the conflict to the owner with options (Option A: align project docs to skill; Option B: create skill feedback record if project rule is superior/intentional), and provide an expert community-backed recommendation on which option is preferable.
 - Ask the owner when intent or mutation authority is ambiguous.
 - For a mutating guide request, enter `RECOVERY` when predecessor, dirty state, batch, next action, or authority is unresolved; otherwise enter `SESSION_BINDING`.
 

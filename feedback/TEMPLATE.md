@@ -28,6 +28,10 @@ Record the owner's decision for the working session, or `Not required` for a non
 
 Describe the smallest plausible reusable correction without treating it as approved.
 
+## Developer Community Best Practice Evaluation
+
+Evaluate the proposed improvement against developer community standards, industry patterns, trade-offs, and expert recommendations.
+
 ## Triage and resolution
 
 Pending owner review.

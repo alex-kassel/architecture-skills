@@ -31,7 +31,7 @@ Use the project's coherent declared model. Typical ownership is:
 | Time and session history | Configured worklog or time artifact |
 | Change provenance | Git history |
 
-Conversation memory is not durable authority. Resolve conflicting owners before working.
+Conversation memory is not durable authority. Resolve conflicting owners before working. When project documentation duplicates or conflicts with reusable skill behavior, present Option A (align project docs to skill) vs Option B (create feedback record for skill if project rule is superior/intentional), accompanied by an expert community practice recommendation.
 
 ## Configure optional subsystems
 

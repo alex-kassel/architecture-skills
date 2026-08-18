@@ -11,7 +11,7 @@ Treat `Start skill maintenance`, `Обработай фидбек`, `+`, or equi
 All owner additions, suggestions, and workflow refinements must first be recorded as `observed` feedback files under `feedback/20??-*.md` and presented for explicit owner triage approval before executing skill changes.
 
 1. Inspect Git state and read every dated record matching `feedback/20??-*.md`.
-2. Triage unresolved records before editing skills. Propose `accepted`, `rejected`, or `superseded`; do not decide for the owner.
+2. Triage unresolved records before editing skills. Evaluate every feedback proposal against developer community best practices and established software architecture design patterns. Explicitly highlight any non-standard behavior, industry trade-offs, or deviations when presenting proposals for owner triage approval, providing an expert community-backed recommendation. Propose `accepted`, `rejected`, or `superseded`; do not decide for the owner.
 3. After owner approval, make the smallest reusable change. Do not encode a single project's policy as a universal rule.
 4. Run `skill-creator` validation for every changed skill and add or update realistic forward-test coverage.
 5. Mark accepted records `implemented` only after the change exists and `verified` only after validation evidence exists. Record reasons for rejection or supersession.
