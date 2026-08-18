@@ -19,10 +19,17 @@ When triggered by `Run audit`, `Start audit`, or explicit audit commands, execut
 
 ---
 
+### 🛑 Audit Trigger & Granularity Rules
+
+- **Exclusive Owner Trigger**: Full repository autonomous audits execute ONLY upon direct, explicit owner commands (`Run audit`, `Start audit`). No implicit, automated, or background triggers may launch a full repository audit.
+- **Per-Skill Audit File Granularity (1:3 Rule)**: Aggregating multiple skills into shared perspective audit files is strictly prohibited. Every target skill audited MUST have 3 dedicated audit log files created under `audits/` (one file per perspective). For N target skills, a full audit MUST generate exactly N × 3 audit files (e.g. 10 skills = 30 audit log files named `audits/YYYY-MM-DD-HHMM-<skill-name>-<perspective>.md`).
+
+---
+
 ### Protocol Execution Phases
 
 1. **Phase 1: Audit Document Initialization**
-   - Initialize 3 audit files in the project's audit registry (e.g. `audits/YYYY-MM-DD-HHMM-<perspective>.md`).
+   - For each target skill, initialize 3 dedicated audit files in the project's audit registry (e.g. `audits/YYYY-MM-DD-HHMM-<skill-name>-<perspective>.md`).
    - Populate Header Metadata, target commit SHA, and **Block 1: Auditor Prompt**.
    - **Mandatory Block 1 Rule**: Mandate that every auditor propose **at least 3 innovative ideas, trends, or pattern enhancements** on their respective topic.
 

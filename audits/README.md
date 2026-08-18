@@ -20,6 +20,15 @@ Example audit filenames:
 - `2026-08-18-0905-architecture-dx-audit.md`
 - `2026-08-18-1000-adversarial-chaos-audit.md`
 
+### Per-Skill Audit Log Granularity (1:3 Rule)
+
+- **1 Skill = 3 Dedicated Audit Files**: Every target skill being audited MUST have 3 dedicated audit log files created directly under `audits/` (one file per perspective). Aggregating multiple skills into a single audit file per perspective is an antipattern and strictly prohibited.
+- **Audit File Count**: For N target skills, a full audit MUST generate exactly N × 3 audit log files (e.g. 10 skills = 30 audit log files named `audits/YYYY-MM-DD-HHMM-<skill-name>-<perspective>.md`).
+
+### Exclusive Owner Trigger Policy
+
+- Full repository autonomous audits execute ONLY upon direct, explicit owner commands (`Run audit`, `Start audit`). No implicit, automated, or background triggers may launch a full repository audit.
+
 ### Mandatory Relative Path Rule
 
 All file and directory references in audit reports and prompt blocks MUST use relative paths (e.g. `skills/guide-architecture-design/SKILL.md#L15` or `audits/2026-08-18-0900-formal-verification-audit.md`). Local absolute file paths (`C:\...`, `file:///C:/...`, `/Users/...`, `/home/...`) are strictly prohibited. Only HTTP/HTTPS URLs are permitted for external links.
