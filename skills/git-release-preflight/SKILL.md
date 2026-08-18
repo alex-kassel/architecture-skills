@@ -31,10 +31,11 @@ When triggered by `push`, `git push`, `Sync skills`, or explicit release command
      - Present a concise, evidence-backed list of concerns to the owner.
      - Pause execution and await owner resolution or explicit override confirmation.
 
-5. **Clean Execution**:
+5. **Clean Execution & Clickable Link Reporting**:
    - If zero counter-arguments or readiness risks exist:
+     - Query remote origin URL (`git remote get-url origin`). Convert SSH/git URLs (`git@github.com:user/repo.git`) into clean HTTP/HTTPS links (`https://github.com/user/repo`).
      - Execute `git push` (or repository release sync). Destructive flags (`--force`, `-f`, `--delete`) are strictly prohibited.
-     - Report the exact completion status, target branch, and commit hash to the owner.
+     - Present a clean report embedding direct, clickable HTTP/HTTPS Markdown links to both the remote repository and the pushed commit SHA (e.g. `[alex-kassel/architecture-skills](https://github.com/alex-kassel/architecture-skills)` and `[commit-sha](https://github.com/alex-kassel/architecture-skills/commit/<sha>)`).
 
 ## Pre-Push Evaluation Output Template & Example
 
@@ -54,7 +55,9 @@ When triggered by `push`, `git push`, `Sync skills`, or explicit release command
 
 ## Preflight Verdict & Action
 - **Verdict**: [CLEAN_TO_PUSH / PUSH_BLOCKED]
-- **Execution Output**: [Git push summary with branch and commit SHA, or pause report]
+- **Remote Repository**: [repo-name](https://github.com/org/repo)
+- **Pushed Commit**: [`commit-sha`](https://github.com/org/repo/commit/sha)
+- **Execution Output**: [Git push summary with branch and status]
 ```
 
 ### Usage Example
