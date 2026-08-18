@@ -23,3 +23,4 @@ This repository develops and validates reusable architecture skills. Skill sourc
 - All repository helper scripts MUST be dual-platform (either cross-platform Python `.py`, or paired `.ps1` for Windows PowerShell and `.sh` for macOS/Linux Bash).
 - Never write local absolute file paths (e.g. `C:\...`, `file:///C:/...`, `/Users/...`, `/home/...`) in any repository file, audit document, or feedback record. Use relative paths for all repository files (e.g. `skills/guide-architecture-design/SKILL.md`) and HTTP/HTTPS URLs for external links.
 - All repository files must be written exclusively in English. No non-English content is permitted in any tracked file.
+- Never invent artificial marketing jargon or fake pattern names. Communicate using plain, direct technical terms without decorative embellishment.
