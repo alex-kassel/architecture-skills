@@ -75,13 +75,28 @@ cp -r architecture-skills/skills/guide-architecture-design ~/.gemini/skills/
 cp -r architecture-skills/skills/audit-architecture-handoff ~/.gemini/skills/
 ```
 
-### Running Structural Validation
+### Running Structural & Path Validation
 
-Validate skill frontmatter, reference links, and internal directory constraints:
+Validate relative paths and repository integrity across macOS, Linux, and Windows:
 
 ```bash
-python quick_validate.py skills/guide-architecture-design
-python quick_validate.py skills/audit-architecture-handoff
+# Cross-platform Python 3 path validation (macOS, Linux, Windows)
+python3 scripts/validate_relative_paths.py
+
+# Windows PowerShell path validation
+powershell -ExecutionPolicy Bypass -File scripts/validate-relative-paths.ps1
+```
+
+### Downstream Release Sync
+
+Sync the `skills/` directory to the public distribution repository:
+
+```bash
+# macOS / Linux Bash sync
+./scripts/sync-skills.sh
+
+# Windows PowerShell sync
+powershell -ExecutionPolicy Bypass -File scripts/sync-skills.ps1
 ```
 
 ---
