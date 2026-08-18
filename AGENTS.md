@@ -6,7 +6,9 @@ This repository develops and validates reusable architecture skills. Skill sourc
 
 ## Skill maintenance
 
-Treat `Start skill maintenance`, `Обработай фидбек`, `+`, or equivalent short requests as triggers for this workflow. A single `+` also represents explicit owner confirmation/consent when responding to questions, proposals, or triage requests.
+Treat `Start skill maintenance`, `Обработай фидбек`, `Проведи аудит`, `Start audit`, `+`, or equivalent short requests as triggers for this workflow. A single `+` also represents explicit owner confirmation/consent when responding to questions, proposals, or triage requests.
+
+When triggered by `Проведи аудит` or `Start audit`, follow the autonomous 4-phase, 2-pass iterative protocol documented in `audits/README.md` (initialize 3 audit files with prompts in Block 1, launch 3 concurrent subagents to write Block 2, present triage proposal for owner approval, record implementation resolution in Block 3 upon approval, and execute Pass 2 verification re-audit).
 
 All owner additions, suggestions, and workflow refinements must first be recorded as `observed` feedback files under `feedback/20??-*.md` and presented for explicit owner triage approval before executing skill changes.
 

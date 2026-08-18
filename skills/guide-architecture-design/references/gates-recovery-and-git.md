@@ -6,14 +6,14 @@ Own mutation eligibility, cross-turn delta ownership, recovery, focused commits,
 
 Before every operation batch:
 
-1. snapshot branch, `HEAD`, status, baseline index, staged and unstaged diffs, untracked paths, and relevant ignored paths;
-2. enumerate every canonical, rationale, derived, roadmap, navigation, decision, worklog, time, intended-new-file, validator, hook, and command-touched path;
+1. snapshot branch, `HEAD`, status, baseline index, staged and unstaged diffs, untracked paths, and relevant ignored paths across architectural documentation, specification, decision log, feedback record, and skill paths (`docs/**`, `skills/**`, `feedback/**`, `AGENTS.md`, roadmaps);
+2. enumerate every canonical, rationale, derived, roadmap, navigation, decision, feedback record, worklog, time, intended-new-file, validator, hook, and command-touched path;
 3. allow an existing target only when tracked and clean or when it contains only the exact guide-owned delta defined below;
 4. allow a new target only when absent, not ignored, and not colliding with untracked content;
 5. block direct edits of every pre-existing untracked or ignored target;
 6. require each command's possible write scope to be known and disjoint from all pre-existing tracked changes, untracked files, and ignored files;
 7. treat unknown or repository-wide write scope as blocked;
-8. recheck the baseline immediately before writing.
+8. recheck the baseline immediately before writing. When sequentially writing multiple files in an authorized multi-file batch, automatically update the expected baseline snapshot digest with the digest of each successfully written file before proceeding to the next file.
 
 One blocked target blocks the whole operation batch. Make zero changes.
 
@@ -29,7 +29,8 @@ Treat mismatch, lost conversation ownership, fresh session, or uncertain attribu
 
 - Never invent an end timestamp, close another session silently, discard a diff, or reuse a block without authority.
 - Resume a predecessor only when the owner confirms this conversation owns the still-active session.
-- Close a predecessor only from an owner-supplied or approved boundary with source and precision.
+- Close a predecessor from a prior conversation using the host system clock at closure action labeled `interrupted_recovered_at`, or an owner-supplied boundary with source and precision.
+- When pre-existing uncommitted changes conflict with a batch target, present a 2-option recovery menu to the owner: Option 1 (Owner commits or stashes external changes); Option 2 (Owner explicitly authorizes including existing diff as current baseline).
 - Open a new exclusive session only after its predecessor is closed or explicitly non-conflicting.
 - Preserve a valid session-start batch when a later decision batch is blocked; close it only in a separately eligible operation.
 
@@ -54,13 +55,13 @@ If an edit fails mid-batch, validation fails, an unexpected file or index change
 4. report exact completed and incomplete steps;
 5. transition to `RECOVERY` for a classified, authorized continuation.
 
-Permit a deterministic mechanical retry without renewed owner confirmation only when the original authorization, scope, target, intended result, known cause, attribution, baseline, and external state are provably unchanged; the correction is non-destructive, makes no product or architecture decision, and remains within the original operation. Give a short commentary update, apply the correction, repeat relevant preflight and validation, and preserve the same commit gates. Examples include creating an already approved missing destination directory before repeating the exact copy, correcting an unambiguous command or quoting error without changing intent, or retrying the same Git operation through the standard sandbox escalation path after a denial that occurred before index mutation.
+Permit a deterministic mechanical retry without renewed owner confirmation strictly during the dry-run or preflight phase BEFORE any file write has occurred on disk, and only when the original authorization, scope, target, intended result, known cause, attribution, baseline, and external state are provably unchanged; the correction is non-destructive, makes no product or architecture decision, and remains within the original operation. If any file has already been modified on disk mid-batch, autonomous retry is prohibited and immediate transition to `RECOVERY` is mandatory.
 
 Stop and obtain owner direction for an unknown cause, expanded scope, foreign or unattributed change, uncertain partial write, index mismatch, destructive cleanup, substantive validation failure, architectural choice, or any retry not demonstrably covered by the original authorization. If staging already occurred, preserve the index and do not autonomously clean it.
 
 ## Enforce closing
 
-Freeze the decision boundary, make the last confirmed decision durable, synchronize navigation and exact next action, close enabled worklog/time records truthfully, run eligible configured validation, and apply the configured commit boundary. When operating in an owner-configured session-branch Draft PR workflow, upon explicit owner confirmation (`+` or "merge PR"), merge the Draft PR into `main` using squash merge (`gh pr merge --squash --delete-branch` or local git fallback) and delete the session branch. Do not claim clean closure when any enabled criterion fails. With commits disabled, report the intentional guide-owned uncommitted boundary defined by the project.
+Freeze the decision boundary, make the last confirmed decision durable, synchronize navigation and exact next action, close enabled worklog/time records truthfully, run eligible configured validation, and apply the configured commit boundary. When operating in an owner-configured session-branch Draft PR workflow, upon explicit owner confirmation (`+` or "merge PR"), merge the Draft PR into `main` using configured PR CLI (`gh pr merge`, `glab pr merge`) or Web UI, and delete the session branch. Direct unconfirmed or raw local squash merges to `main` without preflight remain prohibited. Do not claim clean closure when any enabled criterion fails. With commits disabled, report the intentional guide-owned uncommitted boundary defined by the project.
 
 ## Enforce implementation readiness
 
@@ -72,4 +73,4 @@ Require all of the following at one clean candidate `HEAD`:
 - owner approval already recorded durably and explicitly contingent on a fresh exact-ready audit;
 - a fresh independent `audit-architecture-handoff` verdict of exactly `IMPLEMENTATION READY` for the same repository, scope, clean worktree, and exact `HEAD`.
 
-Treat conditional, negative, stale, dirty-worktree, wrong-scope, or wrong-`HEAD` evidence as blocked. After any relevant change, require a new audit. Final gate verification creates no session and mutates nothing; report `IMPLEMENTATION GATE OPEN` only when every condition matches.
+Treat conditional, negative, stale, dirty-worktree, wrong-scope, or wrong-`HEAD` evidence as blocked. After any relevant change, require a new audit. Final gate verification creates no session and mutates nothing; report `IMPLEMENTATION GATE OPEN` only when every condition matches. If no pre-existing audit report exists, report the specific blocking condition and instruct the owner to run `audit-architecture-handoff`.

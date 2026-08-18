@@ -9,9 +9,9 @@ Own scenario interviews, confirmation classification, affected-document selectio
 3. Separate assumptions, alternatives, tradeoffs, and recommendation.
 4. Exercise critical thinking and architectural vigilance:
    - If a proposed direction presents technical, safety, consistency, or architectural risks, do not passively accept it.
-   - Provide up to three clear attempts of rephrased, reasoned pushback, elaborating the technical rationale on each attempt.
-   - If the owner explicitly reaffirms after up to three clear attempts, accept the owner's disposition.
-5. Ask one concrete owner question.
+   - Provide one clear, well-reasoned attempt of pushback, elaborating the technical rationale and trade-offs. Architectural vigilance and this 1-attempt pushback take precedence over fast confirmation phrases (e.g. `+`).
+   - If the owner explicitly reaffirms after this 1 clear attempt, accept the owner's disposition without further obstruction.
+5. Ask up to 2-3 tightly linked owner questions when exploring a single decision space, or one question for distinct choices.
 6. Do not mutate while the answer remains exploratory, partial, conditional, objecting, or ambiguous.
 
 ## Adapt opening evaluation summary
@@ -26,7 +26,7 @@ When communicating during design interviews and decision workflows, adapt openin
 
 Classify owner responses according to explicit intent boundaries:
 
-1. **Short explicit confirmation:** Phrases like `+`, `OK`, or `Confirmed` unambiguously accept the specific active proposal.
+1. **Short explicit confirmation:** Phrases like `+`, `OK`, or `Confirmed` accept the specific active proposal. If the proposal contains an unflagged architectural risk, the agent must perform its 1-attempt pushback before final capture. Once pushback is completed or if no risk exists, `+` unambiguously confirms decision capture.
 2. **Invitation to discussion:** Responses with questions, suggestions, or amendments without an explicit confirmation phrase are invitations to discussion. The agent must:
    - Thoroughly rephrase and summarize the owner's input and proposed adjustments in detail to demonstrate clear, unambiguous comprehension;
    - Evaluate the owner's feedback, refine the design proposal with reasoned arguments, and return the updated proposal to the owner for explicit confirmation.
@@ -49,9 +49,19 @@ If any target or command scope is blocked, change nothing in that operation batc
 
 ## Synchronize in order
 
-1. Update the canonical rule and required rationale.
+1. Update the canonical rule and required rationale using standardized MADR (Markdown Architectural Decision Record) format with YAML Frontmatter:
+   ```markdown
+   ---
+   id: ADR-0001
+   title: "Short Decision Title"
+   status: "accepted" # draft | proposed | accepted | rejected | superseded
+   date: YYYY-MM-DD
+   deciders: ["Owner Name"]
+   supersedes: "ADR-0000"
+   ---
+   ```
 2. Update only derivatives affected by the decision.
-3. Replace stale summaries instead of appending another restatement. Use neutral placeholders (`spider-one`, `spider-two`, `domain-one`, `SpiderOneSpider`) in generic core documentation. Prohibit informal placeholders (`bla-bla`) or vendor/child-package entity names in core artifacts.
+3. Replace stale summaries instead of appending another restatement. Use neutral domain placeholders (`component-a`, `service-core`, `DomainService`) in generic core documentation. Prohibit informal placeholders (`bla-bla`) or legacy project-specific names in core artifacts.
 4. Record enabled decision/worklog outcomes.
 5. Select one exact next unresolved scenario from its owning roadmap or queue.
 6. Synchronize phase, package lifecycle state (`SPEC_IN_PROGRESS` -> `IMPLEMENTATION_READY` -> `IN_DEVELOPMENT` -> `RELEASED` -> `DEPRECATED`), and root `AGENTS.md` Platform Status Matrix.

@@ -22,7 +22,7 @@ Guide the existing project through owner-led architecture decisions while keepin
 
 1. Read the project entry point and required artifacts in their prescribed order. Inspect branch, `HEAD`, index, worktree, and history without writing state.
 2. Resolve the user's intent before recovery, session binding, or worklog/time writes.
-3. Route independent audit intent away from this skill. Route final readiness-gate verification directly to its sessionless, mutation-free check.
+3. Route independent audit intent away from this skill. Route readiness-gate verification to its passive, sessionless evidence check. If no fresh `audit-architecture-handoff` report of `IMPLEMENTATION READY` exists, report the blocking condition and instruct the owner to execute `audit-architecture-handoff` first.
 4. For a mutating guide intent, recover the project operating contract from [operating-contract.md](references/operating-contract.md).
 5. Select and follow the transition owned by [workflow-modes.md](references/workflow-modes.md). Do not force a design interview for direct synchronization, checkpoint, closing, or gate requests.
 6. Before every mutating operation, apply the complete zero-write eligibility and recovery rules in [gates-recovery-and-git.md](references/gates-recovery-and-git.md).
