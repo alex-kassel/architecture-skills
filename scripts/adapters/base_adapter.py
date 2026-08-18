@@ -4,6 +4,39 @@ import sys
 import subprocess
 from pathlib import Path
 
+def _remove_target_cleanly(target_path: Path):
+    """Safely remove target_path whether it is a physical file, dir, symlink, or NTFS Junction."""
+    if not target_path.exists() and not target_path.is_symlink():
+        return
+
+    # Check if target is symlink or junction
+    if target_path.is_symlink():
+        try:
+            target_path.unlink()
+            return
+        except Exception:
+            pass
+
+    # Try removing as junction / symlink directory
+    if sys.platform == "win32":
+        try:
+            os.rmdir(target_path)
+            return
+        except Exception:
+            pass
+        try:
+            subprocess.run(["cmd", "/c", "rmdir", str(target_path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if not target_path.exists():
+                return
+        except Exception:
+            pass
+
+    # If physical directory
+    if target_path.is_dir():
+        shutil.rmtree(target_path)
+    else:
+        target_path.unlink()
+
 def safe_link_or_copy(source_path: Path, target_path: Path) -> str:
     """
     Safely link or copy source_path to target_path using Windows NTFS Junctions / Symlinks.
@@ -12,22 +45,16 @@ def safe_link_or_copy(source_path: Path, target_path: Path) -> str:
     source_path = source_path.resolve()
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # If target exists and is a symlink/junction
-    if target_path.is_symlink():
+    # Check if target already points to source
+    if target_path.is_symlink() or (sys.platform == "win32" and target_path.exists() and target_path.is_dir()):
         try:
-            current_target = target_path.resolve()
-            if current_target == source_path:
+            if target_path.resolve() == source_path:
                 return "already_linked"
         except Exception:
             pass
-        target_path.unlink()
 
-    # Remove existing physical file/directory before linking
-    if target_path.exists():
-        if target_path.is_dir():
-            shutil.rmtree(target_path)
-        else:
-            target_path.unlink()
+    # Cleanly remove existing target
+    _remove_target_cleanly(target_path)
 
     # Attempt Junction / Symlink / Hardlink
     try:

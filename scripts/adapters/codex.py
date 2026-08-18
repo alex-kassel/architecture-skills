@@ -21,18 +21,15 @@ def install_codex_adapter():
     print("[+] Installing OpenAI Codex Adapter...")
 
     if rules_source.exists():
-        for rule_file in rules_source.glob("**/*.md"):
-            rel_path = rule_file.relative_to(rules_source)
-            target_file = rules_target / rel_path
-            res = safe_link_or_copy(rule_file, target_file)
-            print(f"  [Rule] {rel_path} -> {res}")
+        res = safe_link_or_copy(rules_source, rules_target)
+        print(f"  [Rules Directory] rules -> {res}")
 
     if skills_source.exists():
         for skill_dir in skills_source.iterdir():
             if skill_dir.is_dir():
                 target_skill = skills_target / skill_dir.name
                 res = safe_link_or_copy(skill_dir, target_skill)
-                print(f"  [Skill] {skill_dir.name} -> {res}")
+                print(f"  [Skill Directory] {skill_dir.name} -> {res}")
 
     print("[OK] OpenAI Codex Adapter installation completed successfully!")
 
