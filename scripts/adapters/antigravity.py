@@ -10,8 +10,8 @@ from base_adapter import safe_link_or_copy
 def install_antigravity_adapter():
     repo_root = Path(__file__).resolve().parent.parent.parent
     home_dir = Path.home()
-    target_base = home_dir / ".gemini" / "antigravity"
-    config_skills_json = home_dir / ".gemini" / "config" / "skills.json"
+    target_base = home_dir / ".gemini" / "config"
+    config_skills_json = target_base / "skills.json"
 
     # Purge legacy skills.json manifest in config if present
     if config_skills_json.exists():
@@ -27,7 +27,7 @@ def install_antigravity_adapter():
     rules_target = target_base / "rules"
     skills_target = target_base / "skills"
 
-    print("[+] Installing Antigravity / AGY Adapter...")
+    print("[+] Installing Antigravity / AGY Adapter to ~/.gemini/config/...")
 
     if rules_source.exists():
         res = safe_link_or_copy(rules_source, rules_target)
