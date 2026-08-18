@@ -18,9 +18,9 @@ Own scenario interviews, confirmation classification, affected-document selectio
 
 When communicating during design interviews and decision workflows, adapt opening response summaries based on turn context:
 
-- **Breakthrough idea:** Include `[Сильное решение]` (or `[Strong Decision]`) only when the owner proposes an exceptionally strong or breakthrough architectural idea, explaining why to build upon it.
-- **Architectural risk / Pushback:** Include `[Архитектурный риск / Пушбэк]` (or `[Architectural Risk / Pushback]`) whenever architectural, consistency, performance, or technical risks exist, detailing technical counter-arguments.
-- **Routine turns:** On ordinary, operational, or investigatory turns without breakthroughs or critical risks, omit formal template blocks (`[Сильное решение]`, `[Нейтрально]`, `[Архитектурный риск]`) and start directly with a concise answer or summary.
+- **Breakthrough idea:** Include `[Strong Decision]` only when the owner proposes an exceptionally strong or breakthrough architectural idea, explaining why to build upon it.
+- **Architectural risk / Pushback:** Include `[Architectural Risk / Pushback]` whenever architectural, consistency, performance, or technical risks exist, detailing technical counter-arguments.
+- **Routine turns:** On ordinary, operational, or investigatory turns without breakthroughs or critical risks, omit formal template blocks (`[Strong Decision]`, `[Neutral]`, `[Architectural Risk]`) and start directly with a concise answer or summary.
 
 ## Interpret owner intent and confirmation
 

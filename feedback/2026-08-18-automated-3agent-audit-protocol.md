@@ -10,7 +10,7 @@
 
 ## Situation
 
-The project owner requested an automated end-to-end audit protocol where issuing a short trigger command ("Проведи аудит" / "Start audit") autonomously initializes 3 audit files with pre-filled prompts (Block 1), launches 3 concurrent independent subagents to conduct audits and write findings (Block 2), compiles triage proposals for owner approval, and documents implementation results in Block 3 upon approval.
+The project owner requested an automated end-to-end audit protocol where issuing a short trigger command ("Run audit" / "Start audit") autonomously initializes 3 audit files with pre-filled prompts (Block 1), launches 3 concurrent independent subagents to conduct audits and write findings (Block 2), compiles triage proposals for owner approval, and documents implementation results in Block 3 upon approval.
 
 ## Skill instruction involved
 
@@ -26,7 +26,7 @@ Not required. Non-blocking workflow refinement.
 
 ## Proposed improvement
 
-1. Register `Проведи аудит` and `Start audit` as first-class triggers in `AGENTS.md`.
+1. Register `Run audit` and `Start audit` as first-class triggers in `AGENTS.md`.
 2. Standardize 4-phase execution: Phase 1 (Create 3 audit files with prompts in Block 1), Phase 2 (Launch 3 concurrent subagents to write Block 2), Phase 3 (Present consolidated Triage Matrix to owner), Phase 4 (Implement accepted fixes, validate, and write Block 3 upon owner `+` confirmation).
 3. Document protocol in `audits/README.md`.
 

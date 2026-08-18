@@ -7,43 +7,43 @@
 
 ---
 
-## Блок 1: Промпт Аудитора (Auditor Prompt)
+## Block 1: Auditor Prompt
 
 > [!NOTE]
-> Исходный промпт, переданный независимому агенту-аудитору:
+> Original prompt provided to the independent auditor agent:
 
 ```markdown
-Ты — главный программный архитектор (Principal Solutions Architect) и эксперт по Developer Experience (DX). Твоя задача — провести аудит скилла дизайна архитектуры `skills/guide-architecture-design/SKILL.md` и его референсов `skills/guide-architecture-design/references/` на предмет соответствия современным индустриальным стандартам и удобства использования.
+You are a Principal Solutions Architect and Developer Experience (DX) expert. Your task is to conduct an audit of the architecture design skill `skills/guide-architecture-design/SKILL.md` and its references `skills/guide-architecture-design/references/` for compliance with modern industrial standards and usability.
 
-Твой аудит должен оценивать скилл с точки зрения АРХИТЕКТУРНЫХ БЕСТ-ПРАКТИК, ЭФФЕКТИВНОСТИ И УДОБСТВА ДЛЯ РАЗРАБОТЧИКА.
+Your audit should evaluate the skill from the perspective of ARCHITECTURAL BEST PRACTICES, EFFICIENCY, AND DEVELOPER CONVENIENCE.
 
-Проведи анализ по следующим направлениям:
-1. Соответствие современным паттернам Documentation-as-Code:
-   - Насколько процесс фиксации решений (decision capture) соответствует бест-практикам ADR (Architecture Decision Records), C4 model, RFC и паттернам ведения спецификаций в Git?
-   - Не используются ли в скилле устаревшие, антипаттерновые или слишком специфичные концепции, ограничивающие его повторное использование в других проектах?
+Conduct an analysis along the following dimensions:
+1. Alignment with Modern Documentation-as-Code Patterns:
+   - How well does the decision capture process align with best practices for ADR (Architecture Decision Records), C4 model, RFCs, and specification maintenance patterns in Git?
+   - Does the skill use outdated, anti-pattern, or overly specific concepts that restrict its reuse in other projects?
 
-2. Оценка оверхеда и Developer Experience (Friction vs Safety):
-   - Не создаёт ли скилл чрезмерного административного трения (слишком много шагов, избыточная бюрократия, навязчивые подтверждения на очевидных операциях)?
-   - Понятен ли поток взаимодействия с пользователем во время дизайн-интервью? Не перегружает ли агент пользователя лишними вопросами?
+2. Overhead and Developer Experience Assessment (Friction vs Safety):
+   - Does the skill introduce excessive administrative friction (too many steps, redundant bureaucracy, intrusive confirmations on obvious operations)?
+   - Is the user interaction flow clear during design interviews? Does the agent overload the user with unnecessary questions?
 
-3. Прозрачность и наблюдаемость (Traceability & Provenance):
-   - Обеспечивает ли скилл четкую прослеживаемость решений: кто, когда, почему и в каком контексте принял решение?
-   - Насколько эффективно организована связь между архитектурными решениями, коммитами и гейтами готовности к реализации (implementation-readiness gates)?
+3. Transparency and Observability (Traceability & Provenance):
+   - Does the skill provide clear traceability of decisions: who, when, why, and in what context a decision was made?
+   - How effectively is the link organized between architectural decisions, commits, and implementation-readiness gates?
 
-4. Модульность и поддерживаемость скилла:
-   - Легко ли масштабировать и поддерживать этот скилл?
-   - Нет ли в нем хардкода конкретных инструментов или структур, которые должны быть вынесены в конфигурацию проекта?
+4. Skill Modularity and Maintainability:
+   - Is this skill easy to scale and maintain?
+   - Are there hardcoded toolings or structures that should be extracted to project configuration?
 
-Сформируй отчет с рекомендациями: что стоит упростить, какие modern best practices внедрить, и как улучшить UX взаимодействия архитектора с агентом без потери надежности.
+Generate a report with recommendations: what to simplify, which modern best practices to introduce, and how to improve the architect's interaction UX with the agent without sacrificing reliability.
 ```
 
 ---
 
-## Блок 2: Отчет Аудитора (Audit Report)
+## Block 2: Audit Report
 
-# 🏛️ Архитектурный и DX Аудит скилла `guide-architecture-design`
+# 🏛️ Architecture Alignment & DX Audit Report: `guide-architecture-design`
 
-**Объект аудита:** `SKILL.md` и референсы:
+**Audit Target:** `SKILL.md` and references:
 - `operating-contract.md`
 - `workflow-modes.md`
 - `decision-capture-and-sync.md`
@@ -53,69 +53,69 @@
 
 ### Executive Summary
 
-Скилл `guide-architecture-design` демонстрирует выдающийся уровень **безопасности и надежности изменений** (Zero-write preflights, строгий Git-провенанс, атомарная валидация). Однако с точки зрения **Developer Experience (DX)** и **современных индустриальных стандартов** скилл страдает от избыточной бюрократии, высокой административной фрикции, утечек артефактов конкретных проектов и хардкода сторонних утилит.
+The `guide-architecture-design` skill demonstrates an outstanding level of **change safety and reliability** (Zero-write preflights, strict Git provenance, atomic validation). However, from a **Developer Experience (DX)** and **modern industrial standards** perspective, the skill suffers from excessive bureaucracy, high administrative friction, project-specific context leaks, and hardcoded third-party utilities.
 
-#### Ключевые выводы:
-1. **Безопасность vs Удобство:** Скилл перекошен в сторону супер-консервативной безопасности (запрет любых действий при малейшем `untracked` файле, жесткий тайм-трекинг), что приводит к утомлению разработчика.
-2. **Утечка артефактов (Context Leakage):** В скилле присутствуют специфичные следы старых проектов (плейсхолдеры `spider-one`, жесткое требование матриц в `AGENTS.md`).
-3. **Хардкод вендоров:** Завязка на GitHub CLI (`gh pr merge`) и структуру `AGENTS.md` снижает переносимость скилла.
-4. **Формат ADR:** Отсутствует формализация modern ADR (MADR) с метаданными (Frontmatter/YAML).
+#### Key Findings:
+1. **Safety vs Convenience:** The skill is tilted toward ultra-conservative safety (prohibiting all actions upon detecting the slightest `untracked` file, rigid time tracking), leading to developer fatigue.
+2. **Context Leakage:** The skill contains legacy project artifacts (placeholders like `spider-one`, rigid matrix requirements in `AGENTS.md`).
+3. **Vendor Hardcoding:** Tight coupling to GitHub CLI (`gh pr merge`) and `AGENTS.md` layout reduces skill portability.
+4. **ADR Format:** Formalization of modern ADRs (MADR) with Frontmatter/YAML metadata is missing.
 
 ---
 
-### Детальный анализ по 4 направлениям
+### Detailed Analysis across 4 Dimensions
 
-#### 1. Соответствие современным паттернам Documentation-as-Code
+#### 1. Alignment with Modern Documentation-as-Code Patterns
 
-| Аспект | Оценка | Выявленные проблемы и антипаттерны |
+| Dimension | Assessment | Identified Issues & Anti-Patterns |
 | :--- | :--- | :--- |
-| **ADR / RFC Стандарты** | ⚠️ Удовлетворительно | • Процесс фиксации описывается обобщенно ("canonical rule and required rationale"). Отсутствует стандарт структурирования ADR (MADR/Nygard: Status, Context, Decision Drivers, Decision, Consequences, Pros/Cons).<br>• Отсутствует стандарт YAML Frontmatter в ADR для машиночитаемого анализа. |
-| **Чистота абстракций** | ❌ Неудовлетворительно | • **Утечка контекста:** В `decision-capture-and-sync.md:L53-54` явно захардкожены нейминги прошлых проектов: `spider-one`, `spider-two`, `SpiderOneSpider`.<br>• **Навязывание структуры:** В `decision-capture-and-sync.md:L72-73` навязывается `Platform Status Matrix` в корневом `AGENTS.md`. `AGENTS.md` — это инструкция для LLM-агента, а не стандарт архитектурной документации. |
-| **C4 / Диаграммы** | ⚠️ Ограниченно | • Отсутствуют указания по версионированию и проверке актуальности визуальных моделей (Mermaid, C4/Structurizr), хотя диаграммы — ключевой элемент современной архитектуры. |
+| **ADR / RFC Standards** | ⚠️ Satisfactory | • The capture process is described generically ("canonical rule and required rationale"). A structuring standard for ADRs (MADR/Nygard: Status, Context, Decision Drivers, Decision, Consequences, Pros/Cons) is missing.<br>• YAML Frontmatter standard in ADRs for machine-readable parsing is absent. |
+| **Abstraction Cleanliness** | ❌ Unsatisfactory | • **Context Leakage:** In `decision-capture-and-sync.md:L53-54`, legacy project names (`spider-one`, `spider-two`, `SpiderOneSpider`) are explicitly hardcoded.<br>• **Imposed Layout:** `decision-capture-and-sync.md:L72-73` mandates a `Platform Status Matrix` in the root `AGENTS.md`. `AGENTS.md` is an LLM agent prompt/instruction file, not an architectural documentation standard. |
+| **C4 / Diagrams** | ⚠️ Limited | • Guidance on versioning and freshness verification for visual models (Mermaid, C4/Structurizr) is absent, despite diagrams being a core element of modern architecture. |
 
-#### 2. Оценка оверхеда и Developer Experience (Friction vs Safety)
+#### 2. Overhead and Developer Experience Assessment (Friction vs Safety)
 
-1. **Параноидальный Zero-Write Preflight:**
-   - В `gates-recovery-and-git.md:L7-18` заблокирован любой батч изменений, если в репозитории есть *любой* сторонний `untracked` или `dirty` файл.
-   - *Проблема:* В реальной разработке у архитектора/разработчика часто лежат локальные конфиги, дампы или кэши. Останавливать работу и требовать `RECOVERY` из-за нерелевантного файла — критический DX-антипаттерн.
-2. **Избыточная бюрократия Учета Времени:**
-   - В `operating-contract.md:L38-53` детально расписана сложная матрица хронометража (`observed_at` vs `request_at`, фиксация пауз, таймзоны).
-   - *Проблема:* Для AI-агента требование ведения микро-ворклогов в Markdown — это ненужный оверхед. Время и авторы естественно фиксируются в Git-коммитах и PR.
-3. **Фрикция во время Дизайн-Интервью:**
-   - **До 3 попыток пушбэка:** `decision-capture-and-sync.md:L10-13` предписывает агенту упорствовать до 3 раз при несогласии с владельцем. Это создает впечатление "душного" и упрямого агента.
-   - **Жесткий лимит "1 вопрос на ход":** Для комплексных архитектурных решений требование задавать ровно 1 вопрос вынуждает растягивать простое обсуждение на десятки микро-сообщений.
+1. **Paranoid Zero-Write Preflight:**
+   - In `gates-recovery-and-git.md:L7-18`, any batch of changes is blocked if *any* foreign `untracked` or `dirty` file exists in the repository.
+   - *Problem:* In real-world development, an architect or developer often has local configs, dumps, or caches. Halting work and demanding `RECOVERY` due to an irrelevant file is a critical DX anti-pattern.
+2. **Excessive Time-Tracking Bureaucracy:**
+   - `operating-contract.md:L38-53` details a complex chronometry matrix (`observed_at` vs `request_at`, pause tracking, time zones).
+   - *Problem:* For an AI agent, requiring micro-worklogs in Markdown is unnecessary overhead. Time and authors are naturally captured in Git commits and PRs.
+3. **Design Interview Friction:**
+   - **Up to 3 Pushback Attempts:** `decision-capture-and-sync.md:L10-13` instructs the agent to persist up to 3 times when disagreeing with the owner. This creates the impression of an obstinate and stubborn agent.
+   - **Strict "1 Question per Turn" Limit:** For complex architectural choices, requiring exactly 1 question forces simple discussions to stretch across dozens of micro-messages.
 
-#### 3. Прозрачность и наблюдаемость (Traceability & Provenance)
+#### 3. Transparency and Observability (Traceability & Provenance)
 
-- **Сильные стороны:**
-  - Отличная изоляция сессий через сессионные ветки `agent/session-<ID>` и Eager Draft PRs (`workflow-modes.md:L30`).
-  - Запрет неавторизованных прямых пушей в `main`/`master`.
-  - Четкое разграничение ролей: агент направляет и структурирует, но окончательное решение принимает только владелец (`owner`).
+- **Strengths:**
+  - Excellent session isolation via session branches `agent/session-<ID>` and Eager Draft PRs (`workflow-modes.md:L30`).
+  - Prohibition of unauthorized direct pushes to `main`/`master`.
+  - Clear division of roles: the agent guides and structures, but final decisions are made exclusively by the owner.
 
-- **Недостатки:**
-  - Отсутствует структурированная привязка ADR к коммитам через стандартизированные Frontmatter-поля (`git_commit`, `pr_id`, `supersedes`, `superseded_by`).
-  - Гейт готовности к реализации (`gates-recovery-and-git.md:L65-76`) намертво завязан на текстовую строку `IMPLEMENTATION READY` от конкретного скилла `audit-architecture-handoff`.
+- **Weaknesses:**
+  - Structured linking of ADRs to commits via standardized Frontmatter fields (`git_commit`, `pr_id`, `supersedes`, `superseded_by`) is absent.
+  - Implementation readiness gate (`gates-recovery-and-git.md:L65-76`) is hardcoded to a text string `IMPLEMENTATION READY` from a specific skill `audit-architecture-handoff`.
 
-#### 4. Модульность, поддерживаемость и хардкод
+#### 4. Modularity, Maintainability, and Hardcoding
 
-1. **Хардкод инструментов CLI (Vendor Lock-in):**
-   - В `workflow-modes.md:L58` и `gates-recovery-and-git.md:L63` захардкожена команда GitHub CLI: `gh pr merge --squash --delete-branch`.
-   - *Проблема:* Если проект используется в GitLab, Bitbucket или Azure DevOps, скилл ломается или требует ручной правки референсов.
-2. **Смешение слоев ответственности (Cohesion):**
-   - Скилл объединяет в себе: High-level Architectural Guidance и Low-level Git & OS Mechanics.
+1. **CLI Tooling Hardcoding (Vendor Lock-in):**
+   - In `workflow-modes.md:L58` and `gates-recovery-and-git.md:L63`, GitHub CLI command `gh pr merge --squash --delete-branch` is hardcoded.
+   - *Problem:* If a project uses GitLab, Bitbucket, or Azure DevOps, the skill breaks or requires manual edits to reference files.
+2. **Cohesion & Mixed Responsibilities:**
+   - The skill mixes High-level Architectural Guidance and Low-level Git & OS Mechanics.
 
 ---
 
-## Блок 3: Отчет о проделанной работе и Триаже (Work Done & Resolution Report)
+## Block 3: Work Done & Resolution Report
 
-Все архитектурные и DX рекомендации рассмотрены, приняты владельцем и полностью реализованы:
+All architectural and DX recommendations were reviewed, accepted by the owner, and fully implemented:
 
-| Компонент / Направление | Исходная Проблема | Принятое Решение и Реализованные Изменения | Затронутые Файлы | Статус Верификации |
+| Component / Area | Initial Issue | Accepted Resolution & Implemented Changes | Target Files | Verification Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **MADR Форматирование** | Отсутствие стандарта ADR с Frontmatter | Внедрен стандартизированный шаблон MADR (Markdown Architecture Decision Records) с обязательными YAML Frontmatter полями (`id`, `title`, `status`, `date`, `deciders`, `supersedes`). | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L47) | Verified (`evals/forward-tests.md:L64`) |
-| **Скоупинг Preflight (DX)** | Блокировка работы из-за посторонних untracked файлов в корне | Область проверки preflight ограничена только путями архитектурных спецификаций (`docs/**`, `skills/**`, `feedback/**`, roadmaps, decision logs). | [`gates-recovery-and-git.md`](skills/guide-architecture-design/references/gates-recovery-and-git.md#L9) | Verified (`evals/forward-tests.md:L65`) |
-| **Снижение Фрикции Пушбэка** | Упрямый пушбэк до 3 попыток | Сокращен обязательный пушбэк при архитектурном риске до **1 четкой попытки предупреждения**. При повторном согласии владельца решение принимается без навязчивости. | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L12) | Verified (`evals/forward-tests.md:L65`) |
-| **Интервью (2-3 вопроса)** | Жесткое ограничение "1 вопрос на ход" | Разрешено задавать до **2-3 связанных вопросов** на одном ходу при исследовании одного пространства архитектурных решений. | [`workflow-modes.md`](skills/guide-architecture-design/references/workflow-modes.md#L44), [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L14) | Verified (`evals/forward-tests.md:L65`) |
-| **Вендоронезависимость CLI** | Хардкод команды `gh pr merge` | Команды работы с PR абстрагированы под CLI любого Git-провайдера (`gh`, `glab`, или Web UI workflow). | [`workflow-modes.md`](skills/guide-architecture-design/references/workflow-modes.md#L58), [`gates-recovery-and-git.md`](skills/guide-architecture-design/references/gates-recovery-and-git.md#L63) | Verified (`evals/forward-tests.md:L65`) |
-| **Устранение Утечек Контекста** | Захардкоженные плейсхолдеры `spider-one` | Удалены специфичные плейсхолдеры прошлых проектов, заменены на нейтральные (`component-a`, `service-core`). | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L57) | Verified (`evals/forward-tests.md:L64`) |
-| **Упрощение Учета Времени** | Избыточный микро-таймтрекинг (`observed_at`) | Микро-таймтрекинг отключен по умолчанию, провенанс времени опирается на стандартные даты Git-коммитов и PR. | [`operating-contract.md`](skills/guide-architecture-design/references/operating-contract.md#L41) | Verified (`evals/forward-tests.md:L63`) |
+| **MADR Formatting** | Lack of ADR standard with Frontmatter | Introduced a standardized MADR (Markdown Architecture Decision Records) template with mandatory YAML Frontmatter fields (`id`, `title`, `status`, `date`, `deciders`, `supersedes`). | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L47) | Verified (`evals/forward-tests.md:L64`) |
+| **Preflight Scoping (DX)** | Work blocked by unrelated untracked files in root | Preflight check scope restricted strictly to architectural specification paths (`docs/**`, `skills/**`, `feedback/**`, roadmaps, decision logs). | [`gates-recovery-and-git.md`](skills/guide-architecture-design/references/gates-recovery-and-git.md#L9) | Verified (`evals/forward-tests.md:L65`) |
+| **Pushback Friction Reduction** | Stubborn pushback up to 3 attempts | Reduced mandatory pushback on architectural risk to **1 clear warning attempt**. Upon repeated owner consent, the decision is accepted without friction. | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L12) | Verified (`evals/forward-tests.md:L65`) |
+| **Interview (2-3 Questions)** | Rigid limit of "1 question per turn" | Permitted asking up to **2-3 related questions** per turn when exploring a single architectural decision space. | [`workflow-modes.md`](skills/guide-architecture-design/references/workflow-modes.md#L44), [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L14) | Verified (`evals/forward-tests.md:L65`) |
+| **CLI Vendor Independence** | Hardcoded `gh pr merge` command | PR interaction commands abstracted for any Git provider CLI (`gh`, `glab`, or Web UI workflow). | [`workflow-modes.md`](skills/guide-architecture-design/references/workflow-modes.md#L58), [`gates-recovery-and-git.md`](skills/guide-architecture-design/references/gates-recovery-and-git.md#L63) | Verified (`evals/forward-tests.md:L65`) |
+| **Context Leakage Elimination** | Hardcoded `spider-one` placeholders | Removed legacy project-specific placeholders, replaced with neutral ones (`component-a`, `service-core`). | [`decision-capture-and-sync.md`](skills/guide-architecture-design/references/decision-capture-and-sync.md#L57) | Verified (`evals/forward-tests.md:L64`) |
+| **Time-Tracking Simplification** | Redundant micro-time-tracking (`observed_at`) | Micro-time-tracking disabled by default; time provenance relies on standard Git commit and PR timestamps. | [`operating-contract.md`](skills/guide-architecture-design/references/operating-contract.md#L41) | Verified (`evals/forward-tests.md:L63`) |

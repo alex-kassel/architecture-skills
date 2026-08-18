@@ -7,25 +7,25 @@
 
 ---
 
-## Блок 1: Промпт Аудитора (Auditor Prompt)
+## Block 1: Auditor Prompt
 
 > [!NOTE]
-> Исходный промпт для повторной формальной верификации (Pass 2 Re-Audit):
+> Original prompt for formal verification re-audit (Pass 2 Re-Audit):
 
 ```markdown
-Ты — строгий инженер по формальной верификации LLM-агентов и системной безопасности workflows. Твоя задача — провести повторный аудит (Pass 2 Re-Audit) логики, дедлоков, префлайтов и безопасности мутаций скилла `skills/guide-architecture-design/SKILL.md` и его 4 референсов в `skills/guide-architecture-design/references/` ПОСЛЕ внедрения правок первого аудита (Pass 1).
+You are a strict formal verification engineer for LLM agents and workflow system security. Your task is to conduct a re-audit (Pass 2 Re-Audit) of the logic, deadlocks, preflights, and mutation safety of skill `skills/guide-architecture-design/SKILL.md` and its 4 references in `skills/guide-architecture-design/references/` AFTER implementing the fixes from the first audit (Pass 1).
 
-Проверь:
-1. Были ли полностью и корректно устранены замечания C1 (deadlock в READINESS_GATE), C2 (локальный squash merge на main), C3 (mechanical retry ограничение), M1 (baseline snapshot обновления), M2-M5, m1-m3?
-2. Не привели ли внесенные правки к новым дедлокам, неточностям или противоречиям в графах состояний?
-3. Все ли границы V1 и zero-write префлайты работают строго и предсказуемо?
+Verify:
+1. Were findings C1 (deadlock in READINESS_GATE), C2 (local squash merge on main), C3 (mechanical retry limitation), M1 (baseline snapshot updates), M2-M5, and m1-m3 fully and correctly resolved?
+2. Did the introduced changes result in any new deadlocks, inaccuracies, or contradictions in state graphs?
+3. Are all V1 boundaries and zero-write preflights functioning strictly and predictably?
 
-Сформируй итоговый отчет и запиши его прямо в Блок 2 этого документа `audits/2026-08-18-0937-pass2-formal-verification-reaudit.md`.
+Generate the final report and record it directly into Block 2 of this document `audits/2026-08-18-0937-pass2-formal-verification-reaudit.md`.
 ```
 
 ---
 
-## Блок 2: Отчет Аудитора (Audit Report)
+## Block 2: Audit Report
 
 # Pass 2 Formal Verification & Mutation Safety Re-Audit Report: `guide-architecture-design`
 
@@ -97,9 +97,9 @@ The skill `guide-architecture-design` and its reference materials are logically 
 
 ---
 
-## Блок 3: Отчет о проделанной работе и Триаже (Work Done & Resolution Report)
+## Block 3: Work Done & Resolution Report
 
-Все 11 замечаний первого аудита (Pass 1) повторно верифицированы. Все тесты пройдены без дедлоков и регрессий:
+All 11 findings from the first audit (Pass 1) have been re-verified. All tests passed without deadlocks or regressions:
 
 | Issue ID | Severity | Verification Status | Final Resolution Summary |
 | :--- | :--- | :--- | :--- |
@@ -108,4 +108,4 @@ The skill `guide-architecture-design` and its reference materials are logically 
 | **C3** | 🔴 Critical | ✅ Verified Passed | Mechanical retry strictly bounded to preflight dry-run phase (`gates-recovery-and-git.md:L58`). |
 | **M1–M5, m1–m3** | 🟠/🟡 Major/Minor | ✅ Verified Passed | All 8 major and minor formal issues fully verified in `evals/forward-tests.md` scenario 43. |
 
-**Итоговый вердикт:** ✅ **PASSED & FULLY VERIFIED**
+**Final Verdict:** ✅ **PASSED & FULLY VERIFIED**

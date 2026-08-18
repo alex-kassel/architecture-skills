@@ -12,7 +12,7 @@
 
 The project owner explicitly directed that all user additions, workflow refinements, and design amendments must ALWAYS be captured first as formal feedback records in `feedback/20??-*.md` before any skill edits take place. Direct execution of user suggestions without first staging them as feedback files and presenting them for owner approval as feedback is prohibited.
 
-Additionally, short user responses like `+` or `Обработай фидбек` must be recognized as standard short triggers for starting the skill maintenance workflow, as well as explicit owner confirmation/consent.
+Additionally, short user responses like `+` or `Process feedback` must be recognized as standard short triggers for starting the skill maintenance workflow, as well as explicit owner confirmation/consent.
 
 ## Skill instruction involved
 
@@ -27,16 +27,16 @@ Bypassing the feedback file creation step for user additions would violate prove
 Owner explicitly directed:
 1. All user additions/amendments must first be formatted as feedback records under `feedback/20??-*.md`.
 2. Feedback records must be presented to the owner for explicit triage approval (`accepted`/`rejected`/`superseded`) before execution.
-3. Short triggers `Start skill maintenance`, `Обработай фидбек`, and `+` must be recorded in `AGENTS.md`.
+3. Short triggers `Start skill maintenance`, `Process feedback`, and `+` must be recorded in `AGENTS.md`.
 
 ## Proposed improvement
 
-1. Update `AGENTS.md` to list `+`, `Обработай фидбек`, and `Start skill maintenance` as official short triggers.
+1. Update `AGENTS.md` to list `+`, `Process feedback`, and `Start skill maintenance` as official short triggers.
 2. Require that all owner additions and skill refinement proposals be captured as `observed` feedback records first before entering triage and implementation.
 
 ## Triage and resolution
 
-Accepted by the owner on 2026-08-18. Implemented in `AGENTS.md` by requiring all owner additions/suggestions to be captured first as `observed` feedback files under `feedback/20??-*.md` and presented for explicit owner triage approval before executing skill changes, and recording `+` and `Обработай фидбек` as short triggers and confirmation phrases.
+Accepted by the owner on 2026-08-18. Implemented in `AGENTS.md` by requiring all owner additions/suggestions to be captured first as `observed` feedback files under `feedback/20??-*.md` and presented for explicit owner triage approval before executing skill changes, and recording `+` and `Process feedback` as short triggers and confirmation phrases.
 
 ## Verification
 

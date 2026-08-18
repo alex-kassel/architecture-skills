@@ -7,30 +7,30 @@
 
 ---
 
-## Блок 1: Промпт Аудитора (Auditor Prompt)
+## Block 1: Auditor Prompt
 
 > [!NOTE]
-> Исходный промпт для повторного архитектурного и DX аудита (Pass 2 Re-Audit):
+> Original prompt for architecture alignment and DX re-audit (Pass 2 Re-Audit):
 
 ```markdown
-Ты — главный программный архитектор и эксперт по Developer Experience (DX). Твоя задача — провести повторный аудит (Pass 2 Re-Audit) скилла `skills/guide-architecture-design/SKILL.md` и его референсов в `skills/guide-architecture-design/references/` ПОСЛЕ применения правок первого аудита (Pass 1).
+You are a Principal Solutions Architect and Developer Experience (DX) expert. Your task is to conduct a re-audit (Pass 2 Re-Audit) of skill `skills/guide-architecture-design/SKILL.md` and its references in `skills/guide-architecture-design/references/` AFTER applying the fixes from the first audit (Pass 1).
 
-Проверь:
-1. Оценку формата MADR: понятен ли шаблон YAML Frontmatter, удобен ли он для фиксации решений?
-2. Оценку DX фрикции: стало ли удобнее работать после ограничения пушбэка до 1 предупреждения, разрешения 2-3 вопросов на ход и скоупинга preflight на пути архитектурных спецификаций (`docs/**`, `skills/**`, `feedback/**`)?
-3. Вендоронезависимость CLI (абстракция `gh`/`glab`/PR UI) и отсутствие спецификаций старых проектов (`spider-one`).
-4. Наличие каких-либо остаточных DX-проблем или недочетов.
+Verify:
+1. Evaluation of MADR format: is the YAML Frontmatter template clear and convenient for decision capture?
+2. Evaluation of DX friction: has working with the skill become more convenient after capping pushback to 1 warning attempt, permitting 2-3 questions per turn, and scoping preflight to architectural specification paths (`docs/**`, `skills/**`, `feedback/**`)?
+3. CLI vendor independence (`gh`/`glab`/PR UI abstraction) and absence of legacy project specifications (`spider-one`).
+4. Presence of any residual DX issues or shortcomings.
 
-Сформируй итоговый отчет и запиши его прямо в Блок 2 этого документа `audits/2026-08-18-0937-pass2-architecture-dx-reaudit.md`.
+Generate the final report and record it directly into Block 2 of this document `audits/2026-08-18-0937-pass2-architecture-dx-reaudit.md`.
 ```
 
 ---
 
-## Блок 2: Отчет Аудитора (Audit Report)
+## Block 2: Audit Report
 
-# 🏛️ Повторный архитектурный и DX Аудит (Pass 2 Re-Audit) скилла `guide-architecture-design`
+# 🏛️ Pass 2 Architecture Alignment & DX Re-Audit Report: `guide-architecture-design`
 
-**Объект повторного аудита:** `SKILL.md` и референсы:
+**Re-Audit Target:** `SKILL.md` and references:
 - `operating-contract.md`
 - `workflow-modes.md`
 - `decision-capture-and-sync.md`
@@ -40,23 +40,23 @@
 
 ### Executive Summary
 
-Повторный аудит (Pass 2 Re-Audit) подтверждает, что **все 4 группы замечаний и антипаттернов первого аудита (Pass 1) полностью устранены**. Скилл `guide-architecture-design` успешно трансформировался из жесткого и избыточно параноидального инструмента в **высокоэффективный, сбалансированный и удобный для архитектора гайд (High DX + Zero-Write Safety)**.
+The re-audit (Pass 2 Re-Audit) confirms that **all 4 groups of findings and anti-patterns from the first audit (Pass 1) have been fully eliminated**. The `guide-architecture-design` skill has successfully transformed from a rigid and overly paranoid tool into a **highly efficient, balanced, and architect-friendly guide (High DX + Zero-Write Safety)**.
 
-Ключевые показатели улучшения DX после внедрения правок:
-1. **Снижение фрикции дизайн-интервью:** Устранена проблема "душного агента" — пушбэк ограничен 1 аргументированной попыткой, а лимит вопросов расширен до 2-3 на диалоговый ход.
-2. **Селективный preflight:** Блокировки из-за сторонних локальных файлов ликвидированы за счет точечного скоупинга preflight на пути спецификаций (`docs/**`, `skills/**`, `feedback/**`, `AGENTS.md`, roadmaps).
-3. **Современный стандарт MADR:** Внедрен машиночитаемый и наглядный шаблон MADR с YAML Frontmatter.
-4. **Вендоронезависимость CLI:** Зависимость от исключительно GitHub CLI снята в пользу абстрактных CLI-интерфейсов (`gh`, `glab`, PR Web UI).
-5. **Чистота контекста:** Полностью удалены следы прошлых проектов (`spider-one`).
+Key DX Improvement Metrics Post-Fixes:
+1. **Design Interview Friction Reduction:** Resolved the "stubborn agent" problem — pushback is capped at 1 reasoned attempt, and the question limit is expanded to 2-3 per turn.
+2. **Selective Preflight:** Blocks caused by unrelated local files are eliminated by tightly scoping preflight checks to specification paths (`docs/**`, `skills/**`, `feedback/**`, `AGENTS.md`, roadmaps).
+3. **Modern MADR Standard:** Introduced a machine-readable and readable MADR template with YAML Frontmatter.
+4. **CLI Vendor Independence:** Sole dependence on GitHub CLI removed in favor of abstract CLI interfaces (`gh`, `glab`, PR Web UI).
+5. **Context Cleanliness:** Completely removed legacy project traces (`spider-one`).
 
 ---
 
-### Детальная проверка по 4 критериям повторного аудита
+### Detailed Verification Across 4 Re-Audit Criteria
 
-#### 1. Удобство и полнота шаблона MADR с YAML Frontmatter (`decision-capture-and-sync.md`)
-- **Статус:** 🟢 **ПР пройден (Pass)**
-- **Анализ реализации:**
-  В `decision-capture-and-sync.md` (раздел *Synchronize in order*) стандартизирован формат MADR (Markdown Architecture Decision Record) со структурированным YAML Frontmatter:
+#### 1. Usability and Completeness of MADR Template with YAML Frontmatter (`decision-capture-and-sync.md`)
+- **Status:** 🟢 **Passed**
+- **Implementation Analysis:**
+  In `decision-capture-and-sync.md` (*Synchronize in order* section), the MADR (Markdown Architecture Decision Record) format is standardized with structured YAML Frontmatter:
   ```yaml
   ---
   id: ADR-0001
@@ -67,57 +67,57 @@
   supersedes: "ADR-0000"
   ---
   ```
-- **Оценка DX:** Шаблон лаконичен, интуитивно понятен и содержит полный набор атрибутов, необходимых для автоматизированного анализа прослеживаемости решений (traceability) и графической визуализации зависимостей ADR.
+- **DX Evaluation:** The template is concise, intuitive, and contains a complete set of attributes required for automated decision traceability analysis and graphical visualization of ADR dependencies.
 
 ---
 
-#### 2. Оценка снижения DX фрикции (Pushback, Вопросы, Скоупинг Preflight)
-- **Статус:** 🟢 **ПР пройден (Pass)**
-- **Анализ реализации:**
-  1. **Ограничение пушбэка 1 попыткой (`decision-capture-and-sync.md:L12`):**
-     Агент оказывает профессиональное архитектурное сопротивление только **1 раз**, приводя аргументы и риски. Если владелец подтверждает решение (включая быстрый ответ `+`), агент принимает позицию владельца без дальнейшей обструкции и задержек.
-  2. **Расширение до 2-3 вопросов на ход (`workflow-modes.md:L46`, `decision-capture-and-sync.md:L14`):**
-     Снято искусственное ограничение "1 вопрос на ход". Теперь при исследовании единого архитектурного пространства агент может задать до **2-3 взаимосвязанных вопросов**, что в 2-3 раза сокращает количество итераций общения.
-  3. **Скоупинг Preflight на спецификации (`gates-recovery-and-git.md:L9`):**
-     Zero-write preflight теперь проверяет состояние только путей спецификаций и архитектурной документации (`docs/**`, `skills/**`, `feedback/**`, `AGENTS.md`, roadmaps). Наличие кэшей, temporary-файлов или локальных логов вне этих путей больше не вызывает фатальных блокировок или вызовов `RECOVERY`.
-  4. **Адаптивные префиксы ответов (`decision-capture-and-sync.md:L19-23`):**
-     Обязательные метки `[Сильное решение]` / `[Архитектурный риск]` сохранены только для критических случаев, а для обычных рабочих ответов формальный оверхед удален.
+#### 2. Assessment of DX Friction Reduction (Pushback, Questions, Preflight Scoping)
+- **Status:** 🟢 **Passed**
+- **Implementation Analysis:**
+  1. **Pushback Capped at 1 Attempt (`decision-capture-and-sync.md:L12`):**
+     The agent provides professional architectural resistance **only once**, presenting arguments and risks. If the owner confirms the decision (including a fast response like `+`), the agent accepts the owner's stance without further obstruction or delay.
+  2. **Expanded to 2-3 Questions per Turn (`workflow-modes.md:L46`, `decision-capture-and-sync.md:L14`):**
+     The artificial limit of "1 question per turn" has been removed. Now, when exploring a single architectural decision space, the agent can ask up to **2-3 interconnected questions**, reducing interaction iterations by 2-3x.
+  3. **Preflight Scoped to Specifications (`gates-recovery-and-git.md:L9`):**
+     Zero-write preflight now checks status only for specification and architectural documentation paths (`docs/**`, `skills/**`, `feedback/**`, `AGENTS.md`, roadmaps). Caches, temporary files, or local logs outside these paths no longer cause fatal blocks or `RECOVERY` calls.
+  4. **Adaptive Response Prefixes (`decision-capture-and-sync.md:L19-23`):**
+     Mandatory tags `[Strong Decision]` / `[Architectural Risk]` are retained only for critical cases, removing formal overhead for standard working responses.
 
 ---
 
-#### 3. Вендоронезависимость CLI и отсутствие наследия старых проектов
-- **Статус:** 🟢 **ПР пройден (Pass)**
-- **Анализ реализации:**
-  1. **CLI-нейтральность (`workflow-modes.md:L30,L58`, `gates-recovery-and-git.md:L64`):**
-     Операции управления PR (Eager Draft PR, PR merge) зафиксированы с явной поддержкой любых провайдеров (`gh` для GitHub, `glab` для GitLab, а также Web UI workflow).
-  2. **Полная очистка от `spider-one` (`decision-capture-and-sync.md:L64`):**
-     Удалены все упоминания старых проектов (`spider-one`, `spider-two`, `SpiderOneSpider`). Запрещены неформальные плейсхолдеры (`bla-bla`), утверждены нейтральные доменные плейсхолдеры (`component-a`, `service-core`, `DomainService`).
+#### 3. CLI Vendor Independence and Absence of Legacy Project Leftovers
+- **Status:** 🟢 **Passed**
+- **Implementation Analysis:**
+  1. **CLI Neutrality (`workflow-modes.md:L30,L58`, `gates-recovery-and-git.md:L64`):**
+     PR management operations (Eager Draft PR, PR merge) are specified with explicit support for any provider (`gh` for GitHub, `glab` for GitLab, or Web UI workflow).
+  2. **Complete Cleanup of `spider-one` (`decision-capture-and-sync.md:L64`):**
+     All mentions of legacy projects (`spider-one`, `spider-two`, `SpiderOneSpider`) removed. Informal placeholders (`bla-bla`) banned; neutral domain placeholders approved (`component-a`, `service-core`, `DomainService`).
 
 ---
 
-#### 4. Остаточные DX замечания и наблюдения
-- **Статус:** 🟢 **Замечания отсутствуют (Zero Blocking DX Issues)**
-- **Наблюдения по качеству:**
-  - В `gates-recovery-and-git.md:L16-17` добавлено важное уточнение: автоматическое обновление контрольного snapshot digest при поэтапной записи файлов в рамках одного авторизованного батча. Это предотвращает ложные срабатывания preflight во время серии последовательных изменений.
-  - Поведение скилла полностью выверено: сохраняется 100% защита от случайного повреждения репозитория при максимизации удобства работы архитектора.
+#### 4. Residual DX Findings and Observations
+- **Status:** 🟢 **Zero Blocking DX Issues**
+- **Quality Observations:**
+  - In `gates-recovery-and-git.md:L16-17`, an important refinement was added: auto-updating baseline snapshot digest during incremental writes within an authorized batch. This prevents false positive preflight triggers during sequential file updates.
+  - Skill behavior is fully calibrated: maintaining 100% protection against accidental repository corruption while maximizing architect ergonomics.
 
 ---
 
-### Итоговый вердикт Pass 2 Re-Audit
-- **Общий статус:** ✅ **PASSED & VERIFIED**
-- **Готовность скилла:** `skills/guide-architecture-design` полностью готов к промышленному использованию.
+### Pass 2 Re-Audit Final Verdict
+- **Overall Status:** ✅ **PASSED & VERIFIED**
+- **Skill Readiness:** `skills/guide-architecture-design` is fully ready for production usage.
 
 ---
 
-## Блок 3: Отчет о проделанной работе и Триаже (Work Done & Resolution Report)
+## Block 3: Work Done & Resolution Report
 
-Все 4 группы замечаний DX первого аудита (Pass 1) повторно верифицированы. Избыточная фрикция устранена:
+All 4 DX finding groups from the first audit (Pass 1) have been re-verified. Excessive friction has been eliminated:
 
-| Аспект DX | Verification Status | Final Resolution Summary |
+| DX Dimension | Verification Status | Final Resolution Summary |
 | :--- | :--- | :--- |
-| **MADR формат** | ✅ Verified Passed | YAML Frontmatter стандартизирован (`decision-capture-and-sync.md`). |
-| **Снижение фрикции** | ✅ Verified Passed | Пушбэк ограничен 1 предупреждением, вопросы расширены до 2-3 на ход. |
-| **Скоупинг Preflight** | ✅ Verified Passed | Проверки ограниченны путями спецификаций (`docs/**`, `skills/**`, `feedback/**`). |
-| **Вендоронезависимость** | ✅ Verified Passed | CLI-команды PR абстрагированы (`gh`/`glab`/UI). |
+| **MADR Format** | ✅ Verified Passed | YAML Frontmatter standardized (`decision-capture-and-sync.md`). |
+| **Friction Reduction** | ✅ Verified Passed | Pushback capped at 1 warning, questions expanded to 2-3 per turn. |
+| **Preflight Scoping** | ✅ Verified Passed | Checks restricted to specification paths (`docs/**`, `skills/**`, `feedback/**`). |
+| **Vendor Independence** | ✅ Verified Passed | PR CLI commands abstracted (`gh`/`glab`/UI). |
 
-**Итоговый вердикт:** ✅ **PASSED & FULLY VERIFIED**
+**Final Verdict:** ✅ **PASSED & FULLY VERIFIED**
