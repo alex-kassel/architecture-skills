@@ -7,21 +7,27 @@ Write-Host "🚀 Syncing skills/ and plugins/ directories to alex-kassel/skills 
 $TempDir = Join-Path ([System.IO.Path]::GetTempPath()) ([System.Guid]::NewGuid().ToString())
 git clone https://github.com/alex-kassel/skills.git $TempDir
 
+# Clean out old top-level tracked files and directories in temp repo (except .git)
+Get-ChildItem -Path $TempDir -Exclude ".git" | Remove-Item -Recurse -Force
+
+# Copy fresh directories and root README
 $TargetSkills = Join-Path $TempDir "skills"
 $TargetPlugins = Join-Path $TempDir "plugins"
-
-if (Test-Path $TargetSkills) { Remove-Item -Recurse -Force $TargetSkills }
-if (Test-Path $TargetPlugins) { Remove-Item -Recurse -Force $TargetPlugins }
+$TargetReadme = Join-Path $TempDir "README.md"
 
 Copy-Item -Recurse -Force (Join-Path $RepoRoot "skills") $TargetSkills
 Copy-Item -Recurse -Force (Join-Path $RepoRoot "plugins") $TargetPlugins
 
+if (Test-Path (Join-Path $RepoRoot "skills\README.md")) {
+    Copy-Item -Force (Join-Path $RepoRoot "skills\README.md") $TargetReadme
+}
+
 Push-Location $TempDir
 try {
-    git add skills plugins
+    git add -A
     $Status = git status --porcelain
     if ($Status) {
-        git commit -m "sync(release): update skills/ and plugins/ from architecture-skills maintainer repo"
+        git commit -m "sync(release): purge stale legacy folders and update skills/ and plugins/"
         git push origin main
         Write-Host "✅ Release sync completed successfully!" -ForegroundColor Green
     } else {
