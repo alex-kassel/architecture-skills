@@ -1,6 +1,6 @@
 # Pass 2 Chaos Audit residual edge-case findings in guide-architecture-design
 
-- Status: observed
+- Status: deferred
 - Skill: guide-architecture-design
 - Skill commit: `886738f80456c21e64177c865181b539c36be8bf`
 - Source repository: `shared`
