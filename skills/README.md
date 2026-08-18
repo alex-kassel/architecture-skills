@@ -13,6 +13,10 @@
 | --- | --- | --- | --- |
 | **`guide-architecture-design`** | Design & Workflow | Guide owner-led architecture design workflows, scenario-based interviews, decision capture, and atomic documentation synchronization. | [`SKILL.md`](guide-architecture-design/SKILL.md) |
 | **`audit-architecture-handoff`** | Audit & Verification | Perform strictly read-only audits for fresh-session handoff safety, architectural consistency, document drift, and implementation readiness gates. | [`SKILL.md`](audit-architecture-handoff/SKILL.md) |
+| **`git-release-preflight`** | Git & Release | Pre-push readiness evaluations, guardrail verification, risk assessment, pushback presentation, and clean git release/push execution. | [`SKILL.md`](git-release-preflight/SKILL.md) |
+| **`execute-autonomous-audit`** | Audit & Verification | Execute autonomous 4-phase, 2-pass iterative multi-perspective audits of codebases, software architecture, or documentation sets. | [`SKILL.md`](execute-autonomous-audit/SKILL.md) |
+| **`validate-repository-guardrails`** | Quality & Guardrails | Execute deterministic quality, relative path, and English-only language guardrail checks across repository files. | [`SKILL.md`](validate-repository-guardrails/SKILL.md) |
+| **`maintain-architecture-skills`** | Maintenance & Meta | Execute the 6-step skill maintenance protocol for feedback triage, zero-write preflight, and skill updates. | [`SKILL.md`](maintain-architecture-skills/SKILL.md) |
 
 ---
 
