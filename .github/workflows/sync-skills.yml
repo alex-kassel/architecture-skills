@@ -1,4 +1,4 @@
-name: Sync Skills Directory to Public Skills Repository
+name: Sync Skills and Plugins to Public Distribution Repository
 
 on:
   push:
@@ -6,19 +6,38 @@ on:
       - main
     paths:
       - 'skills/**'
+      - 'plugins/**'
 
 jobs:
   sync:
-    name: Sync Skills Subtree
+    name: Sync Skills & Plugins
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Push Skills Subtree to Distribution Repo
+      - name: Checkout Public Distribution Repository
+        uses: actions/checkout@v4
+        with:
+          repository: alex-kassel/skills
+          token: ${{ secrets.SKILLS_SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+          path: dist-repo
+
+      - name: Sync skills/ and plugins/ directories
         run: |
+          mkdir -p dist-repo/skills dist-repo/plugins
+          rsync -av --delete --exclude='.git' skills/ dist-repo/skills/
+          rsync -av --delete --exclude='.git' plugins/ dist-repo/plugins/
+
+      - name: Commit and Push Changes
+        run: |
+          cd dist-repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git subtree push --prefix skills https://x-access-token:${{ secrets.SKILLS_SYNC_TOKEN || secrets.GITHUB_TOKEN }}@github.com/alex-kassel/skills.git main
+          git add skills plugins
+          if git diff --staged --quiet; then
+            echo "No changes to sync."
+          else
+            git commit -m "sync(release): update skills/ and plugins/ from maintainer repo"
+            git push origin main
+          fi
