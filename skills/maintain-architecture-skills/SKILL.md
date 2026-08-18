@@ -26,7 +26,7 @@ When triggered by `Start skill maintenance`, `Process feedback`, or any user pro
 
 4. **Validation & Self-Healing Loop**:
    - Run skill validation checks and verify forward-test coverage (`evals/forward-tests.md`).
-   - If validation fails, perform up to 3 bounded self-repair attempts before reverting diffs and escalating.
+   - If validation fails, perform up to 3 bounded self-repair attempts targeting strictly the explicit error without introducing secondary structural edits. If repair fails after 3 attempts, run `git checkout -- skills/` and `git clean -fd skills/` to revert all changes and escalate.
 
 5. **Deterministic Guardrails**:
    - Execute path validator (`python scripts/validate_relative_paths.py`) and language validator (`python scripts/validate_english_only.py`) prior to commit.

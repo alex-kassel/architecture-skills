@@ -14,13 +14,16 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Patterns matching local absolute paths on Windows (C:\, file:///C:/), macOS (/Users/...), Linux (/home/...)
+# Patterns matching local absolute paths on Windows (C:\Users, file:///C:/Users, any drive letter user path), UNC paths (\\server\share), macOS (/Users/...), Linux (/home/...)
 ABSOLUTE_PATH_PATTERNS = [
     re.compile(r'file:///[A-Za-z]:/[Uu]sers', re.IGNORECASE),
     re.compile(r'file:///Users/', re.IGNORECASE),
     re.compile(r'file:///home/', re.IGNORECASE),
     re.compile(r'[A-Za-z]:\\[Uu]sers', re.IGNORECASE),
     re.compile(r'[A-Za-z]:/[Uu]sers', re.IGNORECASE),
+    re.compile(r'(?<!http:)(?<!https:)\b[A-Za-z]:\\[Uu]sers\\[A-Za-z0-9_\-\\]+', re.IGNORECASE),
+    re.compile(r'(?<!http:)(?<!https:)\b[A-Za-z]:/[Uu]sers/[A-Za-z0-9_\-/]+', re.IGNORECASE),
+    re.compile(r'\\\\[A-Za-z0-9_.\-]+\\[A-Za-z0-9_.\-]+\\[A-Za-z0-9_.\-\\]+', re.IGNORECASE),
     re.compile(r'- Source repository:\s*`[A-Za-z]:', re.IGNORECASE),
     re.compile(r'- Source repository:\s*`/Users/', re.IGNORECASE),
     re.compile(r'- Source repository:\s*`/home/', re.IGNORECASE),

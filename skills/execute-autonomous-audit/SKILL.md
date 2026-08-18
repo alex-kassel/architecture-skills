@@ -31,7 +31,7 @@ When triggered by `Run audit`, `Start audit`, or explicit audit commands, execut
      - **Perspective 1: Formal Logic & Safety**: Boundary enforcement, deterministic routing, failure containment.
      - **Perspective 2: DX & Architecture Alignment**: Ergonomics, documentation standards, friction reduction.
      - **Perspective 3: Adversarial Chaos & Edge-Cases**: Interrupted contexts, dirty state resilience, injection safety.
-   - Each subagent writes findings into **Block 2: Audit Report** of its document.
+   - Each subagent writes findings into **Block 2: Audit Report** of its document (or returns the findings via `send_message` for parent orchestrator population if read-only). If a subagent execution fails or times out, perform 1 retry attempt before logging a fallback finding.
 
 3. **Phase 3: Triage & Owner Presentation**
    - Consolidate findings into structured feedback records.
@@ -48,6 +48,7 @@ When triggered by `Run audit`, `Start audit`, or explicit audit commands, execut
 ```markdown
 # Audit Log: [Perspective Name]
 - **Date**: YYYY-MM-DD
+- **Auditor Role**: [Auditor Role / Perspective]
 - **Target Commit**: `[commit-sha]`
 - **Pass**: [Pass 1 / Pass 2]
 

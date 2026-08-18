@@ -75,13 +75,14 @@ If developing inside a monorepo or dual-repo setup:
 
 ### Phase 4: Release Tagging & Packagist Hook
 
-1. Tag a semantic version release:
+1. **Preflight Safety Gate**: Execute pre-push evaluation per [`skills/git-release-preflight/SKILL.md`](../git-release-preflight/SKILL.md) prior to executing any `git push` or release tag command.
+2. Tag a semantic version release:
    ```bash
    git tag -a v1.0.0 -m "Release v1.0.0"
    git push origin v1.0.0
    ```
-2. Submit repository URL on [Packagist.org](https://packagist.org/packages/submit).
-3. Configure GitHub Webhook under Repository Settings -> Webhooks (or use Packagist API token in repository secrets `PACKAGIST_TOKEN` and `PACKAGIST_USERNAME`).
+3. Submit repository URL on [Packagist.org](https://packagist.org/packages/submit).
+4. Configure GitHub Webhook under Repository Settings -> Webhooks (or use Packagist API token in repository secrets `PACKAGIST_TOKEN` and `PACKAGIST_USERNAME`).
 
 ---
 

@@ -22,7 +22,8 @@ When triggered by `push`, `git push`, `Sync skills`, or explicit release command
    - Ensure all `observed` items created during the session are marked `implemented` and `verified` or explicitly deferred by the owner.
 
 3. **Deterministic Guardrails Check**:
-   - Run available repository validators (e.g. `python scripts/validate_relative_paths.py`, `python scripts/validate_english_only.py`, test runners).
+   - Run available repository validators (`python scripts/validate_relative_paths.py` or `powershell -File scripts/validate-relative-paths.ps1`, `python scripts/validate_english_only.py`, test runners).
+   - **Fail-Closed Gate**: If any validator script fails to execute or returns a non-zero exit code, immediately set verdict to `PUSH_BLOCKED`.
    - Verify zero local absolute paths (`C:\...`, `file:///C:/...`) and language standard compliance.
 
 4. **Risk Evaluation & Pushback**:
@@ -32,7 +33,7 @@ When triggered by `push`, `git push`, `Sync skills`, or explicit release command
 
 5. **Clean Execution**:
    - If zero counter-arguments or readiness risks exist:
-     - Execute `git push` (or repository release sync).
+     - Execute `git push` (or repository release sync). Destructive flags (`--force`, `-f`, `--delete`) are strictly prohibited.
      - Report the exact completion status, target branch, and commit hash to the owner.
 
 ## Pre-Push Evaluation Output Template & Example

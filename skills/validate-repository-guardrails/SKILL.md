@@ -12,6 +12,7 @@ Execute deterministic guardrail checks to enforce repository cleanliness, cross-
 ### 1. Relative Paths Standard
 - All file and directory references in code, documentation, feedback records, and audit reports MUST use relative paths (e.g. `skills/guide-architecture-design/SKILL.md#L15`).
 - Local machine absolute paths (such as Windows drive letters, user home directories, or local file URIs) are strictly prohibited in tracked files.
+- **POSIX Path Normalization Invariant**: All relative path references in tracked files MUST use POSIX forward slashes (`/`) instead of Windows backslashes (`\`).
 - Only HTTP/HTTPS URLs are permitted for external links.
 
 ### 2. English-Only Repository Standard

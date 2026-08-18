@@ -25,13 +25,14 @@ Every subproject requires a standard set of 5 architecture files to maintain doc
 
 When bootstrapping or initializing documentation for a subproject, follow this protocol:
 
-1. **Target Identification**:
+1. **Target Identification & Pre-Flight Collision Check**:
    - Determine subproject root directory and boundary.
    - Verify whether documentation lives at root or inside a `.docs/` / `docs/` folder.
+   - **Collision Check**: Check if target documentation files already exist. If target files exist, halt and require explicit owner confirmation (`+`) before overwriting.
 
 2. **Template Instantiation**:
    - Copy each template from `references/templates/` to the target subproject documentation directory.
-   - Replace placeholder tokens (e.g. `{{SUBPROJECT_NAME}}`, `{{DATE}}`, `{{OWNER}}`) with concrete subproject values.
+   - Replace placeholder tokens (e.g. `{{SUBPROJECT_NAME}}`, `{{DESCRIPTION}}`, `{{DATE}}`, `{{OWNER}}`, `{{VERSION}}`) with concrete subproject values.
 
 3. **Context Initialization**:
    - Initialize `worklog.md` with an initial entry recording the subproject bootstrapping event.
