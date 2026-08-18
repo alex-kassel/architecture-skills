@@ -12,8 +12,8 @@ Execute structured, evidence-backed skill maintenance across architecture skill 
 When triggered by `Start skill maintenance`, `Process feedback`, or any user proposal to add, edit, move, or delete skills (regardless of phrasing or language), follow the 6-step protocol:
 
 1. **Evidence Capture**:
-   - Record all incoming feedback, user proposals, or skill modification requests in an `observed` feedback record (`feedback/20??-*.md`) before editing any file under `skills/**`.
-   - Never edit files under `skills/**` prior to evidence capture and triage approval.
+   - Record all incoming feedback, user proposals, or modification requests in an `observed` feedback record (`feedback/20??-*.md`) before editing any file under `rules/**`, `skills/**`, or `plugins/**`.
+   - Never edit files under `rules/**`, `skills/**`, or `plugins/**` prior to evidence capture and triage approval.
 
 2. **Community Triage**:
    - Evaluate proposals against software architecture patterns and community best practices.
@@ -21,7 +21,7 @@ When triggered by `Start skill maintenance`, `Process feedback`, or any user pro
    - Present the triage proposal and wait for explicit owner approval (`+`).
 
 3. **Zero-Write Preflight & Smallest Change**:
-   - Apply the smallest reusable skill change under `skills/**` only after receiving explicit owner approval.
+   - Apply the smallest reusable change under `rules/**`, `skills/**`, or `plugins/**` only after receiving explicit owner approval.
    - Maintain strict boundary isolation; do not modify consuming projects while maintaining skills.
 
 4. **Validation, Mandatory Autonomous Audit & Self-Healing Loop**:
