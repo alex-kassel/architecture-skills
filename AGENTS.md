@@ -15,7 +15,7 @@ This repository develops and validates reusable architecture skills. Skill sourc
 
 ## Repository Boundaries
 
-- Keep reusable skill behavior under `skills/**`, design rationale under `design/**`, durable test evidence under `evals/**`, and incident logs under `feedback/**`.
+- Keep declarative policies under `rules/**`, reusable skill behavior under `skills/**`, plugin manifests under `plugins/**`, design rationale and ADRs under `docs/**` and `design/**`, durable test evidence under `evals/**`, and incident logs under `feedback/**`.
 - Any user proposal or request to add, move, modify, or delete skills (regardless of phrasing or language) MUST first be formatted as an `observed` feedback record under `feedback/20??-*.md` and approved before editing files under `skills/**`.
 - Do not modify a consuming project while performing skill maintenance.
 - Do not use a skill to validate its own behavior in the same context when an independent forward-test is required.
