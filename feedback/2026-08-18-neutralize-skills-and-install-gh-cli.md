@@ -13,7 +13,7 @@
 The project owner explicitly instructed:
 1. Install GitHub CLI (`gh`) and provide clear instructions for authentication (`gh auth login`).
 2. Require `README.md` to be exclusively in English.
-3. Clean/neutralize all repository content (`AGENTS.md`, `evals/`, `feedback/`, `design/`) to remove any internal local paths (`C:\Users\Alex\...`, `Herd\packages.dev2`) or user-specific data, ensuring the entire repository is vendor-neutral and clean for public open-source distribution.
+3. Clean/neutralize all repository content (`AGENTS.md`, `evals/`, `feedback/`, `design/`) to remove any internal local paths (`<user-home>/...`, `Herd\packages.dev2`) or user-specific data, ensuring the entire repository is vendor-neutral and clean for public open-source distribution.
 
 ## Skill instruction involved
 
@@ -35,7 +35,7 @@ Owner explicitly requested:
 ## Proposed improvement
 
 1. Install `gh` CLI and instruct the owner to run `gh auth login` in their shell.
-2. Neutralize all local paths (`C:\Users\Alex\...`) across `AGENTS.md`, `evals/forward-tests.md`, `design/`, and `feedback/` files to generic placeholders (`<repo-root>`, `<project-root>`).
+2. Neutralize all local paths (`<user-home>/...`) across `AGENTS.md`, `evals/forward-tests.md`, `design/`, and `feedback/` files to generic placeholders (`<repo-root>`, `<project-root>`).
 3. Write a high-quality, expressive `README.md` strictly in English.
 
 ## Triage and resolution

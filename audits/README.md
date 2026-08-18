@@ -20,6 +20,10 @@ Example audit filenames:
 - `2026-08-18-0905-architecture-dx-audit.md`
 - `2026-08-18-1000-adversarial-chaos-audit.md`
 
+### Mandatory Relative Path Rule
+
+All file and directory references in audit reports and prompt blocks MUST use relative paths (e.g. `skills/guide-architecture-design/SKILL.md#L15` or `audits/2026-08-18-0900-formal-verification-audit.md`). Local absolute file paths (`C:\...`, `file:///C:/...`, `/Users/...`, `/home/...`) are strictly prohibited. Only HTTP/HTTPS URLs are permitted for external links.
+
 ## Mandatory 3-Block Audit Document Structure
 
 Every audit document in `audits/` MUST be structured into three explicit blocks:

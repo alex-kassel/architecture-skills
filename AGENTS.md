@@ -28,3 +28,4 @@ Incoming `observed` feedback files may be uncommitted changes created by consumi
 - Keep one incident per file under `feedback/**`.
 - Do not modify a consuming project while performing skill maintenance.
 - Do not use a skill to validate its own behavior in the same context when an independent forward-test is required.
+- Never write local absolute file paths (e.g. `C:\...`, `file:///C:/...`, `/Users/...`, `/home/...`) in any repository file, audit document, or feedback record. Use relative paths for all repository files (e.g. `skills/guide-architecture-design/SKILL.md`) and HTTP/HTTPS URLs for external links.
