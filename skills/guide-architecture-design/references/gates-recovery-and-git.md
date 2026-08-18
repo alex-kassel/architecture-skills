@@ -42,7 +42,7 @@ Treat mismatch, lost conversation ownership, fresh session, or uncertain attribu
 - Keep whitespace validation enabled. Classify each finding as accidental authored whitespace, an intentional Markdown hard break, immutable verbatim source, or pre-existing historical content. Preserve immutable source, document intentional exceptions, apply strict checks to authored normative content, and do not stage or commit while any finding is unclassified.
 - Stage explicit eligible paths only immediately before an otherwise eligible commit, after mutation and every validation gate pass.
 - Recheck that the staged diff contains only the intended classified batch.
-- Create only a focused local commit. Do not reset, stash, rewrite history, switch branches, merge, push, tag, or open a pull request.
+- Create a focused local commit for eligible operation batches. When operating in an owner-configured session-branch workflow (`agent/session-<ID>`), push eligible in-session batches to that isolated session branch to support live GitHub tracking. Direct pushes to primary production branches (`main`/`master`) remain prohibited.
 
 ## Contain failure
 
@@ -60,7 +60,7 @@ Stop and obtain owner direction for an unknown cause, expanded scope, foreign or
 
 ## Enforce closing
 
-Freeze the decision boundary, make the last confirmed decision durable, synchronize navigation and exact next action, close enabled worklog/time records truthfully, run eligible configured validation, and apply the configured commit boundary. Do not claim clean closure when any enabled criterion fails. With commits disabled, report the intentional guide-owned uncommitted boundary defined by the project.
+Freeze the decision boundary, make the last confirmed decision durable, synchronize navigation and exact next action, close enabled worklog/time records truthfully, run eligible configured validation, and apply the configured commit boundary. When operating in an owner-configured session-branch Draft PR workflow, upon explicit owner confirmation (`+` or "merge PR"), merge the Draft PR into `main` using squash merge (`gh pr merge --squash --delete-branch` or local git fallback) and delete the session branch. Do not claim clean closure when any enabled criterion fails. With commits disabled, report the intentional guide-owned uncommitted boundary defined by the project.
 
 ## Enforce implementation readiness
 

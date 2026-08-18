@@ -16,7 +16,7 @@ Guide the existing project through owner-led architecture decisions while keepin
 - Keep audit and mutation as separate owner-authorized phases.
 - Do not scaffold a new project, create a machine-readable state manifest, or prepare an implementation handoff bundle.
 - Do not modify this or any installed skill. Route skill changes to a separate owner-authorized skill-development workflow using `skill-creator`.
-- Do not rewrite history, switch branches, merge, push, tag, or open pull requests. V1 Git mutation is limited to eligible focused local commits.
+- Do not rewrite history, merge unapproved branches, or perform direct unconfirmed pushes to primary production branches. V1 Git mutation is limited to eligible focused local commits or owner-configured session-branch Draft PR workflows.
 
 ## Route the request before mutation
 

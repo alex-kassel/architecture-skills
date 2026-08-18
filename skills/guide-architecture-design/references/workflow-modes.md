@@ -26,6 +26,7 @@ Treat binding as its own preflighted operation batch.
 - With worklog off and duration tracking on, open only the configured time record.
 - For closing-only intent, bind to an existing owner-confirmed active session; never open a session solely to close it.
 - Follow the project rule for whether direct synchronization or checkpoint needs a working session.
+- When configured for session-branch mode, create dedicated branch `agent/session-<ID>`, push initial commit, open Eager Draft PR, and provide live PR URL to the owner.
 
 Transition to `INTENT_DISPATCH` after binding completes.
 
@@ -53,7 +54,7 @@ Compare evidence with exit criteria and update phase state only when criteria an
 
 ## `SESSION_CLOSING`
 
-Freeze the decision boundary, synchronize enabled closure artifacts, validate the configured closure gate, report the closed or blocked state, and enter `COMPLETE`. Do not ask a new question.
+Freeze the decision boundary, synchronize enabled closure artifacts, validate the configured closure gate, report the closed or blocked state, and enter `COMPLETE`. When operating in a session-branch Draft PR workflow, upon explicit owner confirmation (`+` or "merge PR"), execute a squash merge into `main` (`gh pr merge --squash --delete-branch` or local git fallback), delete the session branch, and report the merged state. Do not ask a new question.
 
 ## `READINESS_GATE`
 
