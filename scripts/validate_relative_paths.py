@@ -36,6 +36,7 @@ VALID_EXTENSIONS = {'.md', '.ps1', '.sh', '.yml', '.yaml', '.py'}
 SKIP_PATHS = {
     Path('scripts/validate_relative_paths.py'),
     Path('scripts/validate-relative-paths.ps1'),
+    Path('scripts/validate-relative-paths.sh'),
 }
 
 def scan_repository():

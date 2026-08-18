@@ -19,6 +19,10 @@ Execute deterministic guardrail checks to enforce repository cleanliness, cross-
 - All tracked repository files (code comments, docstrings, markdown documents, feedback records, audit logs) MUST be written exclusively in English.
 - Non-English content in tracked files is prohibited.
 
+### 3. Dual-Platform Scripting Standard
+- All repository scripts MUST be dual-platform: either written as cross-platform Python (`.py`), or provided as paired scripts for Windows PowerShell (`.ps1`) and macOS/Linux POSIX Bash (`.sh`).
+- Single-platform scripts without a cross-platform or paired counterpart are prohibited.
+
 ---
 
 ## Execution & Remediation

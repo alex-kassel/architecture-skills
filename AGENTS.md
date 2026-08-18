@@ -20,5 +20,6 @@ This repository develops and validates reusable architecture skills. Skill sourc
 - Do not modify a consuming project while performing skill maintenance.
 - Do not use a skill to validate its own behavior in the same context when an independent forward-test is required.
 - Execute path validator (`python scripts/validate_relative_paths.py`) and language validator (`python scripts/validate_english_only.py`) per `skills/validate-repository-guardrails/SKILL.md` prior to commit.
+- All repository helper scripts MUST be dual-platform (either cross-platform Python `.py`, or paired `.ps1` for Windows PowerShell and `.sh` for macOS/Linux Bash).
 - Never write local absolute file paths (e.g. `C:\...`, `file:///C:/...`, `/Users/...`, `/home/...`) in any repository file, audit document, or feedback record. Use relative paths for all repository files (e.g. `skills/guide-architecture-design/SKILL.md`) and HTTP/HTTPS URLs for external links.
 - All repository files must be written exclusively in English. No non-English content is permitted in any tracked file.
