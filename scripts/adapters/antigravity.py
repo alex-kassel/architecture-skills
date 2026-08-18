@@ -1,5 +1,11 @@
 import os
+import sys
 from pathlib import Path
+
+# Ensure UTF-8 output encoding on Windows console
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 from base_adapter import safe_link_or_copy
 
 def install_antigravity_adapter():
@@ -13,7 +19,7 @@ def install_antigravity_adapter():
     rules_target = target_base / "rules"
     skills_target = target_base / "skills"
 
-    print("🚀 Installing Antigravity / AGY Adapter...")
+    print("[+] Installing Antigravity / AGY Adapter...")
 
     if rules_source.exists():
         for rule_file in rules_source.glob("**/*.md"):
@@ -29,7 +35,7 @@ def install_antigravity_adapter():
                 res = safe_link_or_copy(skill_dir, target_skill)
                 print(f"  [Skill] {skill_dir.name} -> {res}")
 
-    print("✅ Antigravity Adapter installation completed successfully!")
+    print("[OK] Antigravity Adapter installation completed successfully!")
 
 if __name__ == "__main__":
     install_antigravity_adapter()

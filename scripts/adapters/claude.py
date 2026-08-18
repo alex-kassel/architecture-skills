@@ -1,5 +1,10 @@
 import os
+import sys
 from pathlib import Path
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 from base_adapter import safe_link_or_copy
 
 def install_claude_adapter():
@@ -13,7 +18,7 @@ def install_claude_adapter():
     rules_target = target_base / "rules"
     skills_target = target_base / "skills"
 
-    print("🚀 Installing Claude Code Adapter...")
+    print("[+] Installing Claude Code Adapter...")
 
     if rules_source.exists():
         for rule_file in rules_source.glob("**/*.md"):
@@ -29,7 +34,7 @@ def install_claude_adapter():
                 res = safe_link_or_copy(skill_dir, target_skill)
                 print(f"  [Skill] {skill_dir.name} -> {res}")
 
-    print("✅ Claude Code Adapter installation completed successfully!")
+    print("[OK] Claude Code Adapter installation completed successfully!")
 
 if __name__ == "__main__":
     install_claude_adapter()

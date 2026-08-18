@@ -1,5 +1,10 @@
 import os
+import sys
 from pathlib import Path
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 from base_adapter import safe_link_or_copy
 
 def install_cursor_adapter():
@@ -9,7 +14,7 @@ def install_cursor_adapter():
 
     rules_source = repo_root / "rules"
 
-    print("🚀 Installing Cursor Adapter...")
+    print("[+] Installing Cursor Adapter...")
 
     if rules_source.exists():
         for rule_file in rules_source.glob("**/*.md"):
@@ -18,7 +23,7 @@ def install_cursor_adapter():
             res = safe_link_or_copy(rule_file, target_file)
             print(f"  [Rule] {rel_path} -> {res}")
 
-    print("✅ Cursor Adapter installation completed successfully!")
+    print("[OK] Cursor Adapter installation completed successfully!")
 
 if __name__ == "__main__":
     install_cursor_adapter()

@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 # Add current dir to sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -11,7 +14,7 @@ from codex import install_codex_adapter
 
 def main():
     print("==================================================")
-    print("🚀 Running All AI Agent Client Adapters...")
+    print("[+] Running All AI Agent Client Adapters...")
     print("==================================================")
     
     install_antigravity_adapter()
@@ -22,7 +25,7 @@ def main():
     print()
     install_codex_adapter()
     print()
-    print("🎉 All AI Agent Adapters synced successfully!")
+    print("[OK] All AI Agent Adapters synced successfully!")
 
 if __name__ == "__main__":
     main()
