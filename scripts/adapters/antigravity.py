@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-# Ensure UTF-8 output encoding on Windows console
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
@@ -12,6 +11,15 @@ def install_antigravity_adapter():
     repo_root = Path(__file__).resolve().parent.parent.parent
     home_dir = Path.home()
     target_base = home_dir / ".gemini" / "antigravity"
+    config_skills_json = home_dir / ".gemini" / "config" / "skills.json"
+
+    # Purge legacy skills.json manifest in config if present
+    if config_skills_json.exists():
+        try:
+            config_skills_json.unlink()
+            print("[+] Purged legacy ~/.gemini/config/skills.json manifest.")
+        except Exception as e:
+            print(f"[!] Warning: Could not remove skills.json: {e}")
 
     rules_source = repo_root / "rules"
     skills_source = repo_root / "skills"
